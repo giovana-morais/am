@@ -19,14 +19,20 @@ grad = zeros(size(theta));
 % Obs: grad deve ter a mesma dimensao de theta
 %
 
-
-
-
-
-
-
-
-
+  
+  h_theta = sigmoid(X * theta);
+  
+  % seguindo a minha implementaçao da regressao linear:
+  for i = 1: m
+    J = J + (-y(i) * log(h_theta(i)) - (1-y(i)) * log(1 - h_theta(i)));
+  endfor
+  J = J/m;
+  % MAS da pra fazer diretao se transpor y. talvez seja mais eficiente??? 
+  %J = ((-y' * log(h_theta)) - (1 - y)' * log(1 - h_theta))/m;
+  
+  dJ = h_theta - y;
+  grad = (dJ' * X)/m;
+  
 % =============================================================
 
 end

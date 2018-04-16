@@ -15,13 +15,13 @@ p = zeros(m, 1);
 %               p devera ser um vetor composto por 0's e 1's
 %
 
+p = sigmoid(X * theta);
 
-
-
-
-
+p(p < 0.5) = 0;
+p(p >= 0.5) = 1;
 
 % =========================================================================
 
 
 end
+
