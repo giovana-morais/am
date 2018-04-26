@@ -25,7 +25,7 @@ clear ; close all; clc
 
 %% Carrega os dados
 fprintf('Carregando os dados...\n\n');
-load('ex03Dados1.mat');
+load('ex03Dados2.mat');
 
 %% ================= Parte 1: Visualizacao dos Dados ====================
 %  Muitas vezes a visualizacao dos dados auxilia na interpretacao dos dados
@@ -41,8 +41,8 @@ hold on;
 % Insere titulo, legenda e eixos
 title('Plot 2D da base de dados Iris');
 legend('Iris Setosa (y=1)','Iris Versicolour (y=0)');
-xlabel('Comprimento da pétala (cm)');
-ylabel('Largura da pétala (cm)');
+xlabel('Comprimento da pï¿½tala (cm)');
+ylabel('Largura da pï¿½tala (cm)');
 
 fprintf('\nPrograma pausado. Pressione enter para continuar.\n');
 pause;
@@ -127,11 +127,11 @@ pause;
 
 fprintf('\n\nPredizendo a classe de novos dados...\n\n')
 
-x1_novo = input('Informe o comprimento da pétala (em cm) ou -1 para SAIR: ');
+x1_novo = input('Informe o comprimento da pï¿½tala (em cm) ou -1 para SAIR: ');
 
 while (x1_novo ~= -1)
     
-    x2_novo = input('Informe a largura da pétala (em cm): ');
+    x2_novo = input('Informe a largura da pï¿½tala (em cm): ');
 
     classe = predicao(theta, [1 x1_novo x2_novo]); % Faz a predicao usando theta encontrado
     
@@ -141,7 +141,7 @@ while (x1_novo ~= -1)
         fprintf('Classe = Iris Versicolour (y = 0)\n\n');
     end
     
-    x1_novo = input('Informe o comprimento da pétala (em cm) ou -1 para SAIR: ');
+    x1_novo = input('Informe o comprimento da pï¿½tala (em cm) ou -1 para SAIR: ');
 end
 
 
@@ -164,8 +164,8 @@ hold on;
 % Insere titulo, legenda e eixos
 title('Plot 2D da base de dados Iris');
 legend('Iris Virginica (y=1)','Iris Versicolour (y=0)');
-xlabel('Comprimento da pétala (normalizado)');
-ylabel('Largura da pétala (normalizado)');
+xlabel('Comprimento da pï¿½tala (normalizado)');
+ylabel('Largura da pï¿½tala (normalizado)');
 
 fprintf('\nPrograma pausado. Pressione enter para continuar.\n');
 pause;
@@ -240,11 +240,11 @@ pause;
 
 fprintf('\n\nPredizendo a classe de novos dados...\n\n')
 
-x1_novo = input('Informe o comprimento da pétala (normalizado) ou -1 para SAIR: ');
+x1_novo = input('Informe o comprimento da pï¿½tala (normalizado) ou -1 para SAIR: ');
 
 while (x1_novo ~= -1)
     
-    x2_novo = input('Informe a largura da pétala (normalizado): ');
+    x2_novo = input('Informe a largura da pï¿½tala (normalizado): ');
     x_novo = atributosPolinomiais(x1_novo, x2_novo);
 
     classe = predicao(theta, x_novo); % Faz a predicao usando theta encontrado
@@ -255,7 +255,7 @@ while (x1_novo ~= -1)
         fprintf('Classe = Iris Versicolour (y = 0)\n\n');
     end
     
-    x1_novo = input('Informe o comprimento da pétala (em cm) ou -1 para SAIR: ');
+    x1_novo = input('Informe o comprimento da pï¿½tala (em cm) ou -1 para SAIR: ');
 end
 
 
