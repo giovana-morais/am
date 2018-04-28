@@ -16,6 +16,10 @@ test_classes = load("-ascii", "dataset_uci/final_Y_test.txt");
 % mantem todos os dados de Y em apenas uma matriz
 Y_data = [train_classes; test_classes];
 
+
+% se conseguirmos reduzir os dados pelos outliers ou retirada de atributos antes de chegar na etapa de retirada de redundancia ou inconsistencia (unique) 
+%eh melhor e mais rapido
+
 % seleciona apenas as amostras nao repetidas sem os elementos Y (sem duplicacao de classes)
 [elem, ind] = unique(X_data, 'rows');
 
