@@ -25,4 +25,3 @@ Y_data = [train_classes; test_classes];
 
 % concatena matriz de amostra X com suas classes
 all_data = [elem, Y_data(ind)];
-
