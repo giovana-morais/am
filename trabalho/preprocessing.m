@@ -25,3 +25,6 @@ Y_data = [train_classes; test_classes];
 
 % concatena matriz de amostra X com suas classes
 all_data = [elem, Y_data(ind)];
+
+%corrcoef do package nan (pkg load nan ou pkg install nan-1.3.4.tar.gz) para verificar atributos agrupados
+%verificar retorno do corrcoef antes de utilizar
