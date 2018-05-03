@@ -1,3 +1,6 @@
+printf("Carregando dados...\n\n");
+fflush(stdout);
+
 % leitura dos dados de treinamento
 train_data = load("-ascii", "dataset_uci/final_X_train.txt");
 
@@ -16,15 +19,18 @@ test_classes = load("-ascii", "dataset_uci/final_Y_test.txt");
 % mantem todos os dados de Y em apenas uma matriz
 Y_data = [train_classes; test_classes];
 
-
-% se conseguirmos reduzir os dados pelos outliers ou retirada de atributos antes de chegar na etapa de retirada de redundancia ou inconsistencia (unique) 
-%eh melhor e mais rapido
-
+printf("Dados carregados! \nRemovendo dados redundantes da base de dados...");
+fflush(stdout);
 % seleciona apenas as amostras nao repetidas sem os elementos Y (sem duplicacao de classes)
 [elem, ind] = unique(X_data, 'rows');
+
+printf("\nTivemos uma reducao de %d amostras\nO que equivale a %f %%\n", length(X_data) - length(elem), 100 - (length(elem)/length(X_data)*100));
 
 % concatena matriz de amostra X com suas classes
 all_data = [elem, Y_data(ind)];
 
-%corrcoef do package nan (pkg load nan ou pkg install nan-1.3.4.tar.gz) para verificar atributos agrupados
-%verificar retorno do corrcoef antes de utilizar
+printf("\nCalculando matriz de correlacao dos atributos...\n");
+fflush(stdout);
+
+R = corr(all_data(:,1:end-1));
+printf("\nCorrelacoes calculadas\n");
