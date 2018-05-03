@@ -53,6 +53,11 @@ for i = 2:rows(R)
 	end
 end
 
+% pega colunas que não serão deletadas para checagem
+notdeleted = setdiff([1:columns(all_data)], delete);
+
 % deleta as colunas de all_data com base nas correlacoes encontradas
 all_data(:, delete) = [];
-printf("\nDe %d colunas antes do calculo de correlacoes, agora restaram %d colunas de atributos\n", (length(R)+1), columns(all_data));
+printf("\nDe %d colunas antes do calculo de correlacoes, agora restaram %d colunas de atributos:\n", (length(R)+1), columns(all_data));
+printf("\n%d %d %d %d %d %d %d %d %d", notdeleted);
+printf("\n");
