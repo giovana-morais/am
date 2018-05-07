@@ -29,6 +29,24 @@ printf("\nTivemos uma reducao de %d amostras\nO que equivale a %f %%\n", length(
 % concatena matriz de amostra X com suas classes
 all_data = [elem, Y_data(ind)];
 
+% codigo para retirada de outliers (nao esta sendo usado, pois ha muitos outliers)
+%delete = [];
+%for i = 1:(columns(all_data)-1)
+%  column = all_data(:,i);
+%  q1 = prctile(column, 25);
+%  q3 = prctile(column, 75);
+%  range_limit = (q3 - q1)*3;
+  
+  % maior ou menor que barreiras externas interquartis + percentil (25 ou 75)
+%  gorl = union(find(column >= q3+range_limit), find(column <= q1-range_limit));
+  
+  % reune os que podem ser deletados
+%  delete = [delete; setdiff(gorl, delete)];
+%end
+
+% por fim, remove todos as amostras que possuem colunas com outliers
+%all_data(delete, :) = [];
+    
 printf("\nCalculando matriz de correlacao dos atributos...\n");
 fflush(stdout);
 
@@ -61,3 +79,12 @@ all_data(:, delete) = [];
 printf("\nDe %d colunas antes do calculo de correlacoes, agora restaram %d colunas de atributos:\n", (length(R)+1), columns(all_data));
 printf("\n%d %d %d %d %d %d %d %d %d", notdeleted);
 printf("\n");
+
+% para checagem de balanceamento de dados
+printf("\nPara checarmos o balanceamento dos dados atuais, temos que:\n");
+printf("Para Y = 1, existem %d amostras\n", length(find(all_data(:,end) == 1)));
+printf("Para Y = 2, existem %d amostras\n", length(find(all_data(:,end) == 2)));
+printf("Para Y = 3, existem %d amostras\n", length(find(all_data(:,end) == 3)));
+printf("Para Y = 4, existem %d amostras\n", length(find(all_data(:,end) == 4)));
+printf("Para Y = 5, existem %d amostras\n", length(find(all_data(:,end) == 5)));
+printf("Para Y = 6, existem %d amostras\n", length(find(all_data(:,end) == 6)));
