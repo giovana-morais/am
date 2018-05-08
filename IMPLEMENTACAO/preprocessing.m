@@ -1,3 +1,4 @@
+% pre-processamento
 printf("Carregando dados...\n\n");
 fflush(stdout);
 
@@ -24,7 +25,7 @@ fflush(stdout);
 % seleciona apenas as amostras nao repetidas sem os elementos Y (sem duplicacao de classes)
 [elem, ind] = unique(X_data, 'rows');
 
-printf("\nTivemos uma reducao de %d amostras\nO que equivale a %f %%\n", length(X_data) - length(elem), 100 - (length(elem)/length(X_data)*100));
+printf("\nTivemos uma reducao de %d amostras\nO que equivale a %.2f %%\n", length(X_data) - length(elem), 100 - (length(elem)/length(X_data)*100));
 
 % concatena matriz de amostra X com suas classes
 all_data = [elem, Y_data(ind)];
@@ -50,6 +51,7 @@ all_data = [elem, Y_data(ind)];
 printf("\nCalculando matriz de correlacao dos atributos...\n");
 fflush(stdout);
 
+% calcula correlacoes entre pares de atributos (menos a coluna de classes)
 R = corr(all_data(:,1:end-1));
 
 printf("\nCorrelacoes calculadas\n");
@@ -65,6 +67,10 @@ for i = 2:rows(R)
 	for j = 1:i
     % verifica se a correlação é maior que 0.9 ou menor que -0.9 e verifica se coluna ja não foi deletada
 		if((R(i,j) >= .9 || R(i,j) <= -0.9) && ~ismember(j, delete))
+       % verifica as colunas identicas
+       if(R(i,j) == 1)
+        printf("\nAs colunas %d e %d sao identicas, ou seja, tem correlacao = 1\n", i, j);
+       endif
       % insere na lista de colunas a serem deletadas se satisfaz a condição
       delete = [delete; j];
 		endif
@@ -88,3 +94,23 @@ printf("Para Y = 3, existem %d amostras\n", length(find(all_data(:,end) == 3)));
 printf("Para Y = 4, existem %d amostras\n", length(find(all_data(:,end) == 4)));
 printf("Para Y = 5, existem %d amostras\n", length(find(all_data(:,end) == 5)));
 printf("Para Y = 6, existem %d amostras\n", length(find(all_data(:,end) == 6)));
+
+% por fim, fazemos a normalizacao dos dados
+% o resultado das hipóteses pode ser influenciada pela escala dos atributos
+% aqui vamos normalizar para media = 0 e desvio padrao = 1
+
+% media
+m = mean(all_data(:,1:end-1));
+  
+% desvio padrao
+s = std(all_data(:,1:end-1));
+  
+% calcula a norma de cada amostra
+data_norm = (all_data(:,1:end-1)- m)./s;
+
+% concatena dados normalizados com a coluna de classes (Y)
+all_data = [data_norm, all_data(:,end)];
+
+% salva a matriz ja pre-processada no arquivo binario "pre_processed"
+save("pre_processed.mat", "all_data");
+printf("\nDados salvos em pre_processed\n\n");
