@@ -18,24 +18,24 @@ ksize = floor(length(all_data)/10);
 ktrain = all_data(1:ksize*9, :);
 ktest = all_data(ksize*9:end, :);
 
-printf('\nIniciando execucao do knn\n');
-fflush(stdout);
+%printf('\nIniciando execucao do knn\n');
+%fflush(stdout);
 
 % para escolher o k utilizamos o elbow method com k indo de 1 a 20
 % consequentemente escolhemos o k minimo
 % isso aqui vai demorar absurdos, to sem coragem no momento
-for k = 1:20
-  printf("\nPara k = %d\n", k);
-  fflush(stdout);
-  for i = 1:length(ktest)
-    ypred = knn(ktrain(:,1:end-1), ktrain(:,end), ktest(i,1:end-1), k);
-    if(ypred != ktest(i, end))
-      error(i) = 1;
-    endif
-  endfor
-  errorknn(k) = sum(error);
-  printf("Ocorrem %d erros\n", errorknn(k));
-  fflush(stdout);
-endfor
+%for k = 1:20
+%  printf("\nPara k = %d\n", k);
+%  fflush(stdout);
+%  for i = 1:length(ktest)
+%    ypred = knn(ktrain(:,1:end-1), ktrain(:,end), ktest(i,1:end-1), k);
+%    if(ypred != ktest(i, end))
+%      error(i) = 1;
+%    endif
+%  endfor
+%  errorknn(k) = sum(error);
+%  printf("Ocorrem %d erros\n", errorknn(k));
+%  fflush(stdout);
+%endfor
 
 
