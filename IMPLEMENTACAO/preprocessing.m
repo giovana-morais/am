@@ -12,10 +12,10 @@ test_data = load("-ascii", "dataset_uci/final_X_test.txt");
 X_data = [train_data; test_data];
 
 % leitura das classes de treinamento
-train_classes = load("-ascii", "dataset_uci/final_Y_train.txt");
+train_classes = load("-ascii", "dataset_uci/final_y_train.txt");
 
 % leitura das classes de teste
-test_classes = load("-ascii", "dataset_uci/final_Y_test.txt");
+test_classes = load("-ascii", "dataset_uci/final_y_test.txt");
 
 % mantem todos os dados de Y em apenas uma matriz
 Y_data = [train_classes; test_classes];
@@ -29,6 +29,7 @@ printf("\nTivemos uma reducao de %d amostras\nO que equivale a %.2f %%\n", lengt
 
 % concatena matriz de amostra X com suas classes
 all_data = [elem, Y_data(ind)];
+
 
 % codigo para retirada de outliers (nao esta sendo usado, pois ha muitos outliers)
 %delete = [];
@@ -65,19 +66,19 @@ delete = [];
 % percorre apenas triangulo inferior da matriz de correlacoes
 for i = 2:rows(R)
 	for j = 1:i
-    % verifica se a correlação é maior que 0.9 ou menor que -0.9 e verifica se coluna ja não foi deletada
+    % verifica se a correlaï¿½ï¿½o ï¿½ maior que 0.9 ou menor que -0.9 e verifica se coluna ja nï¿½o foi deletada
 		if((R(i,j) >= .9 || R(i,j) <= -0.9) && ~ismember(j, delete))
        % verifica as colunas identicas
        if(R(i,j) == 1)
         printf("\nAs colunas %d e %d sao identicas, ou seja, tem correlacao = 1\n", i, j);
        endif
-      % insere na lista de colunas a serem deletadas se satisfaz a condição
+      % insere na lista de colunas a serem deletadas se satisfaz a condiï¿½ï¿½o
       delete = [delete; j];
 		endif
 	end
 end
 
-% pega colunas que não serão deletadas para checagem
+% pega colunas que nï¿½o serï¿½o deletadas para checagem
 notdeleted = setdiff([1:columns(all_data)], delete);
 
 % deleta as colunas de all_data com base nas correlacoes encontradas
@@ -96,7 +97,7 @@ printf("Para Y = 5, existem %d amostras\n", length(find(all_data(:,end) == 5)));
 printf("Para Y = 6, existem %d amostras\n", length(find(all_data(:,end) == 6)));
 
 % por fim, fazemos a normalizacao dos dados
-% o resultado das hipóteses pode ser influenciada pela escala dos atributos
+% o resultado das hipï¿½teses pode ser influenciada pela escala dos atributos
 % aqui vamos normalizar para media = 0 e desvio padrao = 1
 
 % media
@@ -106,10 +107,15 @@ m = mean(all_data(:,1:end-1));
 s = std(all_data(:,1:end-1));
   
 % calcula a norma de cada amostra
-data_norm = (all_data(:,1:end-1)- m)./s;
+% data_norm = (all_data(:,1:end-1)- m)./s;
 
 % concatena dados normalizados com a coluna de classes (Y)
-all_data = [data_norm, all_data(:,end)];
+% all_data = [data_norm, all_data(:,end)];
+
+
+% gera a matriz aleatoria pra facilitar na hora de fazer o cross-fold
+temp = all_data(randperm(length(all_data)),:);
+all_data = temp;
 
 % salva a matriz ja pre-processada no arquivo binario "pre_processed"
 save("pre_processed.mat", "all_data");
