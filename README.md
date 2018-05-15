@@ -5,3 +5,6 @@ detectar qual atividade uma pessoa está executando em um determinado momento. U
 classificador capaz de identificar atividades humanas pode ser utilizado em várias aplicações,
 como na análise de desempenho de um atleta em uma determinada atividade esportiva ou
 no acompanhamento de pessoas com necessidades especiais.
+
+### Relatório
+https://bit.ly/2rJC4pl
