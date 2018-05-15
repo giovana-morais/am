@@ -30,24 +30,20 @@ printf("\nTivemos uma reducao de %d amostras\nO que equivale a %.2f %%\n", lengt
 % concatena matriz de amostra X com suas classes
 all_data = [elem, Y_data(ind)];
 
-
-% codigo para retirada de outliers (nao esta sendo usado, pois ha muitos outliers)
-%delete = [];
-%for i = 1:(columns(all_data)-1)
-%  column = all_data(:,i);
-%  q1 = prctile(column, 25);
-%  q3 = prctile(column, 75);
-%  range_limit = (q3 - q1)*3;
+% codigo para reducao de outliers atraves de percentis
+for i = 1:(columns(all_data)-1)
+  column = all_data(:,i);
+  q1 = prctile(column, 25);
+  q3 = prctile(column, 75);
   
-  % maior ou menor que barreiras externas interquartis + percentil (25 ou 75)
-%  gorl = union(find(column >= q3+range_limit), find(column <= q1-range_limit));
+  % encontra onde estao os valores maiores e menores que o 3o e o 1o percentil
+  gt = find(column > q3);
+  lt = find(column < q1);
   
-  % reune os que podem ser deletados
-%  delete = [delete; setdiff(gorl, delete)];
-%end
-
-% por fim, remove todos as amostras que possuem colunas com outliers
-%all_data(delete, :) = [];
+  % substitui valores
+  all_data(gt, i) = q3;
+  all_data(lt, i) = q1;
+end
     
 printf("\nCalculando matriz de correlacao dos atributos...\n");
 fflush(stdout);
@@ -66,19 +62,19 @@ delete = [];
 % percorre apenas triangulo inferior da matriz de correlacoes
 for i = 2:rows(R)
 	for j = 1:i
-    % verifica se a correla��o � maior que 0.9 ou menor que -0.9 e verifica se coluna ja n�o foi deletada
+    % verifica se a correlacao eh maior que 0.9 ou menor que -0.9 e verifica se coluna ja nao foi deletada
 		if((R(i,j) >= .9 || R(i,j) <= -0.9) && ~ismember(j, delete))
        % verifica as colunas identicas
        if(R(i,j) == 1)
         printf("\nAs colunas %d e %d sao identicas, ou seja, tem correlacao = 1\n", i, j);
        endif
-      % insere na lista de colunas a serem deletadas se satisfaz a condi��o
+      % insere na lista de colunas a serem deletadas se satisfaz a condicao
       delete = [delete; j];
 		endif
 	end
 end
 
-% pega colunas que n�o ser�o deletadas para checagem
+% pega colunas que nao serao deletadas para checagem
 notdeleted = setdiff([1:columns(all_data)], delete);
 
 % deleta as colunas de all_data com base nas correlacoes encontradas
@@ -96,7 +92,7 @@ printf("Para Y = 4, existem %d amostras\n", length(find(all_data(:,end) == 4)));
 printf("Para Y = 5, existem %d amostras\n", length(find(all_data(:,end) == 5)));
 printf("Para Y = 6, existem %d amostras\n", length(find(all_data(:,end) == 6)));
 
-% por fim, fazemos a normalizacao dos dados
+% fazemos a normalizacao dos dados para o uso dos classificadores
 % o resultado das hip�teses pode ser influenciada pela escala dos atributos
 % aqui vamos normalizar para media = 0 e desvio padrao = 1
 
