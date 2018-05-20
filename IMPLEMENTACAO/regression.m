@@ -8,7 +8,7 @@ function ypred = regression(train, train_labels)
    
 	% Adiciona atributos polinomiais calculados a partir dos atributos
 	% originais
-	%X = atributosPolinomiais(X(:,1), X(:,2));
+	train = poly_features(train);
 
 	% Inicializa os parametros que serao ajustados
 	theta_inicial = zeros(n+1, 1);
@@ -30,7 +30,7 @@ function ypred = regression(train, train_labels)
      all_thetas = [all_thetas, theta];
   end
   
-  printf("testando...");
+  printf("testando...\n");
   y_pred = predict(all_thetas, train);
   fprintf('\nAcurácia: %f\n', mean(double(y_pred == train_labels)) * 100);
 end
@@ -46,7 +46,6 @@ function p = predict(all_thetas, train)
 	p = zeros(size(all_thetas,1), 1);
 	p = sigmoid(train * all_thetas);
 
-  
   [maxVal, maxIx] = max(p, [], 2);
   p = maxIx;
 end
@@ -74,14 +73,18 @@ function [J, grad] = cost_func(theta, X, y, lambda)
 	  grad = ((dJ' * X)/m) + ((lambda/m).*theta)';
 end
 
-
-% tô pensando em tacar fogo nessa funcao
-function out = atributosPolinomiais(X1, X2)
-	grau = 6;
-	out = ones(size(X1(:,1)));
+% generate new features with different polynomial degree
+function out = poly_features(X)
+	grau = 3;
+  p = 'poly'
+  sX = size(X)
+	out = ones(size(X(:,1)));  
+  
+  
+  % TODO: arrumar esse laço
 	for i = 1:grau
 		for j = 0:i
-		    out(:, end+1) = (X1.^(i-j)).*(X2.^j);
+		    out(:, end+1) = (X(:,1).^(i-j)).*(X(:,4).^j);
 		end
 	end
 end

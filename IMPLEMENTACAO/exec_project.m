@@ -13,8 +13,6 @@ load("pre_processed.mat");
 % em seguida, devemos dividir os dados gerais para validac�o cruzada, com k sendo 10 (mais usualmente utilizado em AM)
 % assim sendo, 9 partes irao para treinamento enquanto apenas 1 ira para teste (isso ocorre 10 vezes, para cada algoritmo)
 % aqui conseguiremos avaliar as hip�teses e selecionar a melhor 
-
-
 ksize = floor(length(all_data)/10);
 ktrain = all_data(1:ksize*9, :);
 ktest = all_data(ksize*9:end, :);
@@ -24,8 +22,7 @@ ktest = all_data(ksize*9:end, :);
 
 % para escolher o k utilizamos o elbow method com k indo de 1 a 20
 % consequentemente escolhemos o k minimo
-% isso aqui vai demorar absurdos, to sem coragem no momento
-
+#{
 for k = 1:15
   printf("\nPara k = %d\n", k);
   fflush(stdout);
@@ -48,4 +45,8 @@ for k = 1:15
   % pq essa distribuicao aparentemente eh temporal
 endfor
 
+#}
 
+printf("logistic regression\n");
+fflush(stdout);
+regression(ktrain(:,1:end-1), ktrain(:,end));
