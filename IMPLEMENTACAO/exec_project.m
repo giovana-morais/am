@@ -22,31 +22,35 @@ ktest = all_data(ksize*9:end, :);
 
 % para escolher o k utilizamos o elbow method com k indo de 1 a 20
 % consequentemente escolhemos o k minimo
-#{
-for k = 1:15
+% aqui utilizamos apenas numeros impares para nao ter que haver desempate nos k neighbours mais proximos
+
+
+% spoiler: maior acuracia acontece pra k = 1
+for k = 1:2:50
+  j = 1;
   printf("\nPara k = %d\n", k);
   fflush(stdout);
-  error = 0;
+  ac = 0;
   tic();
   for i = 1:length(ktest)
     %printf("nao bugou %d \n", i);
     %fflush(stdout);
     ypred = knn(ktrain(:,1:end-1), ktrain(:,end), ktest(i,1:end-1), k);
-    if(ypred != ktest(i, end))
-      error += 1;
+    if(ypred == ktest(i, end))
+      ac += 1;
     endif
   endfor
   toc();
-  errorknn(k) = error;
-  printf("Ocorrem %d erros\n", errorknn(k));
+  acuracyknn(j) = ac/length(ktest);
+  printf("Ocorre %.2f%% de acuracia\n", acuracyknn(j)*100);
   fflush(stdout);
-  
+  j += 1;
   % TODO: plotar o mapa da distribui√ßao y pro relatorio
   % pq essa distribuicao aparentemente eh temporal
 endfor
 
-#}
+printf("\nO k que apresentou maior acur·cia foi: %d\n\n", find(acuracyknn == max(acuracyknn)));
 
-printf("logistic regression\n");
-fflush(stdout);
-regression(ktrain(:,1:end-1), ktrain(:,end));
+%printf("logistic regression\n");
+%fflush(stdout);
+%regression(ktrain(:,1:end-1), ktrain(:,end));
