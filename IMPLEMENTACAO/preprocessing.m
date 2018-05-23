@@ -83,6 +83,9 @@ printf("\nDe %d colunas antes do calculo de correlacoes, agora restaram %d colun
 printf("\n%d %d %d %d %d %d %d %d %d", notdeleted);
 printf("\n");
 
+% para rodar o PCA sem interferencia da correlacao, a linha 81 deve ser comentada
+%all_data = pca(all_data);
+
 % para checagem de balanceamento de dados
 printf("\nPara checarmos o balanceamento dos dados atuais, temos que:\n");
 printf("Para Y = 1, existem %d amostras\n", length(find(all_data(:,end) == 1)));
