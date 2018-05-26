@@ -23,9 +23,9 @@ Y_data = [train_classes; test_classes];
 printf("\nDados carregados!\n\nRemovendo dados redundantes da base de dados...\n");
 fflush(stdout);
 % seleciona apenas as amostras nao repetidas sem os elementos Y (sem duplicacao de classes)
-[elem, ind] = unique(X_data, 'rows');
 
-printf("\nTivemos uma reducao de %d amostras\nO que equivale a %.2f %%\n", length(X_data) - length(elem), 100 - (length(elem)/length(X_data)*100));
+
+
 
 % concatena matriz de amostra X com suas classes
 all_data = [elem, Y_data(ind)];
@@ -53,14 +53,15 @@ if( length(all_data) != length(unique(X_data, "rows")) ) ## SE HOUVER AMOSTRAS C
         for conjB = conjA+1:6  #testando todas as permutações de conjuntos
             [elements, ind_conjA_pra_apagar, ind_conB_pra_apagar] = intersect ( all_data ( cell2mat(indices( conjA)) , 1:end-1) , all_data ( cell2mat(indices( conjB)) , 1:end-1), "rows" );
             if(length(ind_conjA_pra_apagar) > 0)
-
+		# Extendendo os conjuntos de repetição
                 apagar(conjA) = union(cell2mat(apagar(conjA)), ind_conjA_pra_apagar);
                 apagar(conjB) = union(cell2mat(apagar(conjB)), ind_conjB_pra_apagar);
 
             endif  
         endfor
     endfor
-
+    
+    # Removendo as tuplas espurias...
     for ind = 1:6
         all_data( cell2mat(apagar(ind)) , : ) = [];
     endfor
