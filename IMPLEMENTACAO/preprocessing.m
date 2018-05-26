@@ -10,7 +10,7 @@ test_data = load("-ascii", "dataset_uci/final_X_test.txt");
 
 % mantem todos os dados de X em apenas uma matriz
 X_data = [train_data; test_data];
-
+	
 % leitura das classes de treinamento
 train_classes = load("-ascii", "dataset_uci/final_y_train.txt");
 
@@ -22,13 +22,10 @@ Y_data = [train_classes; test_classes];
 
 printf("\nDados carregados!\n\nRemovendo dados redundantes da base de dados...\n");
 fflush(stdout);
-% seleciona apenas as amostras nao repetidas sem os elementos Y (sem duplicacao de classes)
-
-
 
 
 % concatena matriz de amostra X com suas classes
-all_data = [elem, Y_data(ind)];
+all_data = [X_data, Y_data];
 printf("Tamanho antes de remover pesos: %d\n", length(all_data));
 
 # removendo peso na mesma classe
