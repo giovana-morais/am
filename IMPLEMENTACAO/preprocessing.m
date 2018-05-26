@@ -1,3 +1,4 @@
+#!/usr/bin/octave -qf
 % pre-processamento
 printf("Carregando dados...\n\n");
 fflush(stdout);
