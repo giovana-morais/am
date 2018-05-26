@@ -29,6 +29,44 @@ printf("\nTivemos uma reducao de %d amostras\nO que equivale a %.2f %%\n", lengt
 
 % concatena matriz de amostra X com suas classes
 all_data = [elem, Y_data(ind)];
+printf("Tamanho antes de remover pesos: %d\n", length(all_data));
+
+# removendo peso na mesma classe
+all_data = unique(all_data, "rows");
+printf("Tamanho apos remover pesos: %d\n", length(all_data));
+
+
+if( length(all_data) != length(unique(X_data, "rows")) ) ## SE HOUVER AMOSTRAS COM X IGUAL E Y DIFERENTE :::::::
+#### Algoritmo que utilizamos para verificar a existencia de dados espurios (Mesmo valores de x com y diferente)#######
+    
+    #Primeiramente agrupamos as amostras de acordo com as classes:
+    indices = cell(1,6);
+    for ind = 1:6
+      indices(ind) = find ( all_data (:, end) == ind);
+    endfor
+
+    # Criando armazenamento dos indices pra apagar:
+    apagar = cell(1,6);
+
+
+    for conjA = 1:5
+        for conjB = conjA+1:6  #testando todas as permutações de conjuntos
+            [elements, ind_conjA_pra_apagar, ind_conB_pra_apagar] = intersect ( all_data ( cell2mat(indices( conjA)) , 1:end-1) , all_data ( cell2mat(indices( conjB)) , 1:end-1), "rows" );
+            if(length(ind_conjA_pra_apagar) > 0)
+
+                apagar(conjA) = union(cell2mat(apagar(conjA)), ind_conjA_pra_apagar);
+                apagar(conjB) = union(cell2mat(apagar(conjB)), ind_conjB_pra_apagar);
+
+            endif  
+        endfor
+    endfor
+
+    for ind = 1:6
+        all_data( cell2mat(apagar(ind)) , : ) = [];
+    endfor
+
+endif ### fim da remocao de elementos com X igual porem Y diferente
+
 
 % codigo para reducao de outliers atraves de percentis
 for i = 1:(columns(all_data)-1)
