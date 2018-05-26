@@ -62,10 +62,8 @@ function [J, grad] = cost_func(theta, X, y, lambda)
   
 	  theta(1) = 0;
 	  
-    % TODO: tirar isso aqui desse for tbm
-	  for j = 2: size(theta)
-		  sum_theta = sum_theta + theta(j) ^ 2;
-	  endfor
+	  sum_theta = sumsq( theta(2:end) );
+	  
 	  J = J/m + sum_theta/(2*m);
 	  
 	  dJ = h_theta - y;
