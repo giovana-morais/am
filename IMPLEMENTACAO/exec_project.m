@@ -17,12 +17,13 @@ load("pre_processed.mat");
 ksize = floor(length(all_data)/10);
 
 printf("\nIniciando grid do 10-fold cross-validation\n");
+fflush(stdout);
 
 % aqui inicializamos o grid (com zeros) de cada algoritmo para escolha do melhor fold posteriormente
 % o tamanho das linhas representa os k-folds
 % o tamanho de colunas do grid deve ser a quantidade maxima do parametro que queremos fazer o ajuste para cada algoritmo
 gridknn = zeros(10, 50);
-gridrl = zeros(10, 1);
+gridrl = zeros(10, 10);
 gridrn = zeros(10, 1);
 gridsvm = zeros(10, 1);
 
@@ -41,6 +42,7 @@ for iter = 1:10
   
   printf("\nIteracao onde ktest eh o %d-fold e o ktrain eh o restante, o tamanho de ktest eh %d e o tamanho de ktrain eh %d\n", iter, length(ktest), length(ktrain));
 
+  #{
   % execucao do knn
   printf('\nIniciando execucao do knn\n');
   fflush(stdout);
@@ -72,26 +74,31 @@ for iter = 1:10
 
   %fprintf('\nO algoritmo KNN finalizou a execucao. Pressione enter para continuar.\n');
   %pause;
-
+  #}
+  
   % execucao da regressao logistica
-  %printf('\nIniciando execucao da regressao logistica\n');
-  %fflush(stdout);
+  for lambda=0:10
+    printf('\nIniciando execucao da regressao logistica para lambda = %d\n', lambda);
+    fflush(stdout);
+    
+    y_pred = regression(ktrain(:,1:end-1), ktrain(:,end), ktest(:,1:end-1), lambda);
+    
+    acc_reg = mean(double(y_pred == ktest(:,end))) * 100;
+    % printf('\nAcurácia do teste: %f\n', acc_reg);
+    % fflush(stdout);
+    gridrl(iter, lambda+1) = acc_reg;
+  end
+  fprintf('\nO algoritmo de Regressao Logistica finalizou a execucao. Pressione enter para continuar.\n');
+  pause;
 
-  %printf("logistic regression\n");
-  %fflush(stdout);
-  %regression(ktrain(:,1:end-1), ktrain(:,end));
-
-  %fprintf('\nO algoritmo de Regressao Logistica finalizou a execucao. Pressione enter para continuar.\n');
-  %pause;
-
-  % execucao da regressao logistica
+  % execucao da redes neurais
   %printf('\nIniciando execucao de redes neurais artificiais\n');
   %fflush(stdout);
 
   %fprintf('\nO algoritmo de Redes Neurais Artificiais finalizou a execucao. Pressione enter para continuar.\n');
   %pause;
 
-  % execucao da regressao logistica
+  % execucao da svm
   %printf('\nIniciando execucao de SVM\n');
   %fflush(stdout);
 
@@ -104,11 +111,17 @@ totalgrid = [];
 [maxvalue,col] = max(max(gridknn));
 printf("\nA maior acuracia do knn eh %.2f para k = %d\n", maxvalue, col);
 
+[maxrl, colrl] = max(max(gridrl));
+printf("\nA maior acuracia da regressão eh %.2f para lambda = %d\n", maxrl, colrl);
+
 % pegamos a a coluna do gridknn que contem o maior valor de acuracia do knn e atribuimos todos os valores dessa coluna 
 % (ou seja, para todos os folds) ao totalgrid
 totalgrid = [totalgrid, gridknn(:, col)];
+totalgrid = [totalgrid, gridrl(:, col)];
+
 % aqui geramos um csv para visualizacao no relatorio
 csvwrite('gridknn.csv', gridknn);
+csvwrite('gridrl.csv', gridrl);
 
 
 ####### depois de salvar a melhor coluna de cada algoritmo, devemos escolher o k-fold que otimiza a acuracia de todos #######
