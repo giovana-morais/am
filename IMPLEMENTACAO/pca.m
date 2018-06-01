@@ -12,12 +12,12 @@ coma = cov(data_wc);
 [eigvectors, eigvalues, ~] = svd(coma);
 
 % aqui escolhemos um K que determina os melhores componentes principais
-% achar um K de acordo com a variancia preservada em 0.95 (0.99 nao apresentou um resultado mt satisfatorio)
+% achar um K de acordo com a variancia preservada em 0.98 (0.99 ou 1 nao apresentou um resultado mt satisfatorio)
 K = 0;
 for K = 1:columns(data_wc)
   diagonal = diag(eigvalues);
   calc = sum(diagonal(1:K,1))/sum(diagonal);
-  if(calc >= .95)
+  if(calc >= .98)
     break;
   endif
 endfor
