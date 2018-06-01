@@ -94,6 +94,8 @@ for iter = 1:10
   % execucao da regressao logistica
   %printf('\nIniciando execucao de SVM\n');
   %fflush(stdout);
+  
+  % ypred = svm(ktrain(:,1:end-1), ktrain(:,end), ktest, iter);
 
   %fprintf('\nO algoritmo SVM finalizou a execucao. Pressione enter para continuar.\n');
   %pause;
