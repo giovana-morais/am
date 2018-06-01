@@ -81,7 +81,9 @@ for i = 1:(columns(all_data)-1)
   all_data(gt, i) = q3;
   all_data(lt, i) = q1;
 end
-    
+
+% Implementacao previa da correlacao entre atributos
+#{
 printf("\nCalculando matriz de correlacao dos atributos...\n");
 fflush(stdout);
 
@@ -119,6 +121,7 @@ notdeleted = setdiff([1:columns(all_data)], delete);
 printf("\nDe %d colunas antes do calculo de correlacoes, agora restaram %d colunas de atributos:\n", (length(R)+1), columns(all_data));
 printf("\n%d %d %d %d %d %d %d %d %d", notdeleted);
 printf("\n");
+#}
 
 % para rodar a correlacao, a linha 81 deve ser descomentada
 all_data = pca(all_data);
