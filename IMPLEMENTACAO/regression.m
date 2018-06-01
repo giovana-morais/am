@@ -1,21 +1,12 @@
-function ypred = regression(train, train_labels)
+function y_pred = regression(train, train_labels, test, lambda)
 	[m, n] = size(train);
-
-	train = [ones(m, 1) train];
-
   % thetas for all the n labels. each row means a classifier for a label.
   all_thetas = [];
    
-	% Adiciona atributos polinomiais calculados a partir dos atributos
-	% originais
-	train = poly_features(train);
-
+  train = [ones(m, 1) train];
+  new_train = poly_features(train);
 	% Inicializa os parametros que serao ajustados
-	theta_inicial = zeros(n+1, 1);
-  
-	% set lambda. 
-  % TODO: change lambda and check best results
-	lambda = 1;
+	init_theta = zeros(n+1, 1);
   
   % options for improve descendent gradient
 	options = optimset('GradObj', 'on', 'MaxIter', 400);
@@ -25,14 +16,16 @@ function ypred = regression(train, train_labels)
     class_labels = (train_labels == k);
     
 	  [theta, J, exit_flag] = ...
-		fminunc(@(t)(cost_func(t, train, class_labels, lambda)), theta_inicial, options);
+		fminunc(@(t)(cost_func(t, train, class_labels, lambda)), init_theta, options);
 
      all_thetas = [all_thetas, theta];
   end
+
+  %y_train = predict(all_thetas, train);  
+  %printf('\nAcurácia na base de treinamento: %f\n', mean(double(y_train == train_labels) * 100));
   
-  printf("testando...\n");
-  y_pred = predict(all_thetas, train);
-  fprintf('\nAcurácia: %f\n', mean(double(y_pred == train_labels)) * 100);
+  test = [ones(size(test),1) test];
+  y_pred = predict(all_thetas, test);
 end
 
 
@@ -42,7 +35,6 @@ function g = sigmoid(z)
 end
 
 function p = predict(all_thetas, train)
-  size(all_thetas)
 	p = zeros(size(all_thetas,1), 1);
 	p = sigmoid(train * all_thetas);
 
@@ -58,7 +50,7 @@ function [J, grad] = cost_func(theta, X, y, lambda)
 	  
 	  h_theta = sigmoid(X * theta);
 
-	J = ((-y' * log(h_theta)) - (1 - y)' * log(1 - h_theta))/m;
+	  J = ((-y' * log(h_theta)) - (1 - y)' * log(1 - h_theta));
   
 	  theta(1) = 0;
 	  
@@ -74,12 +66,8 @@ end
 % generate new features with different polynomial degree
 function out = poly_features(X)
 	grau = 3;
-  p = 'poly'
-  sX = size(X)
 	out = ones(size(X(:,1)));  
   
-  
-  % TODO: arrumar esse laço
 	for i = 1:grau
 		for j = 0:i
 		    out(:, end+1) = (X(:,1).^(i-j)).*(X(:,4).^j);
