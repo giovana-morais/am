@@ -119,7 +119,7 @@ printf("\nA maior acuracia da regressão eh %.2f para lambda = %d\n", maxrl, col
 % pegamos a a coluna do gridknn que contem o maior valor de acuracia do knn e atribuimos todos os valores dessa coluna 
 % (ou seja, para todos os folds) ao totalgrid
 totalgrid = [totalgrid, gridknn(:, col)];
-totalgrid = [totalgrid, gridrl(:, col)];
+totalgrid = [totalgrid, gridrl(:, colrl)];
 
 % aqui geramos um csv para visualizacao no relatorio
 csvwrite('gridknn.csv', gridknn);
