@@ -42,7 +42,6 @@ for iter = 1:10
   
   printf("\nIteracao onde ktest eh o %d-fold e o ktrain eh o restante, o tamanho de ktest eh %d e o tamanho de ktrain eh %d\n", iter, length(ktest), length(ktrain));
 
-  #{
   % execucao do knn
   printf('\nIniciando execucao do knn\n');
   fflush(stdout);
@@ -72,9 +71,8 @@ for iter = 1:10
     j += 1;
   endfor
 
-  %fprintf('\nO algoritmo KNN finalizou a execucao. Pressione enter para continuar.\n');
+  fprintf('\nO algoritmo KNN finalizou a execucao. Pressione enter para continuar.\n');
   %pause;
-  #}
   
   % execucao da regressao logistica
   for lambda=0:10
@@ -95,16 +93,16 @@ for iter = 1:10
   %printf('\nIniciando execucao de redes neurais artificiais\n');
   %fflush(stdout);
 
-  %fprintf('\nO algoritmo de Redes Neurais Artificiais finalizou a execucao. Pressione enter para continuar.\n');
+  fprintf('\nO algoritmo de Redes Neurais Artificiais finalizou a execucao. Pressione enter para continuar.\n');
   %pause;
 
   % execucao da svm
-  %printf('\nIniciando execucao de SVM\n');
-  %fflush(stdout);
+  printf('\nIniciando execucao de SVM\n');
+  fflush(stdout);
   
-  % ypred = svm(ktrain(:,1:end-1), ktrain(:,end), ktest, iter);
+   ypred = svm(ktrain(:,1:end-1), ktrain(:,end), ktest, iter);
 
-  %fprintf('\nO algoritmo SVM finalizou a execucao. Pressione enter para continuar.\n');
+  fprintf('\nO algoritmo SVM finalizou a execucao. Pressione enter para continuar.\n');
   %pause;
   
 endfor
