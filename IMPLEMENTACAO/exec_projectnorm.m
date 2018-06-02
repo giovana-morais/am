@@ -2,8 +2,8 @@
 
 printf("Iniciando execucao.\n");
 clear all, clc, close all;
-% inicialmente ja fizemos pre-processamento dos dados para tentar diminuir a dimens�o de atributos e amostras
-% retirando inconsistencias, redundancias, c�lulas nulas e fazendo a normalizacao de valores
+% inicialmente ja fizemos pre-processamento dos dados para tentar diminuir a dimensao de atributos e amostras
+% retirando inconsistencias, redundancias, celulas nulas e fazendo a normalizacao de valores
 % agora recuperamos os dados pre_processados que foram salvos no arquivo pre_processed
 
 printf("\nCarregando dados pre-processados...\n");
@@ -54,7 +54,6 @@ for iter = 1:10
   
   printf("\nIteracao onde ktest eh o %d-fold e o ktrain eh o restante, o tamanho de ktest eh %d e o tamanho de ktrain eh %d\n", iter, length(ktest), length(ktrain));
 
-  #{
   % execucao do knn
   printf('\nIniciando execucao do knn\n');
   fflush(stdout);
@@ -84,9 +83,8 @@ for iter = 1:10
     j += 1;
   endfor
 
-  %fprintf('\nO algoritmo KNN finalizou a execucao. Pressione enter para continuar.\n');
+  fprintf('\nO algoritmo KNN finalizou a execucao. Pressione enter para continuar.\n');
   %pause;
-  #}
   
   % execucao da regressao logistica
   for lambda=0:10
@@ -101,7 +99,7 @@ for iter = 1:10
     gridrl(iter, lambda+1) = acc_reg;
   end
   fprintf('\nO algoritmo de Regressao Logistica finalizou a execucao. Pressione enter para continuar.\n');
-  pause;
+  %pause;
 
   % execucao da redes neurais
   %printf('\nIniciando execucao de redes neurais artificiais\n');
@@ -111,12 +109,12 @@ for iter = 1:10
   %pause;
 
   % execucao da svm
-  %printf('\nIniciando execucao de SVM\n');
-  %fflush(stdout);
+  printf('\nIniciando execucao de SVM\n');
+  fflush(stdout);
   
-  % ypred = svm(ktrain(:,1:end-1), ktrain(:,end), ktest, iter);
+   ypred = svm(ktrain(:,1:end-1), ktrain(:,end), ktest, iter);
 
-  %fprintf('\nO algoritmo SVM finalizou a execucao. Pressione enter para continuar.\n');
+  fprintf('\nO algoritmo SVM finalizou a execucao. Pressione enter para continuar.\n');
   %pause;
   
 endfor
@@ -147,3 +145,4 @@ csvwrite('totalgrid.csv', totalgrid);
 
 printf("\nOs algoritmos ficam melhor otimizados quando os dados de teste possuem o %d-fold e os dados de treinamento possuem o resto\n\n", bestk);
 printf("\nFim de execucao\n");
+
