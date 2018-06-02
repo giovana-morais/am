@@ -87,13 +87,13 @@ for iter = 1:10
     gridrl(iter, lambda+1) = acc_reg;
   end
   fprintf('\nO algoritmo de Regressao Logistica finalizou a execucao. Pressione enter para continuar.\n');
-  pause;
+  %pause;
 
   % execucao da redes neurais
   %printf('\nIniciando execucao de redes neurais artificiais\n');
   %fflush(stdout);
 
-  fprintf('\nO algoritmo de Redes Neurais Artificiais finalizou a execucao. Pressione enter para continuar.\n');
+  %fprintf('\nO algoritmo de Redes Neurais Artificiais finalizou a execucao. Pressione enter para continuar.\n');
   %pause;
 
   % execucao da svm
