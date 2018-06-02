@@ -59,8 +59,7 @@ for iter = 1:10
   fflush(stdout);
 
   % escolhemos o k com maior acuracia
-  % aqui utilizamos apenas numeros impares para nao ter que haver desempate nos k neighbours mais proximos
-  for k = 1:2:50
+  for k = 1:50
     j = 1;
     printf("\nPara k = %d\n", k);
     fflush(stdout);
