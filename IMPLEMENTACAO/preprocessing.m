@@ -136,7 +136,7 @@ printf("Para Y = 5, existem %d amostras\n", length(find(all_data(:,end) == 5)));
 printf("Para Y = 6, existem %d amostras\n", length(find(all_data(:,end) == 6)));
 
 % fazemos a normalizacao dos dados para o uso dos classificadores
-% o resultado das hip�teses pode ser influenciada pela escala dos atributos
+% o resultado das hipoteses pode ser influenciada pela escala dos atributos
 % aqui vamos normalizar para media = 0 e desvio padrao = 1
 
 % media
@@ -146,10 +146,10 @@ m = mean(all_data(:,1:end-1));
 s = std(all_data(:,1:end-1));
   
 % calcula a norma de cada amostra
-% data_norm = (all_data(:,1:end-1)- m)./s;
+data_norm = (all_data(:,1:end-1)- m)./s;
 
 % concatena dados normalizados com a coluna de classes (Y)
-% all_data = [data_norm, all_data(:,end)];
+all_data = [data_norm, all_data(:,end)];
 
 
 % gera a matriz aleatoria pra facilitar na hora de fazer o cross-fold
