@@ -123,19 +123,7 @@ printf("\n%d %d %d %d %d %d %d %d %d", notdeleted);
 printf("\n");
 #}
 
-% para rodar a correlacao, a linha 81 deve ser descomentada
-all_data = pca(all_data);
-
-% para checagem de balanceamento de dados
-printf("\nPara checarmos o balanceamento dos dados atuais, temos que:\n");
-printf("Para Y = 1, existem %d amostras\n", length(find(all_data(:,end) == 1)));
-printf("Para Y = 2, existem %d amostras\n", length(find(all_data(:,end) == 2)));
-printf("Para Y = 3, existem %d amostras\n", length(find(all_data(:,end) == 3)));
-printf("Para Y = 4, existem %d amostras\n", length(find(all_data(:,end) == 4)));
-printf("Para Y = 5, existem %d amostras\n", length(find(all_data(:,end) == 5)));
-printf("Para Y = 6, existem %d amostras\n", length(find(all_data(:,end) == 6)));
-
-% fazemos a normalizacao dos dados para o uso dos classificadores
+% fazemos a normalizacao dos dados para o uso do PCA e dos classificadores
 % o resultado das hipoteses pode ser influenciada pela escala dos atributos
 % aqui vamos normalizar para media = 0 e desvio padrao = 1
 
@@ -150,6 +138,18 @@ data_norm = (all_data(:,1:end-1)- m)./s;
 
 % concatena dados normalizados com a coluna de classes (Y)
 all_data = [data_norm, all_data(:,end)];
+
+% aqui chamamos o pca para fazer reducao dos atributos
+all_data = pca(all_data);
+
+% para checagem de balanceamento de dados
+printf("\nPara checarmos o balanceamento dos dados atuais, temos que:\n");
+printf("Para Y = 1, existem %d amostras\n", length(find(all_data(:,end) == 1)));
+printf("Para Y = 2, existem %d amostras\n", length(find(all_data(:,end) == 2)));
+printf("Para Y = 3, existem %d amostras\n", length(find(all_data(:,end) == 3)));
+printf("Para Y = 4, existem %d amostras\n", length(find(all_data(:,end) == 4)));
+printf("Para Y = 5, existem %d amostras\n", length(find(all_data(:,end) == 5)));
+printf("Para Y = 6, existem %d amostras\n", length(find(all_data(:,end) == 6)));
 
 
 % gera a matriz aleatoria pra facilitar na hora de fazer o cross-fold
