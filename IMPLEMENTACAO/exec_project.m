@@ -47,20 +47,20 @@ for iter = 1:10
   fflush(stdout);
 
   % escolhemos o k com maior acuracia
-  for k = 1:50
+  for k = 1:5:150
     j = 1;
     printf("\nPara k = %d\n", k);
     fflush(stdout);
     ac = 0;
     tic();
-    for i = 1:length(ktest)
+    for i = 1:rows(ktest)
       ypred = knn(ktrain(:,1:end-1), ktrain(:,end), ktest(i,1:end-1), k);
       if(ypred == ktest(i, end))
         ac += 1;
       endif
     endfor
     toc();
-    acuracyknn(j) = ac/length(ktest);
+    acuracyknn(j) = ac/rows(ktest);
     printf("Ocorre %.2f%% de acuracia\n", acuracyknn(j)*100);
     fflush(stdout);
     
@@ -72,22 +72,22 @@ for iter = 1:10
 
   fprintf('\nO algoritmo KNN finalizou a execucao. Pressione enter para continuar.\n');
   %pause;
-  
+
   % execucao da regressao logistica
   for lambda=0:10
     printf('\nIniciando execucao da regressao logistica para lambda = %d\n', lambda);
     fflush(stdout);
-    
+    tic();
     y_pred = regression(ktrain(:,1:end-1), ktrain(:,end), ktest(:,1:end-1), lambda);
-    
+    toc();
     acc_reg = mean(double(y_pred == ktest(:,end))) * 100;
-    % printf('\nAcurácia do teste: %f\n', acc_reg);
-    % fflush(stdout);
+    printf('\nAcuracia do teste: %.2f\n', acc_reg);
+    fflush(stdout);
     gridrl(iter, lambda+1) = acc_reg;
   end
   fprintf('\nO algoritmo de Regressao Logistica finalizou a execucao. Pressione enter para continuar.\n');
   %pause;
-
+  
   % execucao da redes neurais
   %printf('\nIniciando execucao de redes neurais artificiais\n');
   %fflush(stdout);
@@ -99,11 +99,11 @@ for iter = 1:10
   printf('\nIniciando execucao de SVM\n');
   fflush(stdout);
   
-   ypred = svm(ktrain(:,1:end-1), ktrain(:,end), ktest, iter);
-
+  ypred = svm(ktrain(:,1:end-1), ktrain(:,end), ktest, iter);
+  
   fprintf('\nO algoritmo SVM finalizou a execucao. Pressione enter para continuar.\n');
   %pause;
-
+  
 endfor
 totalgrid = [];
 % aqui localizamos a coluna onde esta contido o valor maximo de acuracia do knn
