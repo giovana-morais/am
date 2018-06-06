@@ -1,29 +1,31 @@
-function ypred = svm(train, train_labels, test, kfold) 
+function [ypred, gridLin, gridRbf] = svm(train, train_labels, test) 
 
     %TODO: Fazer de uma maneira menos burra os indices dos while;
     %TODO: Documentar melhor o codigo;
 
     i = 2^(-5);
     iterC = 0;
+    iterGamma = 0;
     
-    gridForRBF = zeros(10, 19, 19);
-    gridFoLinear = zeros(10, 19);
+    gridLin = zeros(1, 8);
+    gridRbf = zeros(1, 152);
     
     % Laço para iterar o C
     % O C default eh 1, com seu range indo de 0 a infinito.
-    % Irei iterar o C de 2^-3 ate 2^15
+    % Irei iterar o C de 2^-3 ate 2^4
     % Posso realizar o grid dessa maneira pois C e gamma sao independentes
-    while (i <= (2^15))  
+    while (i <= (2^4))
+      %i = 16; %tirar isso  
       c = num2str(i);
       
       j = 2^(-15);
-      iterGamma = 0;
       iterC = iterC + 1;
       % Laço para iterar gamma (parametro do kernel).
       % O default eh 1/71 (numero de features)
       % vou iterar o gamma de 2^-15 ate 2^3
       while (j <= (2^3))
         iterGamma = iterGamma + 1;
+        % j = 16; %tirar isso
         g = num2str(j);
       
         parametersRBF = ["-c " c " -t 2 -g " g " -q"];
@@ -35,7 +37,7 @@ function ypred = svm(train, train_labels, test, kfold)
         % Predições do RBF       
         [y_predforRBF, acuraciaRBF, dec_values_R] = svmpredict(test(:, end), test(:,1:end-1), modelrbf);
         
-        gridForRBF(kfold, iterC, iterGamma) = acuraciaRBF(1);
+        gridRbf(1, iterGamma) = acuraciaRBF(1);
         
         j = j * 2
         i
@@ -50,16 +52,21 @@ function ypred = svm(train, train_labels, test, kfold)
                      parametersLinear);
       
       [y_predforLinear, acuraciaLinear, dec_values_L] = svmpredict(test(:, end), test(:,1:end-1), modelLinear);
-      gridForLinear(kfold, iterC) = acuraciaLinear(1);
+      gridLin(1, iterC) = acuraciaLinear(1);
     
       
       i = i * 2;
       
     endwhile
- 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Linhas pro exec  
+
+  % [ypred, gridLin, gridRbf] = svm(ktrain(:,1:end-1), ktrain(:,end), ktest);
   
-  
-  % ypred = svm(ktrain(:,1:end-1), ktrain(:,end), ktest, iter);
+  % gridsvmRbf = zeros(10, 152); % 8 variaçoes do C e 19 variaçoes do Gamma
+  % gridsvmLinear = zeros(10, 8); % 8 variaçoes do C
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   
   %{
   
