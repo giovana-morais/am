@@ -27,14 +27,14 @@ fflush(stdout);
 
 % concatena matriz de amostra X com suas classes
 all_data = [X_data, Y_data];
-printf("Tamanho antes de remover pesos: %d\n", length(all_data));
+printf("Tamanho antes de remover pesos: %d\n", rows(all_data));
 
 # removendo peso na mesma classe
 all_data = unique(all_data, "rows");
-printf("Tamanho apos remover pesos: %d\n", length(all_data));
+printf("Tamanho apos remover pesos: %d\n", rows(all_data));
 
 
-if( length(all_data) != length(unique(X_data, "rows")) ) ## SE HOUVER AMOSTRAS COM X IGUAL E Y DIFERENTE :::::::
+if( rows(all_data) != rows(unique(X_data, "rows")) ) ## SE HOUVER AMOSTRAS COM X IGUAL E Y DIFERENTE :::::::
 #### Algoritmo que utilizamos para verificar a existencia de dados espurios (Mesmo valores de x com y diferente)#######
     
     #Primeiramente agrupamos as amostras de acordo com as classes:
@@ -123,20 +123,8 @@ printf("\n%d %d %d %d %d %d %d %d %d", notdeleted);
 printf("\n");
 #}
 
-% para rodar a correlacao, a linha 81 deve ser descomentada
-all_data = pca(all_data);
-
-% para checagem de balanceamento de dados
-printf("\nPara checarmos o balanceamento dos dados atuais, temos que:\n");
-printf("Para Y = 1, existem %d amostras\n", length(find(all_data(:,end) == 1)));
-printf("Para Y = 2, existem %d amostras\n", length(find(all_data(:,end) == 2)));
-printf("Para Y = 3, existem %d amostras\n", length(find(all_data(:,end) == 3)));
-printf("Para Y = 4, existem %d amostras\n", length(find(all_data(:,end) == 4)));
-printf("Para Y = 5, existem %d amostras\n", length(find(all_data(:,end) == 5)));
-printf("Para Y = 6, existem %d amostras\n", length(find(all_data(:,end) == 6)));
-
 % fazemos a normalizacao dos dados para o uso dos classificadores
-% o resultado das hip�teses pode ser influenciada pela escala dos atributos
+% o resultado das hipoteses pode ser influenciada pela escala dos atributos
 % aqui vamos normalizar para media = 0 e desvio padrao = 1
 
 % media
@@ -146,10 +134,22 @@ m = mean(all_data(:,1:end-1));
 s = std(all_data(:,1:end-1));
   
 % calcula a norma de cada amostra
-% data_norm = (all_data(:,1:end-1)- m)./s;
+data_norm = (all_data(:,1:end-1)- m)./s;
 
 % concatena dados normalizados com a coluna de classes (Y)
-% all_data = [data_norm, all_data(:,end)];
+all_data = [data_norm, all_data(:,end)];
+
+% aqui chamamos o pca para fazer reducao dos atributos
+%all_data = pca(all_data);
+
+% para checagem de balanceamento de dados
+printf("\nPara checarmos o balanceamento dos dados atuais, temos que:\n");
+printf("Para Y = 1, existem %d amostras\n", length(find(all_data(:,end) == 1)));
+printf("Para Y = 2, existem %d amostras\n", length(find(all_data(:,end) == 2)));
+printf("Para Y = 3, existem %d amostras\n", length(find(all_data(:,end) == 3)));
+printf("Para Y = 4, existem %d amostras\n", length(find(all_data(:,end) == 4)));
+printf("Para Y = 5, existem %d amostras\n", length(find(all_data(:,end) == 5)));
+printf("Para Y = 6, existem %d amostras\n", length(find(all_data(:,end) == 6)));
 
 
 % gera a matriz aleatoria pra facilitar na hora de fazer o cross-fold

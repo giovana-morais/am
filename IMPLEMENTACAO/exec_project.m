@@ -25,7 +25,9 @@ fflush(stdout);
 gridknn = zeros(10, 50);
 gridrl = zeros(10, 10);
 gridrn = zeros(10, 1);
-gridsvm = zeros(10, 1);
+gridsvmRbf = zeros(10, 152); % 8 variacoes do C e 19 variacoes do Gamma
+gridsvmLinear = zeros(10, 8); % 8 variacoes do C
+
 
 for iter = 1:10
   % se o fold de teste nao for inicial nem final, quer dizer que ktest nao comeca no 1 e nem termina no end
@@ -41,26 +43,26 @@ for iter = 1:10
   endif
   
   printf("\nIteracao onde ktest eh o %d-fold e o ktrain eh o restante, o tamanho de ktest eh %d e o tamanho de ktrain eh %d\n", iter, length(ktest), length(ktrain));
-
+  
+  #{
   % execucao do knn
   printf('\nIniciando execucao do knn\n');
   fflush(stdout);
-
   % escolhemos o k com maior acuracia
-  for k = 1:50
+  for k = 1:5:150
     j = 1;
     printf("\nPara k = %d\n", k);
     fflush(stdout);
     ac = 0;
     tic();
-    for i = 1:length(ktest)
+    for i = 1:rows(ktest)
       ypred = knn(ktrain(:,1:end-1), ktrain(:,end), ktest(i,1:end-1), k);
       if(ypred == ktest(i, end))
         ac += 1;
       endif
     endfor
     toc();
-    acuracyknn(j) = ac/length(ktest);
+    acuracyknn(j) = ac/rows(ktest);
     printf("Ocorre %.2f%% de acuracia\n", acuracyknn(j)*100);
     fflush(stdout);
     
@@ -69,38 +71,39 @@ for iter = 1:10
     
     j += 1;
   endfor
-
+  
   fprintf('\nO algoritmo KNN finalizou a execucao. Pressione enter para continuar.\n');
   %pause;
-  
+  #}
+  #{
   % execucao da regressao logistica
   for lambda=0:10
     printf('\nIniciando execucao da regressao logistica para lambda = %d\n', lambda);
     fflush(stdout);
-    
+    tic();
     y_pred = regression(ktrain(:,1:end-1), ktrain(:,end), ktest(:,1:end-1), lambda);
-    
+    toc();
     acc_reg = mean(double(y_pred == ktest(:,end))) * 100;
-    % printf('\nAcurácia do teste: %f\n', acc_reg);
-    % fflush(stdout);
+    printf('\nAcuracia do teste: %.2f\n', acc_reg);
+    fflush(stdout);
     gridrl(iter, lambda+1) = acc_reg;
   end
   fprintf('\nO algoritmo de Regressao Logistica finalizou a execucao. Pressione enter para continuar.\n');
   %pause;
-
+  #}
   % execucao da redes neurais
   %printf('\nIniciando execucao de redes neurais artificiais\n');
   %fflush(stdout);
 
   %fprintf('\nO algoritmo de Redes Neurais Artificiais finalizou a execucao. Pressione enter para continuar.\n');
   %pause;
-
+  
   % execucao da svm
   printf('\nIniciando execucao de SVM\n');
   fflush(stdout);
-  
-   ypred = svm(ktrain(:,1:end-1), ktrain(:,end), ktest, iter);
-
+  tic();
+  [ypred, gridLin, gridRbf] = svm(ktrain(:,1:end-1), ktrain(:,end), ktest);
+  toc();
   fprintf('\nO algoritmo SVM finalizou a execucao. Pressione enter para continuar.\n');
   %pause;
   
@@ -110,26 +113,35 @@ totalgrid = [];
 [maxvalue,col] = max(max(gridknn));
 printf("\nA maior acuracia do knn eh %.2f para k = %d\n", maxvalue, col);
 
+%aqui localizamos a coluna onde esta contido o valor maximo de acuracia da regressao
 [maxrl, colrl] = max(max(gridrl));
-printf("\nA maior acuracia da regressão eh %.2f para lambda = %d\n", maxrl, colrl);
+printf("\nA maior acuracia da regressao eh %.2f para lambda = %d\n", maxrl, colrl);
 
-% pegamos a a coluna do gridknn que contem o maior valor de acuracia do knn e atribuimos todos os valores dessa coluna 
-% (ou seja, para todos os folds) ao totalgrid
-totalgrid = [totalgrid, gridknn(:, col)];
-totalgrid = [totalgrid, gridrl(:, colrl)];
+% aqui pegamos os melhores valores de k para cada fold
+totalgrid = [totalgrid, max(gridknn, [], 2)];
+
+% aqui pegamos os melhores valores de lambda para cada fold
+totalgrid = [totalgrid, max(gridrl, [], 2)];
 
 % aqui geramos um csv para visualizacao no relatorio
 csvwrite('gridknn.csv', gridknn);
 csvwrite('gridrl.csv', gridrl);
-
 
 ####### depois de salvar a melhor coluna de cada algoritmo, devemos escolher o k-fold que otimiza a acuracia de todos #######
 % aqui geramos um csv para visualizacao no relatorio
 csvwrite('totalgrid.csv', totalgrid);
 
 % para otimizar a acuracia, calculamos o k-fold que possui a maior media entre todos os algoritmos
-[~, bestk] = max(mean(totalgrid,2));
+[~, bestfold] = max(mean(totalgrid,2));
 
-printf("\nOs algoritmos ficam melhor otimizados quando os dados de teste possuem o %d-fold e os dados de treinamento possuem o resto\n\n", bestk);
+printf("\nOs algoritmos ficam melhor otimizados quando os dados de teste possuem o %d-fold e os dados de treinamento possuem o resto\n\n", bestfold);
+
+% aqui encontramos em qual coluna do fold se encontra o melhor k
+[valueknn, bestknn] = max(gridknn(bestfold,:));
+printf("\nComo o melhor fold eh o %d\n\nO melhor k para o knn eh %d com acuracia de %.2f\n", bestfold, bestknn, valueknn);
+
+[valuerl, bestrl] = max(gridrl(bestfold, :));
+printf("\nO melhor lambda para a regressao eh %d com acuracia de %.2f\n", bestrl, valuerl);
+
 printf("\nFim de execucao\n");
 
