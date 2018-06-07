@@ -27,14 +27,14 @@ fflush(stdout);
 
 % concatena matriz de amostra X com suas classes
 all_data = [X_data, Y_data];
-printf("Tamanho antes de remover pesos: %d\n", length(all_data));
+printf("Tamanho antes de remover pesos: %d\n", rows(all_data));
 
 # removendo peso na mesma classe
 all_data = unique(all_data, "rows");
-printf("Tamanho apos remover pesos: %d\n", length(all_data));
+printf("Tamanho apos remover pesos: %d\n", rows(all_data));
 
 
-if( length(all_data) != length(unique(X_data, "rows")) ) ## SE HOUVER AMOSTRAS COM X IGUAL E Y DIFERENTE :::::::
+if( rows(all_data) != rows(unique(X_data, "rows")) ) ## SE HOUVER AMOSTRAS COM X IGUAL E Y DIFERENTE :::::::
 #### Algoritmo que utilizamos para verificar a existencia de dados espurios (Mesmo valores de x com y diferente)#######
     
     #Primeiramente agrupamos as amostras de acordo com as classes:
@@ -123,7 +123,7 @@ printf("\n%d %d %d %d %d %d %d %d %d", notdeleted);
 printf("\n");
 #}
 
-% fazemos a normalizacao dos dados para o uso do PCA e dos classificadores
+% fazemos a normalizacao dos dados para o uso dos classificadores
 % o resultado das hipoteses pode ser influenciada pela escala dos atributos
 % aqui vamos normalizar para media = 0 e desvio padrao = 1
 
@@ -140,7 +140,7 @@ data_norm = (all_data(:,1:end-1)- m)./s;
 all_data = [data_norm, all_data(:,end)];
 
 % aqui chamamos o pca para fazer reducao dos atributos
-all_data = pca(all_data);
+%all_data = pca(all_data);
 
 % para checagem de balanceamento de dados
 printf("\nPara checarmos o balanceamento dos dados atuais, temos que:\n");
