@@ -97,16 +97,19 @@ for iter = 1:10
   printf('\nIniciando execucao de redes neurais artificiais\n');
   fflush(stdout);
   
+  tic();
   % o número de neuronios ocultos deve variar entre
   % 1) 2/3 do tamanho da camada de entrada
   % 2) alguns números entre o tamanho da camada de entrada e o dobro dela
-  hidden_neurons = [50 103 200];
+  hidden_neurons = [151];
   
   for i = 1: length(hidden_neurons)
-    printf("NUMERO DE NEURONIOS %d\n", hidden_neurons(i));
-    y_pred = neural_network(hidden_neurons(i))
+    y_pred = neural_network(hidden_neurons(i), ktrain, ktest);
+    fprintf('\nAcuracia no conjunto de teste: %f\n', mean(double(y_pred == ktest(:,end))) * 100);
+
   end
   fprintf('\nO algoritmo de Redes Neurais Artificiais finalizou a execucao. Pressione enter para continuar.\n');
+  toc();
   %pause;
   
   #{
