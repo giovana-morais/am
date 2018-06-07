@@ -1,7 +1,9 @@
 % Grupo 7 - Reconhecimento de Atividades Humanas
+pkg load statistics
 
 printf("Iniciando execucao.\n");
 clear all, clc, close all;
+
 % inicialmente ja fizemos pre-processamento dos dados para tentar diminuir a dimens�o de atributos e amostras
 % retirando inconsistencias, redundancias, c�lulas nulas e fazendo a normalizacao de valores
 % agora recuperamos os dados pre_processados que foram salvos no arquivo pre_processed
@@ -42,6 +44,7 @@ for iter = 1:10
   
   printf("\nIteracao onde ktest eh o %d-fold e o ktrain eh o restante, o tamanho de ktest eh %d e o tamanho de ktrain eh %d\n", iter, length(ktest), length(ktrain));
 
+  #{
   % execucao do knn
   printf('\nIniciando execucao do knn\n');
   fflush(stdout);
@@ -87,14 +90,24 @@ for iter = 1:10
   end
   fprintf('\nO algoritmo de Regressao Logistica finalizou a execucao. Pressione enter para continuar.\n');
   %pause;
-
+  #}
   % execucao da redes neurais
-  %printf('\nIniciando execucao de redes neurais artificiais\n');
-  %fflush(stdout);
-
-  %fprintf('\nO algoritmo de Redes Neurais Artificiais finalizou a execucao. Pressione enter para continuar.\n');
+  printf('\nIniciando execucao de redes neurais artificiais\n');
+  fflush(stdout);
+  
+  % o número de neuronios ocultos deve variar entre
+  % 1) 2/3 do tamanho da camada de entrada
+  % 2) alguns números entre o tamanho da camada de entrada e o dobro dela
+  hidden_neurons = [50 103 200];
+  
+  for i = 1: length(hidden_neurons)
+    printf("NUMERO DE NEURONIOS %d\n", hidden_neurons(i));
+    y_pred = neural_network(hidden_neurons(i))
+  end
+  fprintf('\nO algoritmo de Redes Neurais Artificiais finalizou a execucao. Pressione enter para continuar.\n');
   %pause;
   
+  #{
   % execucao da svm
   printf('\nIniciando execucao de SVM\n');
   fflush(stdout);
@@ -103,7 +116,7 @@ for iter = 1:10
 
   fprintf('\nO algoritmo SVM finalizou a execucao. Pressione enter para continuar.\n');
   %pause;
-
+  #}
 endfor
 totalgrid = [];
 % aqui localizamos a coluna onde esta contido o valor maximo de acuracia do knn
