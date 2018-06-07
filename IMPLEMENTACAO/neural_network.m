@@ -1,9 +1,59 @@
-function ypred = ann() 
-% Implementacao de redes neurais artificiais para o problema de reconhecimento de atividades humanas
+%%% PREDIÇÃO %%%
+function ypred = neural_network(hidden_neurons) 
+% Implementacao de redes neurais artificiais para o problema de reconhecimento 
+% de atividades humanas
 
+% TODO: o tamanho da camada de entrada talvez ainda varie por causa dos 
+% parâmetros do PCA (variância).
+input_layer_size = 151;
+number_of_hidden_layers = 1;
+hidden_layer_size = hidden_neurons;
+num_labels = 6;
 
+W = random_init(input_layer_size, hidden_layer_size);
+
+ypred = 0;
 end
 
+
+%%% INICIALIZAÇÃO DOS PESOS %%%
+function W = random_init(il_size, hl_size)
+  % inicializa os pesos randomicamente
+  % il_size : tamanho da camada de input
+  % hl_size : tamanho da camada oculta
+  
+  % retorna uma matriz de tamanho il_size X hl_size
+  % pra funcionar, tem que instalar dois pacotes
+  %   pkg install io-2.4.11.tar.gz
+  % e depois
+  %   pkg install statistics-1.4.0.tar.gz
+  
+  W = stdnormal_rnd(hl_size, il_size+1);
+  % W = randn(il_size, hl_size);
+endfunction
+
+function W = xavier_init(il_size, hl_size)
+  % inicializa os pesos segundo o método de Xavier
+  % referência: 
+  % http://andyljones.tumblr.com/post/110998971763/an-explanation-of-xavier-initialization
+endfunction
+
+
+%%% FUNÇÕES DE ATIVAÇÃO %%%
+function R = leakly_relu(z)
+  R = max(0.01*y,z);
+endfunction
+
+function R = relu(z)
+  R = max(0,z);
+endfunction
+
+function g = sigmoid(z)
+  g = 1.0 ./ (1.0 + exp(-z));
+endfunction
+
+
+%%% FMINCG %%%
 function [X, fX, i] = fmincg(f, X, options, P1, P2, P3, P4, P5)
 % Minimize a continuous differentialble multivariate function. Starting point
 % is given by "X" (D by 1), and the function named in the string "f", must
@@ -179,3 +229,4 @@ while i < abs(length)                                      % while not finished
   end
 end
 fprintf('\n');
+end
