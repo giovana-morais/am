@@ -26,7 +26,7 @@ fflush(stdout);
 % o tamanho de colunas do grid deve ser a quantidade maxima do parametro que queremos fazer o ajuste para cada algoritmo
 gridknn = zeros(10, 50);
 gridrl = zeros(10, 10);
-gridrn = zeros(10, 1);
+gridrn = zeros(10, 4);  % considerando por enquanto só as 4 variações do max_iter
 gridsvmRbf = zeros(10, 152); % 8 variacoes do C e 19 variacoes do Gamma
 gridsvmLinear = zeros(10, 8); % 8 variacoes do C
 
@@ -102,11 +102,14 @@ for iter = 1:10
   % 1) 2/3 do tamanho da camada de entrada
   % 2) alguns números entre o tamanho da camada de entrada e o dobro dela
   hidden_neurons = [151];
+  max_iter = [50, 100, 150, 300];
   
-  for i = 1: length(hidden_neurons)
-    y_pred = neural_network(hidden_neurons(i), ktrain, ktest);
-    fprintf('\nAcuracia no conjunto de teste: %f\n', mean(double(y_pred == ktest(:,end))) * 100);
-
+  for i = 1: length(max_iter)
+    %fprintf("\nMAX ITER = %d\n", max_iter(i)); 
+    y_pred = neural_network(hidden_neurons(1), max_iter(i), ktrain, ktest);
+    acc_nn = mean(double(y_pred == ktest(:,end))) * 100
+    gridrl(iter, i) = acc_nn;
+    %fprintf('Acuracia no conjunto de teste: %f\n', acc_nn);
   end
   fprintf('\nO algoritmo de Redes Neurais Artificiais finalizou a execucao. Pressione enter para continuar.\n');
   toc();
@@ -132,15 +135,22 @@ printf("\nA maior acuracia do knn eh %.2f para k = %d\n", maxvalue, col);
 [maxrl, colrl] = max(max(gridrl));
 printf("\nA maior acuracia da regressao eh %.2f para lambda = %d\n", maxrl, colrl);
 
+%aqui localizamos a coluna onde esta contido o valor maximo de acuracia da regressao
+[maxrn, colrn] = max(max(gridrn));
+printf("\nA maior acuracia de redes neurais eh %.2f para max_iter = %d\n", maxrl, colrn);
+
 % aqui pegamos os melhores valores de k para cada fold
 totalgrid = [totalgrid, max(gridknn, [], 2)];
 
 % aqui pegamos os melhores valores de lambda para cada fold
 totalgrid = [totalgrid, max(gridrl, [], 2)];
 
+totalgrid = [totalgrid, max(gridrn, [], 2)];
+
 % aqui geramos um csv para visualizacao no relatorio
 csvwrite('gridknn.csv', gridknn);
 csvwrite('gridrl.csv', gridrl);
+csvwrite('gridrn.csv', gridrn);
 
 ####### depois de salvar a melhor coluna de cada algoritmo, devemos escolher o k-fold que otimiza a acuracia de todos #######
 % aqui geramos um csv para visualizacao no relatorio
@@ -157,6 +167,9 @@ printf("\nComo o melhor fold eh o %d\n\nO melhor k para o knn eh %d com acuracia
 
 [valuerl, bestrl] = max(gridrl(bestfold, :));
 printf("\nO melhor lambda para a regressao eh %d com acuracia de %.2f\n", bestrl, valuerl);
+
+[valuern, bestrl] = max(gridrn(bestfold, :));
+printf("\nO melhor max_iter para redes neurais eh %d com acuracia de %.2f\n", bestrn, valuern);
 
 printf("\nFim de execucao\n");
 

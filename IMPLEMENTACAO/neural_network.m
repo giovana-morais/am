@@ -1,5 +1,5 @@
 %%% PREDIÇÃO %%%
-function y_pred = neural_network(hidden_neurons, ktrain, ktest) 
+function y_pred = neural_network(hidden_neurons, max_iter, ktrain, ktest) 
   % Implementacao de redes neurais artificiais para o problema de reconhecimento 
   % de atividades humanas
 
@@ -35,7 +35,7 @@ function y_pred = neural_network(hidden_neurons, ktrain, ktest)
 
   % treinamento
   % TODO: mudar o maxiter  e o lambda pra ver como influencia no treinamento
-  options = optimset('MaxIter', 50);
+  options = optimset('MaxIter', max_iter);
   lambda = 1;
 
   % Cria uma nova chamada para minimizar a funcao de custo
@@ -61,7 +61,7 @@ function y_pred = neural_network(hidden_neurons, ktrain, ktest)
   fprintf('Treinando...\n');
   pred = prediction(Theta1, Theta2, ktrain(:,1:end-1));
 
-  fprintf('\nAcuracia no conjunto de treinamento: %f\n', mean(double(pred == ktrain(:,end))) * 100);
+  fprintf('Acuracia no conjunto de treinamento: %f\n', mean(double(pred == ktrain(:,end))) * 100);
   
   y_pred = prediction(Theta1, Theta2, ktest(:,1:end-1));
 end
