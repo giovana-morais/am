@@ -139,9 +139,6 @@ data_norm = (all_data(:,1:end-1)- m)./s;
 % concatena dados normalizados com a coluna de classes (Y)
 all_data = [data_norm, all_data(:,end)];
 
-% aqui chamamos o pca para fazer reducao dos atributos
-%all_data = pca(all_data);
-
 % para checagem de balanceamento de dados
 printf("\nPara checarmos o balanceamento dos dados atuais, temos que:\n");
 printf("Para Y = 1, existem %d amostras\n", length(find(all_data(:,end) == 1)));

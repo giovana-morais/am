@@ -51,31 +51,27 @@ for iter = 1:10
   printf('\nIniciando execucao do knn\n');
   fflush(stdout);
   % escolhemos o k com maior acuracia
-  for k = 1:5:150
-    j = 1;
+  tic();
+  for k = 1:50
     printf("\nPara k = %d\n", k);
     fflush(stdout);
     ac = 0;
-    tic();
     for i = 1:rows(ktest)
       ypred = knn(ktrain(:,1:end-1), ktrain(:,end), ktest(i,1:end-1), k);
       if(ypred == ktest(i, end))
         ac += 1;
       endif
     endfor
-    toc();
-    acuracyknn(j) = ac/rows(ktest);
-    printf("Ocorre %.2f%% de acuracia\n", acuracyknn(j)*100);
+    acuracyknn(k) = ac/rows(ktest);
+    printf("Ocorre %.2f%% de acuracia\n", acuracyknn(k)*100);
     fflush(stdout);
     
     % salvando acuracia no grid do knn
-    gridknn(iter, k) = acuracyknn(j)*100;
-    
-    j += 1;
+    gridknn(iter, k) = acuracyknn(k)*100;
   endfor
+  toc();
   
-  fprintf('\nO algoritmo KNN finalizou a execucao. Pressione enter para continuar.\n');
-  %pause;
+  fprintf('\nO algoritmo KNN finalizou a execucao. \n');
   #}
   #{
   % execucao da regressao logistica
@@ -90,10 +86,13 @@ for iter = 1:10
     fflush(stdout);
     gridrl(iter, lambda+1) = acc_reg;
   end
-  fprintf('\nO algoritmo de Regressao Logistica finalizou a execucao. Pressione enter para continuar.\n');
-  %pause;
+  fprintf('\nO algoritmo de Regressao Logistica finalizou a execucao. \n');
   #}
   % execucao da redes neurais
+  
+  % executando o PCA para reduzir a quantidade de atributos e garantir a viabilidade de execução de redes neurais e do SVM (30min com PCA, 1h20 sem PCA)
+  all_data = pca(all_data);
+  
   printf('\nIniciando execucao de redes neurais artificiais\n');
   fflush(stdout);
   
@@ -111,9 +110,8 @@ for iter = 1:10
     gridrl(iter, i) = acc_nn;
     %fprintf('Acuracia no conjunto de teste: %f\n', acc_nn);
   end
-  fprintf('\nO algoritmo de Redes Neurais Artificiais finalizou a execucao. Pressione enter para continuar.\n');
+  fprintf('\nO algoritmo de Redes Neurais Artificiais finalizou a execucao. \n');
   toc();
-  %pause;
   
   #{
   % execucao da svm
@@ -122,8 +120,7 @@ for iter = 1:10
   tic();
   [ypred, gridLin, gridRbf] = svm(ktrain(:,1:end-1), ktrain(:,end), ktest);
   toc();
-  fprintf('\nO algoritmo SVM finalizou a execucao. Pressione enter para continuar.\n');
-  %pause;
+  fprintf('\nO algoritmo SVM finalizou a execucao. \n');
   #}
 endfor
 totalgrid = [];
@@ -135,9 +132,9 @@ printf("\nA maior acuracia do knn eh %.2f para k = %d\n", maxvalue, col);
 [maxrl, colrl] = max(max(gridrl));
 printf("\nA maior acuracia da regressao eh %.2f para lambda = %d\n", maxrl, colrl);
 
-%aqui localizamos a coluna onde esta contido o valor maximo de acuracia da regressao
+%aqui localizamos a coluna onde esta contido o valor maximo de acuracia de redes neurais
 [maxrn, colrn] = max(max(gridrn));
-printf("\nA maior acuracia de redes neurais eh %.2f para max_iter = %d\n", maxrl, colrn);
+printf("\nA maior acuracia de redes neurais eh %.2f para max_iter = %d\n", maxrn, colrn);
 
 % aqui pegamos os melhores valores de k para cada fold
 totalgrid = [totalgrid, max(gridknn, [], 2)];
@@ -168,7 +165,7 @@ printf("\nComo o melhor fold eh o %d\n\nO melhor k para o knn eh %d com acuracia
 [valuerl, bestrl] = max(gridrl(bestfold, :));
 printf("\nO melhor lambda para a regressao eh %d com acuracia de %.2f\n", bestrl, valuerl);
 
-[valuern, bestrl] = max(gridrn(bestfold, :));
+[valuern, bestrn] = max(gridrn(bestfold, :));
 printf("\nO melhor max_iter para redes neurais eh %d com acuracia de %.2f\n", bestrn, valuern);
 
 printf("\nFim de execucao\n");
