@@ -86,7 +86,7 @@ for iter = 1:10
   end
   fprintf('\nO algoritmo de Regressao Logistica finalizou a execucao. \n');
 
-  ####### executando o PCA para reduzir a quantidade de atributos e garantir a viabilidade de execução de redes neurais e do SVM (30min com PCA, 1h20 sem PCA) #####
+  ####### executando o PCA para reduzir a quantidade de atributos e garantir a viabilidade de execuï¿½ï¿½o de redes neurais e do SVM (30min com PCA, 1h20 sem PCA) #####
   all_data = pca(all_data);
   
   % execucao de redes neurais
@@ -135,6 +135,19 @@ printf("\nA maior acuracia da regressao eh %.2f para lambda = %d\n", maxrl, colr
 [maxrn, colrn] = max(max(gridrn));
 printf("\nA maior acuracia de redes neurais eh %.2f para max_iter = %d\n", maxrn, colrn);
 
+%aqui localizamos a coluna onde esta contido o valor maximo de acuracia de svm
+[maxsvm, colsvm] = max(max(gridRbf));
+printf("\nA maior acuracia de svm eh %.2f para coluna = %d\n", maxsvm, colsvm);
+
+% Esta etapa matematica para descobrir quais sao os valores de C e Gamma representados pela coluna
+isvm = ceil(colsvm/19);
+jsvm = mod(colsvm, 19);
+
+csvm = 2 ^ (-5 + isvm);
+gammasvm = 2 ^ (-15 + jsvm);
+
+printf("Os valores otimos para o SVM com Kernel Gaussiano sao C = %f e Gamma = %f", csvm, gammasvm);
+
 % aqui pegamos os melhores valores de k para cada fold
 totalgrid = [totalgrid, max(gridknn, [], 2)];
 
@@ -143,10 +156,14 @@ totalgrid = [totalgrid, max(gridrl, [], 2)];
 
 totalgrid = [totalgrid, max(gridrn, [], 2)];
 
+% aqui pegamos os melhores valores dos parametros de svm para cada fold
+totalgrid = [totalgrid, max(griRbf, [], 2)];
+
 % aqui geramos um csv para visualizacao no relatorio
 csvwrite('gridknn.csv', gridknn);
 csvwrite('gridrl.csv', gridrl);
 csvwrite('gridrn.csv', gridrn);
+csvwrite('gridRbf.csv', gridRbf);
 
 ####### depois de salvar a melhor coluna de cada algoritmo, devemos escolher o k-fold que otimiza a acuracia de todos #######
 % aqui geramos um csv para visualizacao no relatorio
