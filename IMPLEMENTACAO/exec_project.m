@@ -46,7 +46,7 @@ for iter = 1:10
   
   printf("\nIteracao onde ktest eh o %d-fold e o ktrain eh o restante, o tamanho de ktest eh %d e o tamanho de ktrain eh %d\n", iter, length(ktest), length(ktrain));
 
-  % execucao do knn
+  % execucao do knn --------------------------------------------------------------------------------------------
   printf('\nIniciando execucao do knn\n');
   fflush(stdout);
   % escolhemos o k com maior acuracia
@@ -72,7 +72,7 @@ for iter = 1:10
   
   fprintf('\nO algoritmo KNN finalizou a execucao. \n');
 
-  % execucao da regressao logistica
+  % execucao da regressao logistica --------------------------------------------------------------------------------------
   for lambda=0:10
     printf('\nIniciando execucao da regressao logistica para lambda = %d\n', lambda);
     fflush(stdout);
@@ -86,10 +86,7 @@ for iter = 1:10
   end
   fprintf('\nO algoritmo de Regressao Logistica finalizou a execucao. \n');
 
-  ####### executando o PCA para reduzir a quantidade de atributos e garantir a viabilidade de execu��o de redes neurais e do SVM (30min com PCA, 1h20 sem PCA) #####
-  all_data = pca(all_data);
-  
-  % execucao de redes neurais
+  % execucao de redes neurais --------------------------------------------------------------------------------------------
   printf('\nIniciando execucao de redes neurais artificiais\n');
   fflush(stdout);
   
@@ -110,7 +107,7 @@ for iter = 1:10
   fprintf('\nO algoritmo de Redes Neurais Artificiais finalizou a execucao. \n');
   toc();
   
-  % execucao da svm
+  % execucao da svm ----------------------------------------------------------------------------------------------------
   printf('\nIniciando execucao de SVM\n');
   fflush(stdout);
   tic();
