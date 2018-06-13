@@ -12,6 +12,9 @@ printf("\nCarregando dados pre-processados...\n");
 fflush(stdout);
 load("pre_processed.mat");
 
+% passando os dados pelo PCA para reduzir os atributos e utilizar em algoritmos que demandam mais processamento
+data_pca = pca(all_data);
+
 % em seguida, devemos dividir os dados gerais para validacao cruzada, com k-fold sendo 10 (mais usualmente utilizado em AM)
 % assim sendo, 9 partes irao para treinamento enquanto apenas 1 ira para teste (isso ocorre 10 vezes, para cada algoritmo)
 % aqui conseguiremos avaliar as hipoeses e selecionar a melhor
@@ -36,12 +39,21 @@ for iter = 1:10
   if iter ~= 1 && iter ~= 10
     ktest = all_data((((iter-1)*ksize)+1):(((iter-1)*ksize)+ksize), :);
     ktrain = [all_data(1:(ksize*(iter-1)),:); all_data((((iter-1)*ksize)+ksize+1):end, :)];
+    
+    ktest_pca = data_pca((((iter-2)*ksize+1):(((iter-1)*ksize+ksize),:);
+    ktrain_pca = [data_pca(1:(ksize*(iter-1)),:); data_pca((((iter-1)*ksize+ksize+1):end, :)];
   elseif iter == 1
     ktest = all_data(1:ksize, :);
     ktrain = all_data((ksize+1):end, :);
+    
+    ktest_pca = data_pca(1:ksize, :);
+    ktrain_pca = data_pca((ksize+1):end, :);
   elseif iter == 10
     ktest = all_data((iter-1)*ksize:end, :);
     ktrain = all_data(1:((ksize*(iter-1))-1), :);
+    
+    ktest_pca = data_pca((iter-1)*ksize:end, :);
+    ktrain_pca = data_pca(1:((ksize*(iter-1))-1), :);
   endif
   
   printf("\nIteracao onde ktest eh o %d-fold e o ktrain eh o restante, o tamanho de ktest eh %d e o tamanho de ktrain eh %d\n", iter, length(ktest), length(ktrain));
@@ -99,8 +111,8 @@ for iter = 1:10
   
   for i = 1: length(max_iter)
     %fprintf("\nMAX ITER = %d\n", max_iter(i)); 
-    y_pred = neural_network(hidden_neurons(1), max_iter(i), ktrain, ktest);
-    acc_nn = mean(double(y_pred == ktest(:,end))) * 100
+    y_pred = neural_network(hidden_neurons(1), max_iter(i), ktrain_pca, ktest_pca);
+    acc_nn = mean(double(y_pred == ktest_pca(:,end))) * 100;
     gridrl(iter, i) = acc_nn;
     %fprintf('Acuracia no conjunto de teste: %f\n', acc_nn);
   end
@@ -111,7 +123,7 @@ for iter = 1:10
   printf('\nIniciando execucao de SVM\n');
   fflush(stdout);
   tic();
-  [ypred, gridLin, gridRbf] = svm(ktrain(:,1:end-1), ktrain(:,end), ktest);
+  [ypred, gridLin, gridRbf] = svm(ktrain_pca(:,1:end-1), ktrain_pca(:,end), ktest_pca);
   toc();
   fprintf('\nO algoritmo SVM finalizou a execucao. \n');
   
@@ -143,7 +155,7 @@ jsvm = mod(colsvm, 19);
 csvm = 2 ^ (-5 + isvm);
 gammasvm = 2 ^ (-15 + jsvm);
 
-printf("Os valores otimos para o SVM com Kernel Gaussiano sao C = %f e Gamma = %f", csvm, gammasvm);
+printf("\nOs valores otimos para o SVM com Kernel Gaussiano sao C = %f e Gamma = %f\n", csvm, gammasvm);
 
 % aqui pegamos os melhores valores de k para cada fold
 totalgrid = [totalgrid, max(gridknn, [], 2)];
@@ -180,6 +192,13 @@ printf("\nO melhor lambda para a regressao eh %d com acuracia de %.2f\n", bestrl
 
 [valuern, bestrn] = max(gridrn(bestfold, :));
 printf("\nO melhor max_iter para redes neurais eh %d com acuracia de %.2f\n", bestrn, valuern);
+
+[valuesvm, bestsvm] = max(gridRbf(bestfold, :));
+isvm = ceil(bestsvm/19);
+jsvm = mod(bestsvm, 19);
+csvm = 2^(-5+isvm);
+gammasvm = 2^(-15+jsvm);
+printf("\n O melhor C e Gamma para SVM eh %d e %d com acuracia de %.2f\n", csvm, gammasvm, valuern);
 
 printf("\nFim de execucao\n");
 
