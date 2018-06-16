@@ -40,8 +40,8 @@ for iter = 1:10
     ktest = all_data((((iter-1)*ksize)+1):(((iter-1)*ksize)+ksize), :);
     ktrain = [all_data(1:(ksize*(iter-1)),:); all_data((((iter-1)*ksize)+ksize+1):end, :)];
     
-    ktest_pca = data_pca((((iter-2)*ksize+1):(((iter-1)*ksize+ksize),:);
-    ktrain_pca = [data_pca(1:(ksize*(iter-1)),:); data_pca((((iter-1)*ksize+ksize+1):end, :)];
+    ktest_pca = data_pca(((iter-2)*ksize+1):((iter-1)*ksize+ksize),:);
+    ktrain_pca = [data_pca(1:(ksize*(iter-1)),:); data_pca(((iter-1)*ksize+ksize+1):end, :)];
   elseif iter == 1
     ktest = all_data(1:ksize, :);
     ktrain = all_data((ksize+1):end, :);
