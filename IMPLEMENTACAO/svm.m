@@ -3,9 +3,20 @@ function [ypred, gridLin, gridRbf] = svm(train, train_labels, test, c, g)
     %TODO: Fazer de uma maneira menos burra os indices dos while;
     %TODO: Documentar melhor o codigo;
     
-    % se ja recebeu c ou g, nao precisa incrementar parametros    
+    % se ja recebeu c e g, nao precisa incrementar parametros    
     if(exist("c", "var") && exist("g", "var"))
-      % faz a magica do svm
+      
+      gridLin = zeros(1, 8);
+      gridRbf = zeros(1, 152);
+    
+      parametersRBF = ["-c " c " -t 2 -g " g " -q"];
+      
+      modelrbf = svmtrain(train_labels, train, ...
+                         parametersRBF);
+                         
+      y_predforRBF = svmpredict(test(:, end), test(:,1:end-1), modelrbf);
+
+      
     else if
 
       i = 2^(-5);
