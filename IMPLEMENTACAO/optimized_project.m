@@ -1,5 +1,11 @@
 % Grupo 7 - Reconhecimento de Atividades Humanas
 pkg load statistics
+if(strcmp(computer(), "x86_64-pc-linux-gnu") )
+  addpath("./libsvm/libsvm_x86_64-pc-linux-gnu");
+endif
+
+addpath("./ann");
+addpath("./regression");
 
 printf("Iniciando execucao.\n");
 clear all, clc, close all;
