@@ -17,7 +17,7 @@ clear all, clc, close all;
 
 printf("\nCarregando dados pre-processados...\n");
 fflush(stdout);
-load("pre_processed.mat");
+load("./data/pre_processed.mat");
 
 % passando os dados pelo PCA para reduzir os atributos e utilizar em algoritmos que demandam mais processamento
 data_pca = pca(all_data);
