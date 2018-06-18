@@ -98,7 +98,7 @@ for iter = 1:10
   end
   fprintf('\nO algoritmo de Regressao Logistica finalizou a execucao. \n');
 
-  % execucao de redes neurais --------------------------------------------------------------------------------------------
+  % execucao de redes neurais de uma camada --------------------------------------------------------------------------------------------
   printf('\nIniciando execucao de redes neurais artificiais\n');
   fflush(stdout);
   
@@ -108,10 +108,11 @@ for iter = 1:10
   % 2) alguns números entre o tamanho da camada de entrada e o dobro dela
   hidden_neurons = [151];
   max_iter = [50, 100, 150, 300];
+  lambda = 1;
   
   for i = 1: length(max_iter)
     %fprintf("\nMAX ITER = %d\n", max_iter(i)); 
-    y_pred = neural_network(hidden_neurons(1), max_iter(i), ktrain_pca, ktest_pca);
+    y_pred = neural_network_1l(hidden_neurons(1), max_iter(i), ktrain_pca, ktest_pca, lambda);
     acc_nn = mean(double(y_pred == ktest_pca(:,end))) * 100;
     gridrl(iter, i) = acc_nn;
     %fprintf('Acuracia no conjunto de teste: %f\n', acc_nn);
