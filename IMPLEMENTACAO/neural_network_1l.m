@@ -4,7 +4,7 @@ function y_pred = neural_network(hidden_neurons, max_iter, ktrain, ktest)
   % de atividades humanas
 
   input_layer_size = 151;
-  number_of_hidden_layers = 2;
+  number_of_hidden_layers = 1;
   hidden_layer_size = hidden_neurons;
   num_labels = 6;
 
