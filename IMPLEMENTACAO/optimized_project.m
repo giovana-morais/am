@@ -23,25 +23,28 @@ ktrain = [];
 ktest_pca = [];
 ktrain_pca = [];
 
-%%% matriz para receber todos os resultados de predicao das hipoteses criadas
-mat_res = [];
+%%% matriz para receber todos os resultados de predicao das hipoteses criadas:
+%%% as linhas serao os algoritmos e as colunas serao os resultados na seguinte sequencia - acuracia e tempo de execucao
+mat_res = zeros(4, 2);
 
-% knn com melhor k encontrado com grid search
+% knn com melhor k encontrado com grid search ----------------------------------------------------------
 k = 1;
 printf("\nIniciando execucao do knn com k = %d\n", k);
 fflush(stdout);
 ac = 0;
-tic();
+tic;
 for i = 1:rows(ktest)
   ypred_knn_test = knn(ktrain(:,1:end-1), ktrain(:,end), ktest(i,1:end-1), k);
   if(ypred_knn_test == ktest(i, end))
     ac += 1;
   endif
 endfor
-toc();
+time_exec = toc;
 acc_knn = ac/rows(ktest);
-printf("\nAcuracia da validacao: %.2f\n", acc_knn);
+printf("\nAcuracia da validacao: %.2f\n", acc_knn*100);
 fflush(stdout);
+mat_res(1, 1) = acc_knn*100;
+mat_res(1, 2) = time_exec;
 
 ac = 0;
 for i = 1:rows(ktrain)
@@ -51,48 +54,61 @@ for i = 1:rows(ktrain)
   endif
 endfor
 acc_knn = ac/rows(ktest);
-printf("\nAcuracia do treinamento: %.2f\n", acc_knn);
+printf("\nAcuracia do treinamento: %.2f\n", acc_knn*100);
 fflush(stdout);
 
 printf("\nKNN finalizou execucao. Pressione enter para continuar...\n");
 pause;
 
-% regressao logistica com melhor lambda encontrado com grid search
+% regressao logistica com melhor lambda encontrado com grid search ---------------------------------------------------
 lambda = 1;
 printf("\nIniciando execucao de regressao logistica com lambda = %d\n", lambda);
 fflush(stdout);
-tic();
+tic;
 ypred_rl_test = regression(ktrain(:,1:end-1), ktrain(:,end), ktest(:,1:end-1), lambda);
-toc();
+time_exec = toc;
 acc_reg = mean(double(ypred_rl_test == ktest(:,end))) * 100;
 printf('\nAcuracia da validacao: %.2f\n', acc_reg);
 fflush(stdout);
 
-tic();
-ypred_rl_train = regression(ktrain(:,1:end-1), ktrain(:,end), ktest(:,1:end-1), lambda);
-toc();
+mat_res(2, 1) = acc_reg;
+mat_res(2, 2) = time_exec;
+
+ypred_rl_train = regression(ktrain(:,1:end-1), ktrain(:,end), ktrain(:,1:end-1), lambda);
 acc_reg = mean(double(ypred_rl_train == ktrain(:,end))) * 100;
 printf('\nAcuracia do treinamento: %.2f\n', acc_reg);
+fflush(stdout);
 
 printf("\nRegressao logistica finalizou execucao. Pressione enter para continuar...\n");
 pause;
 
-% svm com melhor c e gamma encontrados com grid search
+% redes neurais com o melhor lambda, max_iter encontrados com grid search -------------------------------------
+lambda = 1;
+max_iter = 1;
+printf('\nIniciando execucao de redes neurais\n');
+
+printf('\nO algoritmo redes neurais finalizou a execucao. Pressione enter para continuar...\n'); 
+pause;
+
+% svm com melhor c e gamma encontrados com grid search -----------------------------------------
 c = 1;
 gamma = 1;
-printf('\nIniciando execucao de SVM\n');
+printf('\nIniciando execucao de SVM com c = %.2f e g = %.2f\n', c, gamma);
 fflush(stdout);
-tic();
-##################### MUDAR A CHAMADA DO SVM PARA RECEBER O C E O GAMMA #########################
+tic;
 [ypred_svm_test, ~, ~] = svm(ktrain_pca(:,1:end-1), ktrain_pca(:,end), ktest_pca, c, g);
 acc_svm = mean(double(y_pred == ktest(:,end))) * 100;
-toc();
+time_exec = toc;
 printf('\nAcuracia da validacao: %.2f\n', acc_svm);
+fflush(stdout);
 
-##################### MUDAR A CHAMADA DO SVM PARA RECEBER O C E O GAMMA #########################
+mat_res(4, 1) = acc_svm;
+mat_res(4, 2) = time_exec;
+
 [ypred_svm_train, ~, ~] = svm(ktrain_pca(:,1:end-1), ktrain_pca(:,end), ktrain_pca, c, g);
 acc_svm = mean(double(ypred_svm_train == ktrain(:,end))) * 100;
 printf('\nAcuracia do treinamento: %.2f\n', acc_svm);
+fflush(stdout);
 
-printf('\nO algoritmo SVM finalizou a execucao. \n'); 
+printf('\nO algoritmo SVM finalizou a execucao. Pressione enter para continuar...\n'); 
 pause;
