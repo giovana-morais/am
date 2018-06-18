@@ -1,5 +1,6 @@
 % Grupo 7 - Reconhecimento de Atividades Humanas
 pkg load statistics
+addpath("./ann");
 
 printf("Iniciando execucao.\n");
 clear all, clc, close all;
