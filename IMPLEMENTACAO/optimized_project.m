@@ -31,30 +31,24 @@ mat_res = zeros(4, 2);
 k = 1;
 printf("\nIniciando execucao do knn com k = %d\n", k);
 fflush(stdout);
-ac = 0;
+
 tic;
 for i = 1:rows(ktest)
-  ypred_knn_test = knn(ktrain(:,1:end-1), ktrain(:,end), ktest(i,1:end-1), k);
-  if(ypred_knn_test == ktest(i, end))
-    ac += 1;
-  endif
+  ypred_knn_test(i) = knn(ktrain(:,1:end-1), ktrain(:,end), ktest(i,1:end-1), k);
 endfor
 time_exec = toc;
-acc_knn = ac/rows(ktest);
-printf("\nAcuracia da validacao: %.2f\n", acc_knn*100);
+acc_knn = mean(double(ypred_knn_test == ktest(:,end))) * 100;
+printf("\nAcuracia da validacao: %.2f\n", acc_knn);
 fflush(stdout);
-mat_res(1, 1) = acc_knn*100;
+
+mat_res(1, 1) = acc_knn;
 mat_res(1, 2) = time_exec;
 
-ac = 0;
 for i = 1:rows(ktrain)
-  ypred_knn_train = knn(ktrain(:,1:end-1), ktrain(:,end), ktrain(i,1:end-1), k);
-  if(ypred_knn_train == ktrain(i, end))
-    ac += 1;
-  endif
+  ypred_knn_train(i) = knn(ktrain(:,1:end-1), ktrain(:,end), ktrain(i,1:end-1), k);
 endfor
-acc_knn = ac/rows(ktest);
-printf("\nAcuracia do treinamento: %.2f\n", acc_knn*100);
+acc_knn = mean(double(ypred_knn_train == ktest(:,end))) * 100;
+printf("\nAcuracia do treinamento: %.2f\n", acc_knn);
 fflush(stdout);
 
 printf("\nKNN finalizou execucao. Pressione enter para continuar...\n");
