@@ -153,6 +153,6 @@ printf("Para Y = 6, existem %d amostras\n", length(find(all_data(:,end) == 6)));
 temp = all_data(randperm(length(all_data)),:);
 all_data = temp;
 
-% salva a matriz ja pre-processada no arquivo binario "pre_processed"
-save("pre_processed.mat", "all_data");
+% salva a matriz ja pre-processada no arquivo binario "./data/pre_processed.mat"
+save("./data/pre_processed.mat", "all_data");
 printf("\nDados salvos em pre_processed\n\n");
