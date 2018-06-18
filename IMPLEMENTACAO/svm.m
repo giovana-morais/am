@@ -17,7 +17,7 @@ function [ypred, gridLin, gridRbf] = svm(train, train_labels, test, c, g)
       y_predforRBF = svmpredict(test(:, end), test(:,1:end-1), modelrbf);
 
       
-    else if
+    else
 
       i = 2^(-5);
       iterC = 0;

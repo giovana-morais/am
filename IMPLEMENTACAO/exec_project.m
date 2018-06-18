@@ -1,7 +1,7 @@
 % Grupo 7 - Reconhecimento de Atividades Humanas
 pkg load statistics
 addpath("./ann");
-
+addpath("./libsvm_x64_linux");
 printf("Iniciando execucao.\n");
 clear all, clc, close all;
 
@@ -21,7 +21,11 @@ data_pca = pca(all_data);
 % aqui conseguiremos avaliar as hipoeses e selecionar a melhor
 
 ksize = floor(length(all_data)/10);
-
+printf("\n\nPara as seguintes questoes responda 1 para sim, 0 para nao:\n");
+rodar_knn = input("Gostaria de executar o KNN ?\nResposta: ");
+rodar_ann = input("Gostaria de executar o ANN ?\nResposta: ");
+rodar_svm = input("Gostaria de executar o SVM ?\nResposta: ");
+rodar_rl =  input("Gostaria de executar o  RL ?\nResposta: ");
 printf("\nIniciando grid do 10-fold cross-validation\n");
 fflush(stdout);
 
@@ -60,75 +64,82 @@ for iter = 1:10
   printf("\nIteracao onde ktest eh o %d-fold e o ktrain eh o restante, o tamanho de ktest eh %d e o tamanho de ktrain eh %d\n", iter, length(ktest), length(ktrain));
 
   % execucao do knn --------------------------------------------------------------------------------------------
-  printf('\nIniciando execucao do knn\n');
-  fflush(stdout);
-  % escolhemos o k com maior acuracia
-  tic();
-  for k = 1:50
-    printf("\nPara k = %d\n", k);
+  if(rodar_knn)
+    printf('\nIniciando execucao do knn\n');
     fflush(stdout);
-    ac = 0;
-    for i = 1:rows(ktest)
-      ypred = knn(ktrain(:,1:end-1), ktrain(:,end), ktest(i,1:end-1), k);
-      if(ypred == ktest(i, end))
-        ac += 1;
-      endif
+    % escolhemos o k com maior acuracia
+    tic();
+    for k = 1:50
+      printf("\nPara k = %d\n", k);
+      fflush(stdout);
+      ac = 0;
+      for i = 1:rows(ktest)
+        ypred = knn(ktrain(:,1:end-1), ktrain(:,end), ktest(i,1:end-1), k);
+        if(ypred == ktest(i, end))
+          ac += 1;
+        endif
+      endfor
+      acuracyknn(k) = ac/rows(ktest);
+      printf("Ocorre %.2f%% de acuracia\n", acuracyknn(k)*100);
+      fflush(stdout);
+      
+      % salvando acuracia no grid do knn
+      gridknn(iter, k) = acuracyknn(k)*100;
     endfor
-    acuracyknn(k) = ac/rows(ktest);
-    printf("Ocorre %.2f%% de acuracia\n", acuracyknn(k)*100);
-    fflush(stdout);
+    toc();
     
-    % salvando acuracia no grid do knn
-    gridknn(iter, k) = acuracyknn(k)*100;
-  endfor
-  toc();
-  
-  fprintf('\nO algoritmo KNN finalizou a execucao. \n');
+    fprintf('\nO algoritmo KNN finalizou a execucao. \n');
+   endif
 
   % execucao da regressao logistica --------------------------------------------------------------------------------------
-  for lambda=0:10
-    printf('\nIniciando execucao da regressao logistica para lambda = %d\n', lambda);
-    fflush(stdout);
-    tic();
-    y_pred = regression(ktrain(:,1:end-1), ktrain(:,end), ktest(:,1:end-1), lambda);
-    toc();
-    acc_reg = mean(double(y_pred == ktest(:,end))) * 100;
-    printf('\nAcuracia do teste: %.2f\n', acc_reg);
-    fflush(stdout);
-    gridrl(iter, lambda+1) = acc_reg;
-  end
-  fprintf('\nO algoritmo de Regressao Logistica finalizou a execucao. \n');
+  if(rodar_rl)
+    for lambda=0:10
+      printf('\nIniciando execucao da regressao logistica para lambda = %d\n', lambda);
+      fflush(stdout);
+      tic();
+      y_pred = regression(ktrain(:,1:end-1), ktrain(:,end), ktest(:,1:end-1), lambda);
+      toc();
+      acc_reg = mean(double(y_pred == ktest(:,end))) * 100;
+      printf('\nAcuracia do teste: %.2f\n', acc_reg);
+      fflush(stdout);
+      gridrl(iter, lambda+1) = acc_reg;
+    end
+    fprintf('\nO algoritmo de Regressao Logistica finalizou a execucao. \n');
+  endif
+ 
 
   % execucao de redes neurais de uma camada --------------------------------------------------------------------------------------------
-  printf('\nIniciando execucao de redes neurais artificiais\n');
-  fflush(stdout);
-  
-  tic();
-  % o número de neuronios ocultos deve variar entre
-  % 1) 2/3 do tamanho da camada de entrada
-  % 2) alguns números entre o tamanho da camada de entrada e o dobro dela
-  hidden_neurons = [151];
-  max_iter = [50, 100, 150, 300];
-  lambda = 1;
-  
-  for i = 1: length(max_iter)
-    %fprintf("\nMAX ITER = %d\n", max_iter(i)); 
-    y_pred = neural_network_1l(hidden_neurons(1), max_iter(i), ktrain_pca, ktest_pca, lambda);
-    acc_nn = mean(double(y_pred == ktest_pca(:,end))) * 100;
-    gridrl(iter, i) = acc_nn;
-    %fprintf('Acuracia no conjunto de teste: %f\n', acc_nn);
-  end
-  fprintf('\nO algoritmo de Redes Neurais Artificiais finalizou a execucao. \n');
-  toc();
-  
+  if(rodar_ann)
+    printf('\nIniciando execucao de redes neurais artificiais\n');
+    fflush(stdout);
+    
+    tic();
+    % o número de neuronios ocultos deve variar entre
+    % 1) 2/3 do tamanho da camada de entrada
+    % 2) alguns números entre o tamanho da camada de entrada e o dobro dela
+    hidden_neurons = [151];
+    max_iter = [50, 100, 150, 300];
+    lambda = 1;
+    
+    for i = 1: length(max_iter)
+      %fprintf("\nMAX ITER = %d\n", max_iter(i)); 
+      y_pred = neural_network_1l(hidden_neurons(1), max_iter(i), ktrain_pca, ktest_pca, lambda);
+      acc_nn = mean(double(y_pred == ktest_pca(:,end))) * 100;
+      gridrl(iter, i) = acc_nn;
+      %fprintf('Acuracia no conjunto de teste: %f\n', acc_nn);
+    end
+    fprintf('\nO algoritmo de Redes Neurais Artificiais finalizou a execucao. \n');
+    toc();
+  endif
   % execucao da svm ----------------------------------------------------------------------------------------------------
-  printf('\nIniciando execucao de SVM\n');
-  fflush(stdout);
-  tic();
-  [ypred, gridLin, gridRbf] = svm(ktrain_pca(:,1:end-1), ktrain_pca(:,end), ktest_pca);
-  toc();
-  fprintf('\nO algoritmo SVM finalizou a execucao. \n');
-  
+  if(rodar_svm)
+    printf('\nIniciando execucao de SVM\n');
+    fflush(stdout);
+    tic();
+    [ypred, gridLin, gridRbf] = svm(ktrain_pca(:,1:end-1), ktrain_pca(:,end), ktest_pca);
+    toc();
+    fprintf('\nO algoritmo SVM finalizou a execucao. \n');
+   endif
 endfor
 
 % estruturacao do grid 
