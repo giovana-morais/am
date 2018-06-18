@@ -23,11 +23,12 @@ function y_pred = neural_network_1l(hidden_neurons, max_iter, ktrain, ktest)
 
   J = nn_cost(rna_params, input_layer_size, hidden_layer_size, ...
                      num_labels, ktrain(:, 1:end-1), ktrain(:, end), lambda);
-
-  % gradiente sigmoid 
+                     
+                     
+  % gradiente sigmoid
   g = sigmoidal_grad([1 -0.5 0 0.5 1]);
 
-
+  
   initial_Theta1 = random_init(input_layer_size, hidden_layer_size);
   initial_Theta2 = random_init(hidden_layer_size, num_labels);
 
