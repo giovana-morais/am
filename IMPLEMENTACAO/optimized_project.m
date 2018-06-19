@@ -2,6 +2,8 @@
 pkg load statistics
 if(strcmp(computer(), "x86_64-pc-linux-gnu") )
   addpath("./libsvm/libsvm_x86_64-pc-linux-gnu");
+elseif(ispc())
+  addpath("./libsvm/libsvm_windows");
 endif
 
 addpath("./ann");
@@ -53,7 +55,7 @@ mat_res(1, 2) = time_exec;
 for i = 1:rows(ktrain)
   ypred_knn_train(i) = knn(ktrain(:,1:end-1), ktrain(:,end), ktrain(i,1:end-1), k);
 endfor
-acc_knn = mean(double(ypred_knn_train == ktest(:,end))) * 100;
+acc_knn = mean(double(ypred_knn_train == ktrain(:,end))) * 100;
 printf("\nAcuracia do treinamento: %.2f\n", acc_knn);
 fflush(stdout);
 
