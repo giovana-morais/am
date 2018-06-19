@@ -26,9 +26,6 @@ else
   preprocessing;
 endif
 
-
-
-
 if(exist ("./data/data_pca.mat.zip", "file") )
   load("./data/data_pca.mat.zip");
   printf("Dados do PCA Carregados !!!\n\n");
@@ -37,10 +34,6 @@ else
   data_pca = pca(all_data);
   save("-zip", "./data/data_pca.mat.zip", "data_pca");
 endif
-
-
-
-
 
 
 % em seguida, devemos dividir os dados gerais para validacao cruzada, com k-fold sendo 10 (mais usualmente utilizado em AM)
@@ -102,17 +95,15 @@ for iter = 1:10
       fflush(stdout);
       ac = 0;
       for i = 1:rows(ktest)
-        ypred = knn(ktrain(:,1:end-1), ktrain(:,end), ktest(i,1:end-1), k);
-        if(ypred == ktest(i, end))
-          ac += 1;
-        endif
+        ypred(i, 1) = knn(ktrain(:,1:end-1), ktrain(:,end), ktest(i,1:end-1), k);
       endfor
-      acuracyknn(k) = ac/rows(ktest);
-      printf("Ocorre %.2f%% de acuracia\n", acuracyknn(k)*100);
+      accknn = mean(double(ypred == ktest(:,end))) * 100;
+      printf("Ocorre %.2f%% de acuracia\n", accknn);
+      fknn = fmeasure(ypred, ktest(:,end));
+      printf("\nOcorre %.2f%% de F-medida\n", fknn);
       fflush(stdout);
-      
       % salvando acuracia no grid do knn
-      gridknn(iter, k) = acuracyknn(k)*100;
+      gridknn(iter, k) = accknn;
     endfor
     toc();
     
@@ -166,7 +157,7 @@ for iter = 1:10
     tic();
     hidden_neurons = [0,25,50,150, 200, 250];
     max_iter = [150, 200];
-    lambda = [0,0.5.1.2,4,8,16];
+    lambda = [0,0.5,1,2,4,8,16];
     
     for i = 1: length(max_iter)
       for j = 1:length(lambda)
