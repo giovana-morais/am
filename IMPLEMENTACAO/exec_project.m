@@ -204,7 +204,7 @@ for iter = 1:10
     printf('\nIniciando execucao de SVM\n');
     fflush(stdout);
     tic();
-    [ypred, gridLin, gridRbf] = svm(ktrain_pca(:,1:end-1), ktrain_pca(:,end), ktest_pca);
+    [~, gridLin, gridRbf] = svm(ktrain_pca(:,1:end-1), ktrain_pca(:,end), ktest_pca);
     toc();
     fprintf('\nO algoritmo SVM finalizou a execucao. \n');
    endif
