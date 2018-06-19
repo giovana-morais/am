@@ -20,7 +20,17 @@ fflush(stdout);
 load("./data/pre_processed.mat");
 
 % passando os dados pelo PCA para reduzir os atributos e utilizar em algoritmos que demandam mais processamento
-data_pca = pca(all_data);
+
+
+#####          SE FOR RODAR PELA PRIMEIRA VEZ:         ########
+#                                                             #
+#                  data_pca = pca(all_data);                  #
+#                                                             #
+###############################################################
+
+load("./data/data_pca.zip");
+printf("Dados do PCA Carregados !!!\n\n");
+
 
 % em seguida, devemos dividir os dados gerais para validacao cruzada, com k-fold sendo 10 (mais usualmente utilizado em AM)
 % assim sendo, 9 partes irao para treinamento enquanto apenas 1 ira para teste (isso ocorre 10 vezes, para cada algoritmo)
