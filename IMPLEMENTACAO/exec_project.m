@@ -15,12 +15,31 @@ clear all, clc, close all;
 % retirando inconsistencias, redundancias, c�lulas nulas e fazendo a normalizacao de valores
 % agora recuperamos os dados pre_processados que foram salvos no arquivo pre_processed
 
-printf("\nCarregando dados pre-processados...\n");
-fflush(stdout);
-load("./data/pre_processed.mat");
+if(exist ("./data/pre_processed.mat.zip", "file") )
+  printf("\nCarregando dados pre-processados...\n");
+  fflush(stdout);
+  load("./data/pre_processed.mat.zip");
+else
+  printf("Detectado que o pre-processamento ainda nao fora executado, aguarde, pre-processando....\n\n");
+  preprocessing;
+endif
 
-% passando os dados pelo PCA para reduzir os atributos e utilizar em algoritmos que demandam mais processamento
-data_pca = pca(all_data);
+
+
+
+if(exist ("./data/data_pca.mat.zip", "file") )
+  load("./data/data_pca.mat.zip");
+  printf("Dados do PCA Carregados !!!\n\n");
+else
+  # passando os dados pelo PCA para reduzir os atributos e utilizar em algoritmos que demandam mais processamento
+  data_pca = pca(all_data);
+  save("-zip", "./data/data_pca.mat.zip", "data_pca");
+endif
+
+
+
+
+
 
 % em seguida, devemos dividir os dados gerais para validacao cruzada, com k-fold sendo 10 (mais usualmente utilizado em AM)
 % assim sendo, 9 partes irao para treinamento enquanto apenas 1 ira para teste (isso ocorre 10 vezes, para cada algoritmo)

@@ -40,8 +40,9 @@ function y_pred = neural_network_1l(hidden_neurons, max_iter, ktrain, ktest,lamb
                      
                     
   printf("Salvando resultados obtidos em disco. (Pesos inicias, custo inicial, Pesos Iterados, e custo final)");
-  file_name = "./data/weighs1_";
-  strcat( file_name, "_", num2str(max_iter),"iters_", num2str(lambda), "lambda.mat" );
+
+  file_name = "./data/weighs1l_";
+  file_name = strcat( file_name, "_", num2str(max_iter),"iters_", num2str(lambda), "lambda_", num2str(hidden_neurons),"_hiddensneurons.mat" );
   save(file_name, 'initial_Theta1', 'initial_Theta2', 'initial_cost','Theta1', 'Theta2', 'cost' );
   printf("Arquivo salvo como: %s", file_name);
   
