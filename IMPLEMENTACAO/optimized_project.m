@@ -47,10 +47,6 @@ ktrain = [];
 ktest_pca = [];
 ktrain_pca = [];
 
-%%% matriz para receber todos os resultados de predicao das hipoteses criadas:
-%%% as linhas serao os algoritmos e as colunas serao os resultados na seguinte sequencia - acuracia e tempo de execucao
-mat_res = zeros(4, 2);
-
 % knn com melhor k encontrado com grid search ----------------------------------------------------------
 k = 1;
 printf("\nIniciando execucao do knn com k = %d\n", k);
@@ -60,19 +56,9 @@ tic;
 for i = 1:rows(ktest)
   ypred_knn_test(i) = knn(ktrain(:,1:end-1), ktrain(:,end), ktest(i,1:end-1), k);
 endfor
-time_exec = toc;
+toc;
 acc_knn = mean(double(ypred_knn_test == ktest(:,end))) * 100;
-printf("\nAcuracia da validacao: %.2f\n", acc_knn);
-fflush(stdout);
-
-mat_res(1, 1) = acc_knn;
-mat_res(1, 2) = time_exec;
-
-for i = 1:rows(ktrain)
-  ypred_knn_train(i) = knn(ktrain(:,1:end-1), ktrain(:,end), ktrain(i,1:end-1), k);
-endfor
-acc_knn = mean(double(ypred_knn_train == ktrain(:,end))) * 100;
-printf("\nAcuracia do treinamento: %.2f\n", acc_knn);
+printf("\nAcuracia do knn para a base de teste: %.2f\n", acc_knn);
 fflush(stdout);
 
 printf("\nKNN finalizou execucao. Pressione enter para continuar...\n");
@@ -84,17 +70,9 @@ printf("\nIniciando execucao de regressao logistica com lambda = %d\n", lambda);
 fflush(stdout);
 tic;
 ypred_rl_test = regression(ktrain(:,1:end-1), ktrain(:,end), ktest(:,1:end-1), lambda);
-time_exec = toc;
+toc;
 acc_reg = mean(double(ypred_rl_test == ktest(:,end))) * 100;
-printf('\nAcuracia da validacao: %.2f\n', acc_reg);
-fflush(stdout);
-
-mat_res(2, 1) = acc_reg;
-mat_res(2, 2) = time_exec;
-
-ypred_rl_train = regression(ktrain(:,1:end-1), ktrain(:,end), ktrain(:,1:end-1), lambda);
-acc_reg = mean(double(ypred_rl_train == ktrain(:,end))) * 100;
-printf('\nAcuracia do treinamento: %.2f\n', acc_reg);
+printf('\nAcuracia da regressao para a base de teste: %.2f\n', acc_reg);
 fflush(stdout);
 
 printf("\nRegressao logistica finalizou execucao. Pressione enter para continuar...\n");
@@ -116,16 +94,8 @@ fflush(stdout);
 tic;
 [ypred_svm_test, ~, ~] = svm(ktrain_pca(:,1:end-1), ktrain_pca(:,end), ktest_pca, c, g);
 acc_svm = mean(double(y_pred == ktest(:,end))) * 100;
-time_exec = toc;
-printf('\nAcuracia da validacao: %.2f\n', acc_svm);
-fflush(stdout);
-
-mat_res(4, 1) = acc_svm;
-mat_res(4, 2) = time_exec;
-
-[ypred_svm_train, ~, ~] = svm(ktrain_pca(:,1:end-1), ktrain_pca(:,end), ktrain_pca, c, g);
-acc_svm = mean(double(ypred_svm_train == ktrain(:,end))) * 100;
-printf('\nAcuracia do treinamento: %.2f\n', acc_svm);
+toc;
+printf('\nAcuracia do svm para a base de teste: %.2f\n', acc_svm);
 fflush(stdout);
 
 printf('\nO algoritmo SVM finalizou a execucao. Pressione enter para continuar...\n'); 

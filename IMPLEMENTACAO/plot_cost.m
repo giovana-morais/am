@@ -5,8 +5,8 @@ function plotCost(costtest, costtrain, title_plot)
   plot(1:rows(costtest), costtrain, 'b');
   hold off;
   legend('Teste', 'Treinamento');
-  xlabel('Num de amostras');
-  ylabel('Erro');
+  xlabel('Incremento do num de amostras');
+  ylabel('Erro quadratico medio');
   title(title_plot);  
   
 end
