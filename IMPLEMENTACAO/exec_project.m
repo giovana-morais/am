@@ -211,7 +211,7 @@ for iter = 1:10
     printf('\nIniciando execucao de SVM\n');
     fflush(stdout);
     tic();
-    [ypred, gridLin, gridRbf] = svm(ktrain_pca(:,1:end-1), ktrain_pca(:,end), ktest_pca);
+    [~, gridLin, gridRbf] = svm(ktrain_pca(:,1:end-1), ktrain_pca(:,end), ktest_pca);
     toc();
     fprintf('\nO algoritmo SVM finalizou a execucao. \n');
    endif
@@ -273,20 +273,20 @@ printf("\nOs algoritmos ficam melhor otimizados quando os dados de teste possuem
 
 % aqui encontramos em qual coluna do fold se encontra o melhor k
 [valueknn, bestknn] = max(gridknn(bestfold,:));
-printf("\nComo o melhor fold eh o %d\n\nO melhor k para o knn eh %d com acuracia de %.2f\n", bestfold, bestknn, valueknn);
+printf("\nComo o melhor fold eh o %d\n\nO melhor k para o knn eh %d com F-medida de %.2f\n", bestfold, bestknn, valueknn);
 
 [valuerl, bestrl] = max(gridrl(bestfold, :));
-printf("\nO melhor lambda para a regressao eh %d com acuracia de %.2f\n", bestrl, valuerl);
+printf("\nO melhor lambda para a regressao eh %d com F-medida de %.2f\n", bestrl, valuerl);
 
 [valuern, bestrn] = max(gridrn(bestfold, :));
-printf("\nO melhor max_iter para redes neurais eh %d com acuracia de %.2f\n", bestrn, valuern);
+printf("\nO melhor max_iter para redes neurais eh %d com F-medida de %.2f\n", bestrn, valuern);
 
 [valuesvm, bestsvm] = max(gridRbf(bestfold, :));
 isvm = ceil(bestsvm/19);
 jsvm = mod(bestsvm, 19);
 csvm = 2^(-5+isvm);
 gammasvm = 2^(-15+jsvm);
-printf("\n O melhor C e Gamma para SVM eh %d e %d com acuracia de %.2f\n", csvm, gammasvm, valuern);
+printf("\n O melhor C e Gamma para SVM eh %d e %d com F-medida de %.2f\n", csvm, gammasvm, valuern);
 
 printf("\nFim de execucao\n");
 
