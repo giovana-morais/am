@@ -17,7 +17,6 @@ function y_pred = neural_network_1l(hidden_neurons, max_iter, ktrain, ktest,lamb
   initial_cost = nn_cost_1l( initial_rna_params, input_layer_size, hidden_layer_size, num_labels, ktrain(:, 1:end-1),  ktrain(:, end), lambda);
 
   % treinamento
-  % TODO: mudar o maxiter  e o lambda pra ver como influencia no treinamento
   options = optimset('MaxIter', max_iter);
 
   % Cria uma nova chamada para minimizar a funcao de custo
@@ -39,12 +38,12 @@ function y_pred = neural_network_1l(hidden_neurons, max_iter, ktrain, ktest,lamb
                    num_labels, (hidden_layer_size + 1));
                      
                     
-  printf("Salvando resultados obtidos em disco. (Pesos inicias, custo inicial, Pesos Iterados, e custo final)");
+  printf("Salvando resultados obtidos em disco. (Pesos inicias, custo inicial, Pesos Iterados, e custo final)\n");
 
   file_name = "./data/weighs1l_";
   file_name = strcat( file_name, "_", num2str(max_iter),"iters_", num2str(lambda), "lambda_", num2str(hidden_neurons),"_hiddensneurons.mat" );
   save(file_name, 'initial_Theta1', 'initial_Theta2', 'initial_cost','Theta1', 'Theta2', 'cost' );
-  printf("Arquivo salvo como: %s", file_name);
+  printf("Arquivo salvo como: %s\n", file_name);
   
   
   fprintf('Calculando acuracia na base de treinamento...\n');

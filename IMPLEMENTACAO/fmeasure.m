@@ -1,9 +1,9 @@
 function [f, prec, recall] = fmeasure(ypred, yreal)
   
   for i = 1:6
-    tp = rows(intersect(find(ypred == i), find(yreal == i)));
-    fp = rows(intersect(find(ypred == i), find(yreal != i)));
-    tn = rows(intersect(find(ypred != i), find(yreal == i)));
+    tp = sum(ypred == i & yreal == i);
+    fp = sum(ypred == i & yreal != i);
+    tn = sum(ypred != i & yreal != i);
     if tp + fp > 0
       % precisao para cada classe
       prec(i) = tp/(tp+fp);
