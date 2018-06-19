@@ -48,7 +48,8 @@ endif
 ksize = floor(length(all_data)/10);
 printf("\n\nPara as seguintes questoes responda 1 para sim, 0 para nao:\n");
 rodar_knn = input("Gostaria de executar o KNN ?\nResposta: ");
-rodar_ann = input("Gostaria de executar o ANN ?\nResposta: ");
+rodar_ann1 = input("Gostaria de executar o ANN de uma camada?\nResposta: ");
+rodar_ann2 = input("Gostaria de executar o ANN de duas camada?\nResposta: ");
 rodar_svm = input("Gostaria de executar o SVM ?\nResposta: ");
 rodar_rl =  input("Gostaria de executar o  RL ?\nResposta: ");
 printf("\nIniciando grid do 10-fold cross-validation\n");
@@ -134,7 +135,7 @@ for iter = 1:10
  
 
   % execucao de redes neurais de uma camada --------------------------------------------------------------------------------------------
-  if(rodar_ann)
+  if(rodar_ann1)
     printf('\nIniciando execucao de redes neurais artificiais\n');
     fflush(stdout);
     
@@ -149,11 +150,41 @@ for iter = 1:10
         acc_nn = mean(double(y_pred == ktest_pca(:,end))) * 100;
         printf('Acurácia no conjunto de teste: %f', acc_nn);
         gridrl(iter, i) = acc_nn;
-      end
-    end
+      endfor
+    endfor
     fprintf('\nO algoritmo de Redes Neurais Artificiais finalizou a execucao. \n');
     toc();
   endif
+  
+  % execucao de redes neurais de duas camada --------------------------------------------------------------------------------------------
+  if(rodar_ann2)
+    printf('\nIniciando execucao de redes neurais artificiais\n');
+    fflush(stdout);
+    
+    tic();
+    hidden_neurons = [0,25,50,150, 200, 250];
+    max_iter = [150, 200];
+    lambda = [0,0.5.1.2,4,8,16];
+    
+    for i = 1: length(max_iter)
+      for j = 1:length(lambda)
+        Theta1 = random_init(input_layer_size, hidden_layer_size);
+        Theta2 = random_init(hidden_layer_size, hidden_layer_size);
+        Theta3 = random_init(hidden_layer_size, num_labels);
+        for k = 2:length(hidden_neurons)
+          [y_pred,Theta1,Theta2,Theta3] = neural_network_2l(hidden_neurons(j), max_iter(i) - max_iter(i-1), ktrain_pca, ktest_pca, lambda(k), Theta1, Theta2, Theta3);
+          acc_nn = mean(double(y_pred == ktest_pca(:,end))) * 100;
+          printf('Acurácia no conjunto de teste: %f', acc_nn);
+          
+          gridrl(iter, i) = acc_nn;
+        endfor
+      endfor
+    endfor
+    fprintf('\nO algoritmo de Redes Neurais Artificiais finalizou a execucao. \n');
+    toc();
+  endif
+  
+  
   % execucao da svm ----------------------------------------------------------------------------------------------------
   if(rodar_svm)
     printf('\nIniciando execucao de SVM\n');
