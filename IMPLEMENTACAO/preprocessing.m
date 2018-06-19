@@ -154,5 +154,7 @@ temp = all_data(randperm(length(all_data)),:);
 all_data = temp;
 
 % salva a matriz ja pre-processada no arquivo binario "./data/pre_processed.mat"
-save("./data/pre_processed.mat", "all_data");
 printf("\nDados salvos em pre_processed\n\n");
+fflush(stdout);
+save("-zip","./data/pre_processed.mat.zip", "all_data");
+

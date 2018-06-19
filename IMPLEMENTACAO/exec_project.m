@@ -15,15 +15,20 @@ clear all, clc, close all;
 % retirando inconsistencias, redundancias, c�lulas nulas e fazendo a normalizacao de valores
 % agora recuperamos os dados pre_processados que foram salvos no arquivo pre_processed
 
-printf("\nCarregando dados pre-processados...\n");
-fflush(stdout);
-load("./data/pre_processed.mat");
+if(exist ("./data/pre_processed.mat.zip", "file") )
+  printf("\nCarregando dados pre-processados...\n");
+  fflush(stdout);
+  load("./data/pre_processed.mat.zip");
+else
+  printf("Detectado que o pre-processamento ainda nao fora executado, aguarde, pre-processando....\n\n");
+  preprocessing;
+endif
 
 
 
 
 if(exist ("./data/data_pca.mat.zip", "file") )
-  load("./data/data_pca.zip");
+  load("./data/data_pca.mat.zip");
   printf("Dados do PCA Carregados !!!\n\n");
 else
   # passando os dados pelo PCA para reduzir os atributos e utilizar em algoritmos que demandam mais processamento
