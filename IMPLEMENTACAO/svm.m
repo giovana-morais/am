@@ -6,8 +6,8 @@ function [ypred, gridLin, gridRbf] = svm(train, train_labels, test, c, g)
     % se ja recebeu c e g, nao precisa incrementar parametros    
     if(exist("c", "var") && exist("g", "var"))
       
-      gridLin = zeros(1, 8);
-      gridRbf = zeros(1, 152);
+      gridLin = [];
+      gridRbf = [];
     
       parametersRBF = ["-c " c " -t 2 -g " g " -q"];
       
