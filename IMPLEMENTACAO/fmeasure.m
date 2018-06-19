@@ -1,4 +1,4 @@
-function f = fmeasure(ypred, yreal)
+function [f, prec, recall] = fmeasure(ypred, yreal)
   
   for i = 1:6
     tp = rows(intersect(find(ypred == i), find(yreal == i)));
@@ -14,6 +14,9 @@ function f = fmeasure(ypred, yreal)
     endif
   end
   
+  prec = mean(prec);
+  recall = mean(recall);
+  
   % calculo da f-medida com a media da precisao e revocacao
-  f = (2 * mean(prec) * mean(recall) / (mean(prec) + mean(recall))) * 100;
+  f = (2 * prec * recall / (prec + recall)) * 100;
 end

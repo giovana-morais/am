@@ -47,6 +47,9 @@ ktrain = [];
 ktest_pca = [];
 ktrain_pca = [];
 
+% linhas sao os algoritmos e colunas sao as metricas: f-medida, precisao, revocacao, acuracia, tempo
+mat_res = zeros(4, 5);
+
 % knn com melhor k encontrado com grid search ----------------------------------------------------------
 k = 1;
 printf("\nIniciando execucao do knn com k = %d\n", k);
@@ -54,12 +57,20 @@ fflush(stdout);
 
 tic;
 for i = 1:rows(ktest)
-  ypred_knn_test(i) = knn(ktrain(:,1:end-1), ktrain(:,end), ktest(i,1:end-1), k);
+  ypred_knn_test(i, 1) = knn(ktrain(:,1:end-1), ktrain(:,end), ktest(i,1:end-1), k);
 endfor
-toc;
+time_exec = toc;
+
+[fknn, precknn, revknn] = fmeasure(ypred_knn_test, ktest(:, end));
 acc_knn = mean(double(ypred_knn_test == ktest(:,end))) * 100;
-printf("\nAcuracia do knn para a base de teste: %.2f\n", acc_knn);
+printf("\nF-medida do knn para a base de teste: %.2f\n", fknn);
 fflush(stdout);
+
+mat_res(1,1) = fknn;
+mat_res(1,2) = precknn*100;
+mat_res(1,3) = revknn*100;
+mat_res(1,4) = acc_knn;
+mat_res(1,5) = time_exec;
 
 printf("\nKNN finalizou execucao. Pressione enter para continuar...\n");
 pause;
@@ -70,10 +81,18 @@ printf("\nIniciando execucao de regressao logistica com lambda = %d\n", lambda);
 fflush(stdout);
 tic;
 ypred_rl_test = regression(ktrain(:,1:end-1), ktrain(:,end), ktest(:,1:end-1), lambda);
-toc;
+time_exec = toc;
+
+[freg, precreg, revreg] = fmeasure(ypred_rl_test, ktest(:, end));
 acc_reg = mean(double(ypred_rl_test == ktest(:,end))) * 100;
-printf('\nAcuracia da regressao para a base de teste: %.2f\n', acc_reg);
+printf("\nF-medida da regressao para a base de teste: %.2f\n", freg);
 fflush(stdout);
+
+mat_res(1,1) = freg;
+mat_res(1,2) = precreg*100;
+mat_res(1,3) = revreg*100;
+mat_res(1,4) = acc_reg;
+mat_res(1,5) = time_exec;
 
 printf("\nRegressao logistica finalizou execucao. Pressione enter para continuar...\n");
 pause;
@@ -93,10 +112,18 @@ printf('\nIniciando execucao de SVM com c = %.2f e g = %.2f\n', c, gamma);
 fflush(stdout);
 tic;
 [ypred_svm_test, ~, ~] = svm(ktrain_pca(:,1:end-1), ktrain_pca(:,end), ktest_pca, c, g);
-acc_svm = mean(double(y_pred == ktest(:,end))) * 100;
-toc;
-printf('\nAcuracia do svm para a base de teste: %.2f\n', acc_svm);
+time_exec = toc;
+
+[fsvm, precsvm, revsvm] = fmeasure(ypred_svm_test, ktest_pca(:, end));
+acc_svm = mean(double(ypred_svm_test == ktest_pca(:,end))) * 100;
+printf("\nF-medida da regressao para a base de teste: %.2f\n", fsvm);
 fflush(stdout);
+
+mat_res(1,1) = fsvm;
+mat_res(1,2) = precsvm*100;
+mat_res(1,3) = revsvm*100;
+mat_res(1,4) = acc_svm;
+mat_res(1,5) = time_exec;
 
 printf('\nO algoritmo SVM finalizou a execucao. Pressione enter para continuar...\n'); 
 pause;

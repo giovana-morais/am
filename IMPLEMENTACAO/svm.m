@@ -53,7 +53,10 @@ function [ypred, gridLin, gridRbf] = svm(train, train_labels, test, c, g)
           % Predições do RBF       
           [y_predforRBF, acuraciaRBF, dec_values_R] = svmpredict(test(:, end), test(:,1:end-1), modelrbf);
           
-          gridRbf(1, iterGamma) = acuraciaRBF(1);
+          fsvm = fmeasure(y_predforRBF, test(:,end));
+          
+          %gridRbf(1, iterGamma) = acuraciaRBF(1);
+          gridRbf(1, iterGamma) = fsvm;
           
           j = j * 2
           i
@@ -68,7 +71,11 @@ function [ypred, gridLin, gridRbf] = svm(train, train_labels, test, c, g)
                        parametersLinear);
         
         [y_predforLinear, acuraciaLinear, dec_values_L] = svmpredict(test(:, end), test(:,1:end-1), modelLinear);
-        gridLin(1, iterC) = acuraciaLinear(1);
+        
+        fsvm = fmeasure(y_predforLinear, test(:,end));
+        
+        %gridLin(1, iterC) = acuraciaLinear(1);
+        gridLin(1, iterC) = fsvm;
       
         
         i = i * 2;
