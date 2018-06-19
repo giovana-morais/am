@@ -1,23 +1,9 @@
+
 function [J grad] = nn_cost_2l(nn_params, ...
                              input_layer_size, ...
                              hidden_layer_size, ...
                              num_labels, ...
                              X, y, lambda)
-  %RNACUSTO Implementa a funcao de custo para a rede neural com duas camadas
-  %voltada para tarefa de classificacao
-  %   [J grad] = RNACUSTO(nn_params, hidden_layer_size, num_labels, ...
-  %   X, y, lambda) calcula o custo e gradiente da rede neural. The
-  %   Os parametros da rede neural sao colocados no vetor nn_params
-  %   e precisam ser transformados de volta nas matrizes de peso.
-  %
-  %   input_layer_size - tamanho da camada de entrada
-  %   hidden_layer_size - tamanho da camada oculta
-  %   num_labels - numero de classes possiveis
-  %   lambda - parametro de regularizacao
-  %
-  %   O vetor grad de retorno contem todas as derivadas parciais
-  %   da rede neural.
-  %
 
   % Extrai os parametros de nn_params e alimenta as variaveis Theta1 e Theta2.
   
@@ -29,6 +15,7 @@ function [J grad] = nn_cost_2l(nn_params, ...
 
   comeco_camada_3 = fim_camada_2 + 1;                 
   fim_camada_3 =  comeco_camada_3 - 1 + (hidden_layer_size + 1) * num_labels;
+  
   
   Theta1 = reshape(nn_params(comeco_camada_1:fim_camada_1), hidden_layer_size, input_layer_size + 1  );
 
@@ -48,37 +35,35 @@ function [J grad] = nn_cost_2l(nn_params, ...
   % ref: https://octave.org/doc/v4.0.1/Special-Utility-Matrices.html 
   y_matrix = eye(num_labels)(y,:);
 
-  a1 = [ones(m,1) X]; # 4805    152
- 
-  z2 = a1 * Theta1'; # 4805     25
- 
-  a2 = [ones(m,1) sigmoid(z2)];  #  4805     26
-
-  z3 = a2 * Theta2';   #  4805     25
- 
-  a3 = sigmoid(z3); #  4805     25
-  
+  a1 = [ones(m,1) X];
+  z2 = a1 * Theta1';
+  a2 = [ones(m,1) sigmoid(z2)]; 
+  z3 = a2 * Theta2';  
+  a3 = [ones(m,1) sigmoid(z3)];
   z4 = a3 * Theta3';
   a4 = sigmoid(z4);
-  h_theta = a3;
+  h_x = a4;
 
   % J regularizado 
-  J = 1/m * sum(sum(-y_matrix.*log(h_theta) - (1-y_matrix).*log(1-h_theta)),2);
-  J_reg = J + lambda*(sum(sum(Theta1(:, 2:end).^2, 2))+sum(sum(Theta2(:, 2:end).^2, 2))) /(2*m);
+  J = 1/m * sum(sum(-y_matrix.*log(h_x) - (1-y_matrix).*log(1-h_x)),2);
+  J_reg = J + (lambda*(sum(sum(Theta1(:, 2:end).^2, 2))+sum(sum(Theta2(:, 2:end).^2, 2)) + sum(sum(Theta3(:,2:end).^2,2)) ) /(2*m));
   J = J_reg;
 
   % calcula os sigmas e os deltas
-  sigma_3 = a3 .- y_matrix;
-  sigma_2 = (sigma_3 * Theta2) .* sigmoidal_grad([ones(size(z2, 1), 1) z2]);
-  size(sigma_2);
-  sigma_2 = sigma_2(:, 2:end);
+  d4 = h_x .- y_matrix;
+  d3 = (d4 * Theta3(:,2:end)) .* sigmoidal_grad(z3);
+  d2 = (d3 * Theta2(:,2:end)) .* sigmoidal_grad(z2);
+  
+  
    
-  delta_1 = sigma_2' * a1;
-  delta_2 = sigma_3' * a2;
-
+  delta_1 = d2' * a1;
+  delta_2 = d3' * a2;
+  delta_3 = d4' * a3;
+  
+  
   Theta1_grad = (delta_1 ./ m) + (lambda/m)*[zeros(size(Theta1, 1), 1) Theta1(:, 2:end)];
   Theta2_grad = (delta_2 ./ m) + (lambda/m)*[zeros(size(Theta2, 1), 1) Theta2(:, 2:end)];
-
+  Theta3_grad = (delta_3 ./ m) + (lambda/m)*[zeros(size(Theta3, 1), 1) Theta3(:, 2:end)];
   % junta os gradientes 
-  grad = [Theta1_grad(:) ; Theta2_grad(:)];
+  grad = [Theta1_grad(:) ; Theta2_grad(:); Theta3_grad(:)];
 end
