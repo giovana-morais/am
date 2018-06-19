@@ -1,5 +1,5 @@
 %%% PREDIÇÃO %%%
-function y_pred = neural_network_2l(hidden_neurons, max_iter, ktrain, ktest, lambda) 
+function [y_pred, Theta1, Theta2, Theta3] = neural_network_2l(hidden_neurons, max_iter, ktrain, ktest, lambda, Theta1, Theta2, Theta3) 
   % Implementacao de redes neurais artificiais para o problema de reconhecimento 
   % de atividades humanas
 
@@ -10,9 +10,7 @@ function y_pred = neural_network_2l(hidden_neurons, max_iter, ktrain, ktest, lam
 
 
 
-  initial_Theta1 = random_init(input_layer_size, hidden_layer_size);
-  initial_Theta2 = random_init(hidden_layer_size, hidden_layer_size);
-  initial_Theta3 = random_init(hidden_layer_size, num_labels);
+
   
   initial_rna_params = [initial_Theta1(:) ; initial_Theta2(:) ; initial_Theta3(:)]; 
   initial_cost = nn_cost_2l( initial_rna_params, input_layer_size, hidden_layer_size, num_labels, ktrain(:, 1:end-1),  ktrain(:, end), lambda);
@@ -38,18 +36,19 @@ function y_pred = neural_network_2l(hidden_neurons, max_iter, ktrain, ktest, lam
 
   Theta2 = reshape(rna_params((1 + (hidden_layer_size * (input_layer_size + 1))):end), ...
                    num_labels, (hidden_layer_size + 1));
-                     
+  #{                   
   printf("Salvando resultados obtidos em disco. (Pesos inicias, custo inicial, Pesos Iterados, e custo final)");
   file_name = "./data/weighs2l_";
   file_name = strcat( file_name, "_", num2str(max_iter),"iters_", num2str(lambda), "lambda_", num2str(hidden_neurons),"_hiddensneurons.mat" );
   save(file_name, 'initial_Theta1', 'initial_Theta2', 'initial_Theta3', 'initial_cost','Theta1', 'Theta2', 'Theta3', 'cost' );
   printf("Arquivo salvo como: %s", file_name);
+  #}
   
   % predicao treinamento
   fprintf('Calculando acuracia na base de treinamento...\n');
-  pred = prediction_2l( Theta1, Theta2, Theta3, ktrain(:,1:end-1) );
+  training_prediction = prediction_2l( Theta1, Theta2, Theta3, ktrain(:,1:end-1) );
 
-  fprintf('Acuracia no conjunto de treinamento: %f\n', mean( double(pred == ktrain(:,end)) ) * 100);
+  fprintf('Acuracia no conjunto de treinamento: %.6f%%\n', mean( double(training_prediction == ktrain(:,end)) ) * 100);
   
   y_pred = prediction_2l(Theta1, Theta2, Theta3, ktest(:,1:end-1));
 end
