@@ -188,7 +188,8 @@ for iter = 1:10
           fnn = fmeasure(y_pred, ktest_pca(:,end));
           printf("\nOcorre %.2f%% de F-medida\n", fnn);
           fflush(stdout);
-                    
+          
+          %%%%%%% arrumar esse i aqui se nao ele vai salvar so nos valores de max_iter %%%%%%%%
           gridrl(iter, i) = fnn;
         endfor
       endfor
