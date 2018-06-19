@@ -9,9 +9,7 @@ function y_pred = neural_network_1l(hidden_neurons, max_iter, ktrain, ktest,lamb
   num_labels = 6;
 
   % regularização dos pesos
-                    
-
-  
+ 
   initial_Theta1 = random_init(input_layer_size, hidden_layer_size);
   initial_Theta2 = random_init(hidden_layer_size, num_labels);
 
@@ -44,7 +42,7 @@ function y_pred = neural_network_1l(hidden_neurons, max_iter, ktrain, ktest,lamb
   printf("Salvando resultados obtidos em disco. (Pesos inicias, custo inicial, Pesos Iterados, e custo final)");
   file_name = "./data/weighs1_";
   strcat( file_name, "_", num2str(max_iter),"iters_", num2str(lambda), "lambda.mat" );
-  save(file_name, 'initial_Theta1', 'initial_Theta2', 'initial_Theta3', 'initial_cost','Theta1', 'Theta2', 'Theta3', 'cost' );
+  save(file_name, 'initial_Theta1', 'initial_Theta2', 'initial_cost','Theta1', 'Theta2', 'cost' );
   printf("Arquivo salvo como: %s", file_name);
   
   
