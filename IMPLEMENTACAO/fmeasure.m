@@ -1,9 +1,15 @@
-function [f, prec, recall] = fmeasure(ypred, yreal)
+function [f, pred, recall] = fmeasure(ypred, yreal)
+  if columns(ypred) > 1
+    ypred = ypred';
+  endif
+  if columns(yreal) > 1
+    yreal = yreal';
+  endif
   
   for i = 1:6
     tp = sum(ypred == i & yreal == i);
     fp = sum(ypred == i & yreal != i);
-    tn = sum(ypred != i & yreal != i);
+    tn = sum(ypred != i & yreal == i);
     if tp + fp > 0
       % precisao para cada classe
       prec(i) = tp/(tp+fp);
