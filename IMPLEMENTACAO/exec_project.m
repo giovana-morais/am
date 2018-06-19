@@ -19,17 +19,21 @@ printf("\nCarregando dados pre-processados...\n");
 fflush(stdout);
 load("./data/pre_processed.mat");
 
-% passando os dados pelo PCA para reduzir os atributos e utilizar em algoritmos que demandam mais processamento
 
 
-#####          SE FOR RODAR PELA PRIMEIRA VEZ:         ########
-#                                                             #
-#                  data_pca = pca(all_data);                  #
-#                                                             #
-###############################################################
 
-load("./data/data_pca.zip");
-printf("Dados do PCA Carregados !!!\n\n");
+if(exist ("./data/data_pca.mat.zip", "file") )
+  load("./data/data_pca.zip");
+  printf("Dados do PCA Carregados !!!\n\n");
+else
+  # passando os dados pelo PCA para reduzir os atributos e utilizar em algoritmos que demandam mais processamento
+  data_pca = pca(all_data);
+  save("-zip", "./data/data_pca.mat.zip", "data_pca");
+endif
+
+
+
+
 
 
 % em seguida, devemos dividir os dados gerais para validacao cruzada, com k-fold sendo 10 (mais usualmente utilizado em AM)
