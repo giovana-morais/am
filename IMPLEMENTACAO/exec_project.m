@@ -141,22 +141,29 @@ for iter = 1:10
     tic();
     hidden_neurons = [151, 200, 250];
     max_iter = [150, 200];
-    lambda = 1;
+    lambda = [0,0.5,1,2,4,8,16];
     
     for i = 1: length(max_iter)
+      printf("------------------\n");
+      printf("MAX_ITER: %d\n", max_iter(i));
       for j = 1: length(hidden_neurons)
-        y_pred = neural_network_1l(hidden_neurons(j), max_iter(i), ktrain_pca, ktest_pca, lambda);
-        
-        acc_nn = mean(double(y_pred == ktest_pca(:,end))) * 100;
-        printf("Ocorre %.2f%% de acuracia\n", acc_nn);
-        fflush(stdout);
-        
-        fnn = fmeasure(y_pred, ktest_pca(:,end));
-        printf("\nOcorre %.2f%% de F-medida\n", fnn);
-        fflush(stdout);
-        
-        %%%%%%% arrumar esse i aqui se nao ele vai salvar so nos valores de max_iter %%%%%%%%
-        gridrl(iter, i) = fnn;
+        printf("NEURONIOS %d\n", hidden_neurons(j));
+        for k = 1: length(lambda)
+          printf("LAMBDA %d\n", lambda(k));
+          printf("------------------\n");
+          y_pred = neural_network_1l(hidden_neurons(j), max_iter(i), ktrain_pca, ktest_pca, lambda(k));
+          
+          acc_nn = mean(double(y_pred == ktest_pca(:,end))) * 100;
+          printf("Ocorre %.2f%% de acuracia\n", acc_nn);
+          fflush(stdout);
+          
+          fnn = fmeasure(y_pred, ktest_pca(:,end));
+          printf("Ocorre %.2f%% de F-medida\n", fnn);
+          fflush(stdout);
+          
+          %%%%%%% arrumar esse i aqui se nao ele vai salvar so nos valores de max_iter %%%%%%%%
+          %gridrn(iter, i) = fnn;
+        endfor 
       endfor
     endfor
     fprintf('\nO algoritmo de Redes Neurais Artificiais finalizou a execucao. \n');
