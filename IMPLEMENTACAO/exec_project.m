@@ -215,19 +215,19 @@ endfor
 totalgrid = [];
 % aqui localizamos a coluna onde esta contido o valor maximo de acuracia do knn
 [maxvalue,col] = max(max(gridknn));
-printf("\nA maior acuracia do knn eh %.2f para k = %d\n", maxvalue, col);
+printf("\nA maior F-medida do knn eh %.2f para k = %d\n", maxvalue, col);
 
 %aqui localizamos a coluna onde esta contido o valor maximo de acuracia da regressao
 [maxrl, colrl] = max(max(gridrl));
-printf("\nA maior acuracia da regressao eh %.2f para lambda = %d\n", maxrl, colrl);
+printf("\nA maior F-medida da regressao eh %.2f para lambda = %d\n", maxrl, colrl);
 
 %aqui localizamos a coluna onde esta contido o valor maximo de acuracia de redes neurais
 [maxrn, colrn] = max(max(gridrn));
-printf("\nA maior acuracia de redes neurais eh %.2f para max_iter = %d\n", maxrn, colrn);
+printf("\nA maior F-medida de redes neurais eh %.2f para max_iter = %d\n", maxrn, colrn);
 
 %aqui localizamos a coluna onde esta contido o valor maximo de acuracia de svm
 [maxsvm, colsvm] = max(max(gridRbf));
-printf("\nA maior acuracia de svm eh %.2f para coluna = %d\n", maxsvm, colsvm);
+printf("\nA maior F-medida de svm eh %.2f para coluna = %d\n", maxsvm, colsvm);
 
 % Esta etapa matematica para descobrir quais sao os valores de C e Gamma representados pela coluna
 isvm = ceil(colsvm/19);
