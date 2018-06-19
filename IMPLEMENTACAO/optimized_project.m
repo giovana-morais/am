@@ -18,10 +18,26 @@ clear all, clc, close all;
 
 printf("\nCarregando dados pre-processados...\n");
 fflush(stdout);
-load("pre_processed.mat");
 
-% passando os dados pelo PCA para reduzir os atributos e utilizar em algoritmos que demandam mais processamento
-data_pca = pca(all_data);
+
+if(exist ("./data/pre_processed.mat.zip", "file") )
+  printf("\nCarregando dados pre-processados...\n");
+  fflush(stdout);
+  load("./data/pre_processed.mat.zip");
+else
+  printf("Detectado que o pre-processamento ainda nao fora executado, aguarde, pre-processando....\n\n");
+  preprocessing;
+endif
+
+if(exist ("./data/data_pca.mat.zip", "file") )
+  load("./data/data_pca.mat.zip");
+  printf("Dados do PCA Carregados !!!\n\n");
+else
+  # passando os dados pelo PCA para reduzir os atributos e utilizar em algoritmos que demandam mais processamento
+  data_pca = pca(all_data);
+  save("-zip", "./data/data_pca.mat.zip", "data_pca");
+endif
+
 
 % proveniente do 10-fold cross validation utilizado para a escolha de melhor fold
 ksize = floor(rows(all_data)/10);
