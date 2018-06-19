@@ -48,11 +48,16 @@ function [J grad] = nn_cost_2l(nn_params, ...
   % ref: https://octave.org/doc/v4.0.1/Special-Utility-Matrices.html 
   y_matrix = eye(num_labels)(y,:);
 
-  a1 = [ones(m,1) X];
-  z2 = a1 * Theta1';
-  a2 = [ones(m,1) sigmoid(z2)]; 
-  z3 = a2 * Theta2';  
-  a3 = sigmoid(z3);
+  a1 = [ones(m,1) X]; # 4805    152
+ 
+  z2 = a1 * Theta1'; # 4805     25
+ 
+  a2 = [ones(m,1) sigmoid(z2)];  #  4805     26
+
+  z3 = a2 * Theta2';   #  4805     25
+ 
+  a3 = sigmoid(z3); #  4805     25
+  
   z4 = a3 * Theta3';
   a4 = sigmoid(z4);
   h_theta = a3;
