@@ -61,7 +61,7 @@ fflush(stdout);
 % o tamanho de colunas do grid deve ser a quantidade maxima do parametro que queremos fazer o ajuste para cada algoritmo
 gridknn = zeros(10, 50);
 gridrl = zeros(10, 10);
-gridrn = zeros(10, 4);  % considerando por enquanto só as 4 variações do max_iter
+gridrn = zeros(10, 6);  % considerando 2 max_iter por 3 hidden_neurons
 gridsvmRbf = zeros(10, 152); % 8 variacoes do C e 19 variacoes do Gamma
 gridsvmLinear = zeros(10, 8); % 8 variacoes do C
 
@@ -141,19 +141,17 @@ for iter = 1:10
     fflush(stdout);
     
     tic();
-    % o número de neuronios ocultos deve variar entre
-    % 1) 2/3 do tamanho da camada de entrada
-    % 2) alguns números entre o tamanho da camada de entrada e o dobro dela
-    hidden_neurons = [151];
-    max_iter = [50, 100, 150, 300];
+    hidden_neurons = [151, 200, 250];
+    max_iter = [150, 200];
     lambda = 1;
     
     for i = 1: length(max_iter)
-      %fprintf("\nMAX ITER = %d\n", max_iter(i)); 
-      y_pred = neural_network_1l(hidden_neurons(1), max_iter(i), ktrain_pca, ktest_pca, lambda);
-      acc_nn = mean(double(y_pred == ktest_pca(:,end))) * 100;
-      gridrl(iter, i) = acc_nn;
-      %fprintf('Acuracia no conjunto de teste: %f\n', acc_nn);
+      for j = 1: length(hidden_neurons)
+        y_pred = neural_network_1l(hidden_neurons(j), max_iter(i), ktrain_pca, ktest_pca, lambda);
+        acc_nn = mean(double(y_pred == ktest_pca(:,end))) * 100;
+        printf('Acurácia no conjunto de teste: %f', acc_nn);
+        gridrl(iter, i) = acc_nn;
+      end
     end
     fprintf('\nO algoritmo de Redes Neurais Artificiais finalizou a execucao. \n');
     toc();
