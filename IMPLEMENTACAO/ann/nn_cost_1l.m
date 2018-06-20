@@ -43,7 +43,23 @@ function [J grad] = nn_cost_1l(nn_params, ...
   z3 = a2 * Theta2';  
   a3 = sigmoid(z3);
   h_theta = a3;
+  
+%  qtdann = any(any(isnan(log(h_theta)))) + any(any(isnan(log(1 - h_theta))));
+%  if(qtdann > 0)
+%    pause;
+%  endif
 
+  qtdann = any(any(isnan(-y_matrix.*log(h_theta))));
+  qtdann1 = any(any(isnan((1-y_matrix).*log(1 - h_theta))));
+
+  if qtdann
+    disp('qtann');
+    pause;
+  elseif qtdann1
+    disp('qtann1');
+    pause;
+  endif
+    
   % J regularizado 
   J = 1/m * sum(sum(-y_matrix.*log(h_theta) - (1-y_matrix).*log(1-h_theta)),2);
   J_reg = J + lambda*(sum(sum(Theta1(:, 2:end).^2, 2))+sum(sum(Theta2(:, 2:end).^2, 2))) /(2*m);
@@ -51,15 +67,13 @@ function [J grad] = nn_cost_1l(nn_params, ...
 
   % calcula os sigmas e os deltas
   sigma_3 = a3 .- y_matrix;
-  sigma_2 = (sigma_3 * Theta2) .* sigmoidal_grad([ones(size(z2, 1), 1) z2]);
-  size(sigma_2);
-  sigma_2 = sigma_2(:, 2:end);
+  sigma_2 = (sigma_3 * Theta2(:,2:end)) .* sigmoidal_grad(z2);
    
   delta_1 = sigma_2' * a1;
   delta_2 = sigma_3' * a2;
 
-  Theta1_grad = (delta_1 ./ m) + (lambda/m)*[zeros(size(Theta1, 1), 1) Theta1(:, 2:end)];
-  Theta2_grad = (delta_2 ./ m) + (lambda/m)*[zeros(size(Theta2, 1), 1) Theta2(:, 2:end)];
+  Theta1_grad = (delta_1 ./ m) + (lambda/m)*Theta1;
+  Theta2_grad = (delta_2 ./ m) + (lambda/m)*Theta2;
 
   % junta os gradientes 
   grad = [Theta1_grad(:) ; Theta2_grad(:)];

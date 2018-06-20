@@ -46,10 +46,9 @@ function y_pred = neural_network_1l(hidden_neurons, max_iter, ktrain, ktest,lamb
   printf("Arquivo salvo como: %s\n", file_name);
   
   
-  fprintf('Calculando acuracia na base de treinamento...\n');
   pred = prediction_1l(Theta1, Theta2, ktrain(:,1:end-1));
 
-  fprintf('Acuracia no conjunto de treinamento: %f\n', mean(double(pred == ktrain(:,end))) * 100);
+  fprintf('Ocorre %.2f%% de acuracia na base de treinamento\n', mean(double(pred == ktrain(:,end))) * 100);
   
   y_pred = prediction_1l(Theta1, Theta2, ktest(:,1:end-1));
 end
