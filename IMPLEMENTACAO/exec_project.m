@@ -2,19 +2,19 @@
 pkg load statistics
 
 if(strcmp(computer(), "x86_64-pc-linux-gnu") )
-  addpath("./libsvm/libsvm_x86_64-pc-linux-gnu");
+  addpath(strcat(pwd(),"/libsvm/libsvm_x86_64-pc-linux-gnu"));
 elseif(ispc())
-  addpath("./libsvm/libsvm-windows");
+  addpath(strcat(pwd(),"/libsvm/libsvm-windows"));
 endif
 
-addpath("./ann");
-addpath("./regression");
+addpath(strcat(pwd(),"/ann"));
+addpath(strcat(pwd(),"/regression"));
 
 printf("Iniciando execucao.\n");
 clear all, clc, close all;
 
-% inicialmente ja fizemos pre-processamento dos dados para tentar diminuir a dimens�o de atributos e amostras
-% retirando inconsistencias, redundancias, c�lulas nulas e fazendo a normalizacao de valores
+% inicialmente ja fizemos pre-processamento dos dados para tentar diminuir a dimensao de atributos e amostras
+% retirando inconsistencias, redundancias, celulas nulas e fazendo a normalizacao de valores
 % agora recuperamos os dados pre_processados que foram salvos no arquivo pre_processed
 
 if(exist ("./data/pre_processed.mat.zip", "file") )
@@ -130,27 +130,31 @@ for iter = 1:10
     end
     fprintf('\nO algoritmo de Regressao Logistica finalizou a execucao. \n');
   endif
- 
 
+  % execucao de redes neurais ---------------------------------------------------------------------------------------------------------
+  if(rodar_ann1 || rodar_ann2) 
+    hidden_neurons = [75, 151, 300];
+    lambda = [0,0.5,1,2];
+    max_iter = [200,500,750];
+    totaliter = length(max_iter) * length(hidden_neurons) * length(lambda);
+  endif
   % execucao de redes neurais de uma camada --------------------------------------------------------------------------------------------
   if(rodar_ann1)
     printf('\nIniciando execucao de redes neurais artificiais\n');
     fflush(stdout);
     
     tic();
-    hidden_neurons = [151, 200, 250];
-    max_iter = [150, 200];
-    lambda = [0,0.5,1,2,4,8,16];
-    
-    for i = 1: length(max_iter)
-      printf("------------------\n");
-      printf("MAX_ITER: %d\n", max_iter(i));
-      for j = 1: length(hidden_neurons)
-        printf("NEURONIOS %d\n", hidden_neurons(j));
-        for k = 1: length(lambda)
-          printf("LAMBDA %d\n", lambda(k));
-          printf("------------------\n");
-          y_pred = neural_network_1l(hidden_neurons(j), max_iter(i), ktrain_pca, ktest_pca, lambda(k));
+    count = 1;
+    for i = 1: length(hidden_neurons) 
+      for j = 1: length(lambda)
+        for k = 1: length(max_iter)
+          printf("\nIteracao %d de %d.\n", count ,totaliter );
+          printf("\n--------------------\n");
+          printf("NEURONIOS \t%d\n", hidden_neurons(i));
+          printf("LAMBDA:   \t%d\n", lambda(j));
+          printf("MAX_ITER: \t%d\n", max_iter(k));
+          printf("--------------------\n");
+          y_pred = neural_network_1l(hidden_neurons(i), max_iter(k), ktrain_pca, ktest_pca, lambda(j));
           
           acc_nn = mean(double(y_pred == ktest_pca(:,end))) * 100;
           printf("Ocorre %.2f%% de acuracia\n", acc_nn);
@@ -161,7 +165,7 @@ for iter = 1:10
           fflush(stdout);
           
           %%%%%%% arrumar esse i aqui se nao ele vai salvar so nos valores de max_iter %%%%%%%%
-          %gridrn(iter, i) = fnn;
+          gridrn(iter, count++) = fnn;
         endfor 
       endfor
     endfor
@@ -175,17 +179,20 @@ for iter = 1:10
     fflush(stdout);
     
     tic();
-    hidden_neurons = [0,25,50,150, 200, 250];
-    max_iter = [150, 200];
-    lambda = [0,0.5,1,2,4,8,16];
     
-    for i = 1: length(max_iter)
-      for j = 1:length(lambda)
-        Theta1 = random_init(input_layer_size, hidden_layer_size);
-        Theta2 = random_init(hidden_layer_size, hidden_layer_size);
-        Theta3 = random_init(hidden_layer_size, num_labels);
-        for k = 2:length(hidden_neurons)
-          [y_pred,Theta1,Theta2,Theta3] = neural_network_2l(hidden_neurons(j), max_iter(i) - max_iter(i-1), ktrain_pca, ktest_pca, lambda(k), Theta1, Theta2, Theta3);
+    
+    count = 1;
+    for i = 1: length(hidden_neurons) 
+      for j = 1: length(lambda)
+        for k = 1: length(max_iter)
+          printf("\nIteracao %d de %d.\n", count ,totaliter );
+          printf("--------------------\n");
+          printf("NEURONIOS \t%d\n", hidden_neurons(j));
+          printf("LAMBDA:   \t%d\n", lambda(k));
+          printf("MAX_ITER: \t%d\n", max_iter(i));
+          printf("--------------------\n");
+        
+          y_pred = neural_network_2l(hidden_neurons(i), max_iter(k), ktrain_pca, ktest_pca, lambda(j));
           
           acc_nn = mean(double(y_pred == ktest_pca(:,end))) * 100;
           printf('Acuracia no conjunto de teste: %f', acc_nn);
@@ -196,7 +203,8 @@ for iter = 1:10
           fflush(stdout);
           
           %%%%%%% arrumar esse i aqui se nao ele vai salvar so nos valores de max_iter %%%%%%%%
-          gridrl(iter, i) = fnn;
+          gridrl1(iter, count++) = fnn;
+          
         endfor
       endfor
     endfor
