@@ -136,14 +136,14 @@ for iter = 1:10
   if(rodar_ann1 || rodar_ann2) 
     hidden_neurons = [75, 151, 300];
     lambda = [0.1,0.5,1,2];
+    max_iter = [200,500,750];
     totaliter = length(max_iter) * length(hidden_neurons) * length(lambda);
   endif
   % execucao de redes neurais de uma camada --------------------------------------------------------------------------------------------
   if(rodar_ann1)
     printf('\nIniciando execucao de redes neurais artificiais com 1 camada\n');
     fflush(stdout);
-    max_iter = [200, 500, 750];
-    
+
     tic();
     count = 1;
     for i = 1: length(hidden_neurons) 
