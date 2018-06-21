@@ -7,7 +7,7 @@ function p = prediction_2l(Theta1, Theta2, Theta3, X)
       
   h1 = sigmoid([ones(m, 1) X] * Theta1');
   h2 = sigmoid([ones(m, 1) h1] * Theta2');
-  h3 = sigmoid([ones(m, 1) h1] * Theta3');
+  h3 = sigmoid([ones(m, 1) h2] * Theta3');
   
   [dummy, p] = max(h3, [], 2);
 
