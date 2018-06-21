@@ -44,25 +44,9 @@ function [J grad] = nn_cost_1l(nn_params, ...
   a3 = sigmoid(z3);
   h_theta = a3;
   
-%  qtdann = any(any(isnan(log(h_theta)))) + any(any(isnan(log(1 - h_theta))));
-%  if(qtdann > 0)
-%    pause;
-%  endif
-
-  qtdann = any(any(isnan(-y_matrix.*log(h_theta))));
-  qtdann1 = any(any(isnan((1-y_matrix).*log(1 - h_theta))));
-
-  if qtdann
-    disp('qtann');
-    pause;
-  elseif qtdann1
-    disp('qtann1');
-    pause;
-  endif
-    
   % J regularizado 
   J = 1/m * sum(sum(-y_matrix.*log(h_theta) - (1-y_matrix).*log(1-h_theta)),2);
-  J_reg = J + lambda*(sum(sum(Theta1(:, 2:end).^2, 2))+sum(sum(Theta2(:, 2:end).^2, 2))) /(2*m);
+  J_reg = J + (lambda*(sum(sum(Theta1(:, 2:end).^2, 2))+sum(sum(Theta2(:, 2:end).^2, 2))) /(2*m));
   J = J_reg;
 
   % calcula os sigmas e os deltas
