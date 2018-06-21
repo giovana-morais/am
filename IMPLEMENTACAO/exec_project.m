@@ -189,9 +189,9 @@ for iter = 1:10
         for k = 1: length(max_iter)
           printf("\nIteracao %d de %d.\n", count ,totaliter );
           printf("--------------------\n");
-          printf("NEURONIOS \t%d\n", hidden_neurons(j));
-          printf("LAMBDA:   \t%d\n", lambda(k));
-          printf("MAX_ITER: \t%d\n", max_iter(i));
+          printf("NEURONIOS \t%d\n", hidden_neurons(i));
+          printf("LAMBDA:   \t%d\n", lambda(j));
+          printf("MAX_ITER: \t%d\n", max_iter(k));
           printf("--------------------\n");
         
           y_pred = neural_network_2l(hidden_neurons(i), max_iter(k), ktrain_pca, ktest_pca, lambda(j));
