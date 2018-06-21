@@ -53,17 +53,16 @@ function [J grad] = nn_cost_2l(nn_params, ...
   d4 = h_x .- y_matrix;
   d3 = (d4 * Theta3(:,2:end)) .* sigmoidal_grad(z3);
   d2 = (d3 * Theta2(:,2:end)) .* sigmoidal_grad(z2);
-  
-  
    
   delta_1 = d2' * a1;
   delta_2 = d3' * a2;
   delta_3 = d4' * a3;
   
   
-  Theta1_grad = (delta_1 ./ m) + (lambda/m)*[zeros(size(Theta1, 1), 1) Theta1(:, 2:end)];
-  Theta2_grad = (delta_2 ./ m) + (lambda/m)*[zeros(size(Theta2, 1), 1) Theta2(:, 2:end)];
-  Theta3_grad = (delta_3 ./ m) + (lambda/m)*[zeros(size(Theta3, 1), 1) Theta3(:, 2:end)];
+  Theta1_grad = (delta_1 ./ m) + (lambda/m)*Theta1;
+  Theta2_grad = (delta_2 ./ m) + (lambda/m)*Theta2;
+  Theta3_grad = (delta_3 ./ m) + (lambda/m)*Theta3;
+  
   % junta os gradientes 
   grad = [Theta1_grad(:) ; Theta2_grad(:); Theta3_grad(:)];
 end
