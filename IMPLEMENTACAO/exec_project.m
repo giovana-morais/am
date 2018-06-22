@@ -286,14 +286,14 @@ if(rodar_rl)
   csvwrite("./data/best_rl.csv", best_rl);
 endif  
 
-if(rodar_rn1)
+if(rodar_ann1)
   csvwrite('gridrn1.csv', gridrn1);
   best_rn1 = max(gridrn1, [], 2);
   save("./data/best_rn1.mat", "best_rn1");
   csvwrite("./data/best_rn1.csv", best_rn1);
 endif
 
-if(rodar_rn2)  
+if(rodar_ann2)  
   csvwrite('gridrn2.csv', gridrn2);
   best_rn2 = max(gridrn2, [], 2);
   save("./data/best_rn2.mat", "best_rn2");
