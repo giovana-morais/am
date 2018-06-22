@@ -45,7 +45,7 @@ function [J grad] = nn_cost_2l(nn_params, ...
   h_x = a4;
 
   % J regularizado 
-  J = 1/m * sum(sum(-y_matrix.*log(h_x) - (1-y_matrix).*log(1-h_x)),2);
+  J = 1/m * sum(sum(-y_matrix.*log(h_x+eps) - (1-y_matrix).*log(1-h_x+eps)),2);
   J_reg = J + (lambda*(sum(sum(Theta1(:, 2:end).^2, 2))+sum(sum(Theta2(:, 2:end).^2, 2)) + sum(sum(Theta3(:,2:end).^2,2)) ) /(2*m));
   J = J_reg;
 

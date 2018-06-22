@@ -135,7 +135,7 @@ for iter = 1:10
   % execucao de redes neurais ---------------------------------------------------------------------------------------------------------
   if(rodar_ann1 || rodar_ann2) 
     hidden_neurons = [75, 151, 300];
-    lambda = [0.1,0.5,1,2];
+    lambda = [0,0.5,1,2];
     max_iter = [200,500,750];
     totaliter = length(max_iter) * length(hidden_neurons) * length(lambda);
   endif
