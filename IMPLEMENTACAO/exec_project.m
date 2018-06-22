@@ -239,34 +239,34 @@ endfor
 
 % estruturacao do grid 
 
-totalgrid = [];
-% aqui localizamos a coluna onde esta contido o valor maximo de acuracia do knn
-[maxvalue,col] = max(max(gridknn));
-printf("\nA maior F-medida do knn eh %.2f para k = %d\n", maxvalue, col);
-
-%aqui localizamos a coluna onde esta contido o valor maximo de acuracia da regressao
-[maxrl, colrl] = max(max(gridrl));
-printf("\nA maior F-medida da regressao eh %.2f para lambda = %d\n", maxrl, colrl);
-
-%aqui localizamos a coluna onde esta contido o valor maximo de acuracia de redes neurais
-[maxrn, colrn] = max(max(gridrn1));
-printf("\nA maior F-medida de redes neurais eh %.2f", maxrn1, colrn1);
-
-[maxrn, colrn] = max(max(gridrn2));
-printf("\nA maior F-medida de redes neurais eh %.2f", maxrn2, colrn2);
-
-%aqui localizamos a coluna onde esta contido o valor maximo de acuracia de svm
-[maxsvm, colsvm] = max(max(gridsvm));
-printf("\nA maior F-medida de svm eh %.2f para coluna = %d\n", maxsvm, colsvm);
-
-% Esta etapa matematica para descobrir quais sao os valores de C e Gamma representados pela coluna
-isvm = ceil(colsvm/19);
-jsvm = mod(colsvm, 19);
-
-csvm = 2 ^ (-5 + isvm);
-gammasvm = 2 ^ (-15 + jsvm);
-
-printf("\nOs valores otimos para o SVM com Kernel Gaussiano sao C = %f e Gamma = %f\n", csvm, gammasvm);
+%totalgrid = [];
+%% aqui localizamos a coluna onde esta contido o valor maximo de acuracia do knn
+%[maxvalue,col] = max(max(gridknn));
+%printf("\nA maior F-medida do knn eh %.2f para k = %d\n", maxvalue, col);
+%
+%%aqui localizamos a coluna onde esta contido o valor maximo de acuracia da regressao
+%[maxrl, colrl] = max(max(gridrl));
+%printf("\nA maior F-medida da regressao eh %.2f para lambda = %d\n", maxrl, colrl);
+%
+%%aqui localizamos a coluna onde esta contido o valor maximo de acuracia de redes neurais
+%[maxrn1, colrn1] = max(max(gridrn1));
+%printf("\nA maior F-medida de redes neurais eh %.2f", maxrn1, colrn1);
+%
+%[maxrn2, colrn2] = max(max(gridrn2));
+%printf("\nA maior F-medida de redes neurais eh %.2f", maxrn2, colrn2);
+%
+%%aqui localizamos a coluna onde esta contido o valor maximo de acuracia de svm
+%[maxsvm, colsvm] = max(max(gridsvm));
+%printf("\nA maior F-medida de svm eh %.2f para coluna = %d\n", maxsvm, colsvm);
+%
+%% Esta etapa matematica para descobrir quais sao os valores de C e Gamma representados pela coluna
+%isvm = ceil(colsvm/19);
+%jsvm = mod(colsvm, 19);
+%
+%csvm = 2 ^ (-5 + isvm);
+%gammasvm = 2 ^ (-15 + jsvm);
+%
+%printf("\nOs valores otimos para o SVM com Kernel Gaussiano sao C = %f e Gamma = %f\n", csvm, gammasvm);
 
 % aqui geramos um csv para visualizacao no relatorio
 if(rodar_knn)
