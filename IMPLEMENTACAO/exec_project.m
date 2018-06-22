@@ -66,8 +66,8 @@ for iter = 1:10
     ktest = all_data((((iter-1)*ksize)+1):(((iter-1)*ksize)+ksize), :);
     ktrain = [all_data(1:(ksize*(iter-1)),:); all_data((((iter-1)*ksize)+ksize+1):end, :)];
     
-    ktest_pca = data_pca(((iter-2)*ksize+1):((iter-1)*ksize+ksize),:);
-    ktrain_pca = [data_pca(1:(ksize*(iter-1)),:); data_pca(((iter-1)*ksize+ksize+1):end, :)];
+    ktest_pca = data_pca((((iter-1)*ksize)+1):(((iter-1)*ksize)+ksize), :);
+    ktrain_pca = [data_pca(1:(ksize*(iter-1)),:); data_pca((((iter-1)*ksize)+ksize+1):end, :)];
   elseif iter == 1
     ktest = all_data(1:ksize, :);
     ktrain = all_data((ksize+1):end, :);
@@ -165,7 +165,6 @@ for iter = 1:10
           printf("Ocorre %.2f%% de F-medida na base de teste\n", fnn);
           fflush(stdout);
           
-          %%%%%%% arrumar esse i aqui se nao ele vai salvar so nos valores de max_iter %%%%%%%%
           gridrn1(iter, count++) = fnn;
         endfor 
       endfor
@@ -209,7 +208,6 @@ for iter = 1:10
           printf("\nOcorre %.2f%% de F-medida\n", fnn);
           fflush(stdout);
           
-          %%%%%%% arrumar esse i aqui se nao ele vai salvar so nos valores de max_iter %%%%%%%%
           gridrn2(iter, count++) = fnn;
           
         endfor
@@ -234,6 +232,11 @@ for iter = 1:10
     gridsvm = [gridsvm; gridRbf];
     toc();
     fprintf('\nO algoritmo SVM finalizou a execucao. \n');
+    
+    csvwrite('gridsvm.csv', gridsvm);
+    best_svm = max(gridsvm, [], 2);
+    save("./data/best_svm.mat", "best_svm");
+    csvwrite("./data/best_svm.csv", best_svm);
    endif
 endfor
 

@@ -8,13 +8,16 @@ function [ypred, gridLin, gridRbf] = svm(train, train_labels, test, c, g)
       
       gridLin = [];
       gridRbf = [];
+      
+      c = num2str(c);
+      g = num2str(g);
     
       parametersRBF = ["-c " c " -t 2 -g " g " -q"];
       
       modelrbf = svmtrain(train_labels, train, ...
                          parametersRBF);
                          
-      y_predforRBF = svmpredict(test(:, end), test(:,1:end-1), modelrbf);
+      ypred = svmpredict(test(:, end), test(:,1:end-1), modelrbf);
 
       
     else

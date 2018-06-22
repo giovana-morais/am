@@ -16,10 +16,6 @@ clear all, clc, close all;
 % retirando inconsistencias, redundancias, c�lulas nulas e fazendo a normalizacao de valores
 % agora recuperamos os dados pre_processados que foram salvos no arquivo pre_processed
 
-printf("\nCarregando dados pre-processados...\n");
-fflush(stdout);
-
-
 if(exist ("./data/pre_processed.mat.zip", "file") )
   printf("\nCarregando dados pre-processados...\n");
   fflush(stdout);
@@ -42,21 +38,25 @@ endif
 % proveniente do 10-fold cross validation utilizado para a escolha de melhor fold
 ksize = floor(rows(all_data)/10);
 
-ktest = [];
-ktrain = [];
-ktest_pca = [];
-ktrain_pca = [];
+iter = 4;
+
+ktest = all_data((((iter-1)*ksize)+1):(((iter-1)*ksize)+ksize), :);
+ktrain = [all_data(1:(ksize*(iter-1)),:); all_data((((iter-1)*ksize)+ksize+1):end, :)];
+ktest_pca = data_pca((((iter-1)*ksize)+1):(((iter-1)*ksize)+ksize), :);
+ktrain_pca = [data_pca(1:(ksize*(iter-1)),:); data_pca(((iter-1)*ksize+ksize+1):end, :)];
+
 
 k = 1;
-lambda_rl = 1;
-lambda_rn = 1;
-max_iter = 1;
-c = 1;
-gamma = 1;
+lambda_rl = 2;
+c = 32;
+g = 0.0078125;
 
-for tam = 1:9
-    cur_ktrain = ktrain(1:ksize*tam, :);
-    cur_ktrain_pca = ktrain_pca(1:ksize*tam, :);
+ktam = floor((rows(all_data)-rows(ktest))/20);
+
+
+for tam = 1:20
+    cur_ktrain = ktrain(1:ktam*tam, :);
+    cur_ktrain_pca = ktrain_pca(1:ktam*tam, :);
 
     % knn com melhor k encontrado com grid search ----------------------------------------------------------
     for i = 1:rows(ktest)
@@ -91,9 +91,9 @@ for tam = 1:9
     
     svmcost_test(tam) = immse(ypred_svm_test, ktest(:, end));
     svmcost_train(tam) = immse(ypred_svm_train, cur_ktrain(:,end));
+    
+    plotCost(knncost_test, knncost_train, 'Curva de aprendizado para o KNN');
+    plotCost(rlcost_test, rlcost_train, 'Curva de aprendizado para a Regressao Linear');
+    %plotCost(rncost_test, rncost_train, 'Curva de aprendizado para Redes Neurais Artificiais');
+    plotCost(svmcost_test, svmcost_train, 'Curva de aprendizado para o SVM');
 endfor
-
-plotCost(knncost_test, knncost_train, 'Curva de aprendizado para o KNN');
-plotCost(rlcost_test, rlcost_train, 'Curva de aprendizado para a Regressao Linear');
-plotCost(rncost_test, rncost_train, 'Curva de aprendizado para Redes Neurais Artificiais');
-plotCost(svmcost_test, svmcost_train, 'Curva de aprendizado para o SVM');

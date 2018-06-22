@@ -1,4 +1,4 @@
-function [f, pred, recall] = fmeasure(ypred, yreal)
+function [f, prec, recall] = fmeasure(ypred, yreal)
   if columns(ypred) > 1
     ypred = ypred';
   endif
