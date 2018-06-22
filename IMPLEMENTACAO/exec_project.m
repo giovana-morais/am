@@ -172,6 +172,11 @@ for iter = 1:10
     endfor
     fprintf('\nO algoritmo de Redes Neurais Artificiais finalizou a execucao. \n');
     toc();
+    
+    csvwrite('gridrn1.csv', gridrn1);
+    best_rn1 = max(gridrn1, [], 2);
+    save("./data/best_rn1.mat", "best_rn1");
+    csvwrite("./data/best_rn1.csv", best_rn1);
   endif
   
   % execucao de redes neurais de duas camada --------------------------------------------------------------------------------------------
@@ -212,6 +217,11 @@ for iter = 1:10
     endfor
     fprintf('\nO algoritmo de Redes Neurais Artificiais finalizou a execucao. \n');
     toc();
+    
+    csvwrite('gridrn2.csv', gridrn2);
+    best_rn2 = max(gridrn2, [], 2);
+    save("./data/best_rn2.mat", "best_rn2");
+    csvwrite("./data/best_rn2.csv", best_rn2);
   endif
   
   
