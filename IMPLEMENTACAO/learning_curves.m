@@ -3,7 +3,7 @@ pkg load statistics
 if(strcmp(computer(), "x86_64-pc-linux-gnu") )
   addpath("./libsvm/libsvm_x86_64-pc-linux-gnu");
 elseif(ispc())
-  addpath(".\libsvm\libsvm-windows");
+  addpath("./libsvm/libsvm-windows");
 endif
 
 addpath("./ann");
