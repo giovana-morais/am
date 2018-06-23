@@ -28,7 +28,7 @@ endif
 
 if(exist ("./data/data_pca.mat.zip", "file") )
   load("./data/data_pca.mat.zip");
-  printf("Dados do PCA Carregados !!!\n\n");
+  printf("Dados com PCA Carregados!\n\n");
 else
   # passando os dados pelo PCA para reduzir os atributos e utilizar em algoritmos que demandam mais processamento
   data_pca = pca(all_data);
@@ -44,7 +44,7 @@ ksize = floor(length(all_data)/10);
 printf("\n\nPara as seguintes questoes responda 1 para sim, 0 para nao:\n");
 rodar_knn = input("Gostaria de executar o KNN ?\nResposta: ");
 rodar_ann1 = input("Gostaria de executar o ANN de uma camada?\nResposta: ");
-rodar_ann2 = input("Gostaria de executar o ANN de duas camada?\nResposta: ");
+rodar_ann2 = input("Gostaria de executar o ANN de duas camadas?\nResposta: ");
 rodar_svm = input("Gostaria de executar o SVM ?\nResposta: ");
 rodar_rl =  input("Gostaria de executar o  RL ?\nResposta: ");
 printf("\nIniciando grid do 10-fold cross-validation\n");
@@ -136,8 +136,8 @@ for iter = 1:10
   if(rodar_ann1 || rodar_ann2) 
     hidden_neurons = [75, 151, 300];
     lambda = [0,0.5,1,2];
-    max_iter = [200,500,750];
-    totaliter = length(max_iter) * length(hidden_neurons) * length(lambda);
+    max_iter_rn1 = [200,500,750];
+    totaliter = length(max_iter_rn1) * length(hidden_neurons) * length(lambda);
   endif
   % execucao de redes neurais de uma camada --------------------------------------------------------------------------------------------
   if(rodar_ann1)
@@ -148,14 +148,14 @@ for iter = 1:10
     count = 1;
     for i = 1: length(hidden_neurons) 
       for j = 1: length(lambda)
-        for k = 1: length(max_iter)
+        for k = 1: length(max_iter_rn1)
           printf("\nIteracao %d de %d.\n", count ,totaliter );
           printf("\n--------------------\n");
           printf("NEURONIOS \t%d\n", hidden_neurons(i));
           printf("LAMBDA:   \t%d\n", lambda(j));
-          printf("MAX_ITER: \t%d\n", max_iter(k));
+          printf("MAX_ITER: \t%d\n", max_iter_rn1(k));
           printf("--------------------\n");
-          y_pred = neural_network_1l(hidden_neurons(i), max_iter(k), ktrain_pca, ktest_pca, lambda(j));
+          y_pred = neural_network_1l(hidden_neurons(i), max_iter_rn1(k), ktrain_pca, ktest_pca, lambda(j));
           
           acc_nn = mean(double(y_pred == ktest_pca(:,end))) * 100;
           printf("Ocorre %.2f%% de acuracia na base de teste\n", acc_nn);
@@ -180,7 +180,7 @@ for iter = 1:10
   
   % execucao de redes neurais de duas camada --------------------------------------------------------------------------------------------
   if(rodar_ann2)
-    max_iter = [500,750,1000];
+    max_iter_rn2 = [500,750,1000];
     printf('\nIniciando execucao de redes neurais artificiais com 2 camadas\n');
     fflush(stdout);
     
@@ -190,15 +190,15 @@ for iter = 1:10
     count = 1;
     for i = 1: length(hidden_neurons) 
       for j = 1: length(lambda)
-        for k = 1: length(max_iter)
+        for k = 1: length(max_iter_rn2)
           printf("\nIteracao %d de %d.\n", count ,totaliter );
           printf("--------------------\n");
           printf("NEURONIOS \t%d\n", hidden_neurons(i));
           printf("LAMBDA:   \t%d\n", lambda(j));
-          printf("MAX_ITER: \t%d\n", max_iter(k));
+          printf("MAX_ITER: \t%d\n", max_iter_rn2(k));
           printf("--------------------\n");
         
-          y_pred = neural_network_2l(hidden_neurons(i), max_iter(k), ktrain_pca, ktest_pca, lambda(j));
+          y_pred = neural_network_2l(hidden_neurons(i), max_iter_rn2(k), ktrain_pca, ktest_pca, lambda(j));
           
           acc_nn = mean(double(y_pred == ktest_pca(:,end))) * 100;
           printf('Acuracia no conjunto de teste: %f', acc_nn);
@@ -240,24 +240,60 @@ for iter = 1:10
    endif
 endfor
 
-% estruturacao do grid 
-
+% estruturacao do grid -------------------------------------------------------------------------------------------------
 %totalgrid = [];
+
+% aqui geramos um csv para visualizacao no relatorio
+if(rodar_knn)
 %% aqui localizamos a coluna onde esta contido o valor maximo de acuracia do knn
 %[maxvalue,col] = max(max(gridknn));
 %printf("\nA maior F-medida do knn eh %.2f para k = %d\n", maxvalue, col);
 %
+  csvwrite('./data/gridknn.csv', gridknn);
+  % aqui pegamos os melhores valores de k para cada fold
+  best_knn = max(gridknn, [], 2);
+  totalgrid = [totalgrid best_knn];
+  save("./data/best_knn.mat", "best_knn");
+  csvwrite("./data/bestknn.csv", best_knn); 
+endif
+
+if(rodar_rl)
 %%aqui localizamos a coluna onde esta contido o valor maximo de acuracia da regressao
 %[maxrl, colrl] = max(max(gridrl));
 %printf("\nA maior F-medida da regressao eh %.2f para lambda = %d\n", maxrl, colrl);
 %
+  csvwrite('gridrl.csv', gridrl);
+  % aqui pegamos os melhores valores de lambda para cada fold
+  best_rl = max(gridrl, [], 2);
+  totalgrid = [totalgrid, best_rl];
+  save("./data/best_rl.mat", "best_rl");
+  csvwrite("./data/best_rl.csv", best_rl);
+endif  
+
+if(rodar_ann1)
 %%aqui localizamos a coluna onde esta contido o valor maximo de acuracia de redes neurais
 %[maxrn1, colrn1] = max(max(gridrn1));
 %printf("\nA maior F-medida de redes neurais eh %.2f", maxrn1, colrn1);
 %
+  csvwrite('gridrn1.csv', gridrn1);
+  best_rn1 = max(gridrn1, [], 2);
+  totalgrid = [totalgrid best_rn1];
+  save("./data/best_rn1.mat", "best_rn1");
+  csvwrite("./data/best_rn1.csv", best_rn1);
+endif
+
+if(rodar_ann2) 
 %[maxrn2, colrn2] = max(max(gridrn2));
 %printf("\nA maior F-medida de redes neurais eh %.2f", maxrn2, colrn2);
-%
+% 
+  csvwrite('gridrn2.csv', gridrn2);
+  best_rn2 = max(gridrn2, [], 2);
+  totalgrid = [totalgrid best_rn2];
+  save("./data/best_rn2.mat", "best_rn2");
+  csvwrite("./data/best_rn2.csv", best_rn2);
+endif  
+
+if(rodar_svm)
 %%aqui localizamos a coluna onde esta contido o valor maximo de acuracia de svm
 %[maxsvm, colsvm] = max(max(gridsvm));
 %printf("\nA maior F-medida de svm eh %.2f para coluna = %d\n", maxsvm, colsvm);
@@ -270,42 +306,9 @@ endfor
 %gammasvm = 2 ^ (-15 + jsvm);
 %
 %printf("\nOs valores otimos para o SVM com Kernel Gaussiano sao C = %f e Gamma = %f\n", csvm, gammasvm);
-
-% aqui geramos um csv para visualizacao no relatorio
-if(rodar_knn)
-  csvwrite('./data/gridknn.csv', gridknn);
-  % aqui pegamos os melhores valores de k para cada fold
-  best_knn = max(gridknn, [], 2);
-  save("./data/best_knn.mat", "best_knn");
-  csvwrite("./data/bestknn.csv", best_knn);
-  
-endif
-
-if(rodar_rl)
-  csvwrite('gridrl.csv', gridrl);
-  % aqui pegamos os melhores valores de lambda para cada fold
-  best_rl = max(gridrl, [], 2);
-  save("./data/best_rl.mat", "best_rl");
-  csvwrite("./data/best_rl.csv", best_rl);
-endif  
-
-if(rodar_ann1)
-  csvwrite('gridrn1.csv', gridrn1);
-  best_rn1 = max(gridrn1, [], 2);
-  save("./data/best_rn1.mat", "best_rn1");
-  csvwrite("./data/best_rn1.csv", best_rn1);
-endif
-
-if(rodar_ann2)  
-  csvwrite('gridrn2.csv', gridrn2);
-  best_rn2 = max(gridrn2, [], 2);
-  save("./data/best_rn2.mat", "best_rn2");
-  csvwrite("./data/best_rn2.csv", best_rn2);
-endif  
-
-if(rodar_svm)
   csvwrite('gridsvm.csv', gridsvm);
   best_svm = max(gridsvm, [], 2);
+  totalgrid = [totalgrid best_svm];
   save("./data/best_svm.mat", "best_svm");
   csvwrite("./data/best_svm.csv", best_svm);
 endif  
@@ -316,25 +319,48 @@ endif
 
 % para otimizar a acuracia, calculamos o k-fold que possui a maior media entre todos os algoritmos
 %[~, bestfold] = max(mean(totalgrid,2));
-%
-%printf("\nOs algoritmos ficam melhor otimizados quando os dados de teste possuem o %d-fold e os dados de treinamento possuem o resto\n\n", bestfold);
-%
+
+if(rodar_knn)
 %% aqui encontramos em qual coluna do fold se encontra o melhor k
 %[valueknn, bestknn] = max(gridknn(bestfold,:));
 %printf("\nComo o melhor fold eh o %d\n\nO melhor k para o knn eh %d com F-medida de %.2f\n", bestfold, bestknn, valueknn);
 %
+endif
+
+if(rodar_rl)
 %[valuerl, bestrl] = max(gridrl(bestfold, :));
 %printf("\nO melhor lambda para a regressao eh %d com F-medida de %.2f\n", bestrl, valuerl);
 %
-%[valuern, bestrn] = max(gridrn(bestfold, :));
-%printf("\nO melhor max_iter para redes neurais eh %d com F-medida de %.2f\n", bestrn, valuern);
+endif
+
+if(rodar_ann1)
+%[valuern1, bestrn1] = max(gridrn1(bestfold, :));
+%[a, b, c] = r1_to_r3(bestrn1, rows(max_iter_rn1), rows(lambda), rows(hidden_neurons));
+%best_maxiter_rn1 = max_iter_rn1(a);
+%best_lambda_rn1 = lambda(b);
+%best_neurons_rn1 = hidden_neurons(c);
+%printf("\nPara redes neurais com 1 camada, o lambda eh %.2f, o max_iter eh %d e o num de neuronios eh %d com F-medida de %.2f\n", best_lambda_rn1, best_maxiter_rn1, best_neurons_rn1, valuern1);
 %
+endif
+
+if(rodar_ann2)
+%[valuern2, bestrn2] = max(gridrn2(bestfold, :));
+%[a, b, c] = r1_to_r3(bestrn2, rows(max_iter_rn2), rows(lambda), rows(hidden_neurons));
+%best_maxiter_rn2 = max_iter_rn2(a);
+%best_lambda_rn2 = lambda(b);
+%best_neurons_rn2 = hidden_neurons(c);
+%printf("\nPara redes neurais com 2 camadas, o lambda eh %.2f, o max_iter eh %d e o num de neuronios eh %d com F-medida de %.2f\n", best_lambda_rn1, best_maxiter_rn1, best_neurons_rn1, valuern1);
+%
+endif
+
+if(rodar_svm)
 %[valuesvm, bestsvm] = max(gridsvm(bestfold, :));
 %isvm = ceil(bestsvm/19);
 %jsvm = mod(bestsvm, 19);
 %csvm = 2^(-5+isvm);
 %gammasvm = 2^(-15+jsvm);
 %printf("\n O melhor C e Gamma para SVM eh %d e %d com F-medida de %.2f\n", csvm, gammasvm, valuern);
+endif
 
 printf("\nFim de execucao\n");
 

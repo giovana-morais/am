@@ -28,7 +28,7 @@ endif
 
 if(exist ("./data/data_pca.mat.zip", "file") )
   load("./data/data_pca.mat.zip");
-  printf("Dados do PCA Carregados !!!\n\n");
+  printf("Dados com PCA Carregados!\n\n");
 else
   # passando os dados pelo PCA para reduzir os atributos e utilizar em algoritmos que demandam mais processamento
   data_pca = pca(all_data);
@@ -96,13 +96,54 @@ mat_res(2,5) = time_exec;
 printf("\nRegressao logistica finalizou execucao. Pressione enter para continuar...\n");
 pause;
 
-% redes neurais com o melhor lambda, max_iter encontrados com grid search -------------------------------------
-%lambda = 1;
-%max_iter = 1;
-%printf('\nIniciando execucao de redes neurais\n');
-%
-%printf('\nO algoritmo redes neurais finalizou a execucao. Pressione enter para continuar...\n'); 
-%pause;
+% redes neurais com o melhor lambda, max_iter e hidden_neurons encontrados com grid search -------------------------------------
+printf('\nIniciando execucao de redes neurais com 1 camada\n');
+hidden_neurons_rn1 = 151;
+max_iter_rn1 = 750;
+lambda_rn1 = 1;
+
+tic;
+ypred_rn1_test = neural_network_1l(hidden_neurons_rn1, max_iter_rn1, ktrain_pca, ktest_pca, lambda_rn1);
+time_exec = toc;
+
+[frn1, precrn1, revrn1] = fmeasure(ypred_rn1_test, ktest_pca(:, end));
+acc_rn1 = mean(double(ypred_rn1_test == ktest_pca(:,end))) * 100;
+printf("\nF-medida da regressao para a base de teste: %.2f\n", frn1);
+fflush(stdout);
+
+mat_res(1,1) = frn1;
+mat_res(1,2) = precrn1*100;
+mat_res(1,3) = revrn1*100;
+mat_res(1,4) = acc_rn1;
+mat_res(1,5) = time_exec;
+
+printf('\nO algoritmo redes neurais com 1 camada finalizou a execucao. Pressione enter para continuar...\n'); 
+pause;
+
+% redes neurais com o melhor lambda, max_iter e hidden_neuros encontrados com grid search -------------------------------------
+printf('\nIniciando execucao de redes neurais com 2 camada\n');
+hidden_neurons_rn2 = 300;
+max_iter_rn2 = 1000;
+lambda_rn2 = 2;
+
+tic;
+ypred_rn2_test = neural_network_2l(hidden_neurons_rn2, max_iter_rn2, ktrain_pca, ktest_pca, lambda_rn2);
+time_exec = toc;
+
+[frn2, precrn2, revrn2] = fmeasure(ypred_rn2_test, ktest_pca(:, end));
+acc_rn2 = mean(double(ypred_rn2_test == ktest_pca(:,end))) * 100;
+printf("\nF-medida da regressao para a base de teste: %.2f\n", frn2);
+fflush(stdout);
+
+mat_res(1,1) = frn2;
+mat_res(1,2) = precrn2*100;
+mat_res(1,3) = revrn2*100;
+mat_res(1,4) = acc_rn2;
+mat_res(1,5) = time_exec;
+
+printf('\nO algoritmo redes neurais com 2 camadas finalizou a execucao. Pressione enter para continuar...\n'); 
+pause;
+
 
 % svm com melhor c e gamma encontrados com grid search -----------------------------------------
 c = 32;

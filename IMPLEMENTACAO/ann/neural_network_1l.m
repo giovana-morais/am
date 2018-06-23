@@ -38,17 +38,17 @@ function y_pred = neural_network_1l(hidden_neurons, max_iter, ktrain, ktest,lamb
                    num_labels, (hidden_layer_size + 1));
                      
                     
-  printf("Salvando resultados obtidos em disco. (Pesos inicias, custo inicial, Pesos Iterados, e custo final)\n");
-
-  file_name = "./data/weighs1l_";
-  file_name = strcat( file_name, "_", num2str(max_iter),"iters_", num2str(lambda), "lambda_", num2str(hidden_neurons),"_hiddensneurons.mat" );
-  save(file_name, 'initial_Theta1', 'initial_Theta2', 'initial_cost','Theta1', 'Theta2', 'cost' );
-  printf("Arquivo salvo como: %s\n", file_name);
-  
+%  printf("Salvando resultados obtidos em disco. (Pesos inicias, custo inicial, Pesos Iterados, e custo final)\n");
+%
+%  file_name = "./data/weighs1l_";
+%  file_name = strcat( file_name, "_", num2str(max_iter),"iters_", num2str(lambda), "lambda_", num2str(hidden_neurons),"_hiddensneurons.mat" );
+%  save(file_name, 'initial_Theta1', 'initial_Theta2', 'initial_cost','Theta1', 'Theta2', 'cost' );
+%  printf("Arquivo salvo como: %s\n", file_name);
+%  
   
   pred = prediction_1l(Theta1, Theta2, ktrain(:,1:end-1));
 
-  fprintf('Ocorre %.2f%% de acuracia na base de treinamento\n', mean(double(pred == ktrain(:,end))) * 100);
+% fprintf('Ocorre %.2f%% de acuracia na base de treinamento\n', mean(double(pred == ktrain(:,end))) * 100);
   
   y_pred = prediction_1l(Theta1, Theta2, ktest(:,1:end-1));
 end

@@ -27,7 +27,7 @@ endif
 
 if(exist ("./data/data_pca.mat.zip", "file") )
   load("./data/data_pca.mat.zip");
-  printf("Dados do PCA Carregados !!!\n\n");
+  printf("Dados do PCA Carregados!\n\n");
 else
   # passando os dados pelo PCA para reduzir os atributos e utilizar em algoritmos que demandam mais processamento
   data_pca = pca(all_data);
