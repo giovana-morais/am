@@ -121,7 +121,7 @@ printf('\nO algoritmo redes neurais com 1 camada finalizou a execucao. Pressione
 pause;
 
 % redes neurais com o melhor lambda, max_iter e hidden_neuros encontrados com grid search -------------------------------------
-printf('\nIniciando execucao de redes neurais com 2 camada\n');
+printf('\nIniciando execucao de redes neurais com 2 camadas\n');
 hidden_neurons_rn2 = 300;
 max_iter_rn2 = 1000;
 lambda_rn2 = 2;
