@@ -72,9 +72,6 @@
 % \documentclass[conference]{../sty/IEEEtran}
 
 
-
-
-
 % Some very useful LaTeX packages include:
 % (uncomment the ones you want to load)
 
@@ -104,7 +101,7 @@
 
 % *** CITATION PACKAGES ***
 %
-%\usepackage{cite}
+\usepackage{cite}
 % cite.sty was written by Donald Arseneau
 % V1.6 and later of IEEEtran pre-defines the format of the cite.sty package
 % \cite{} output to follow that of IEEE. Loading the cite package will
@@ -128,12 +125,12 @@
 % *** GRAPHICS RELATED PACKAGES ***
 %
 \ifCLASSINFOpdf
-  % \usepackage[pdftex]{graphicx}
+   \usepackage[pdftex]{graphicx}
   % declare the path(s) where your graphic files are
   % \graphicspath{{../pdf/}{../jpeg/}}
   % and their extensions so you won't have to specify these with
   % every instance of \includegraphics
-  % \DeclareGraphicsExtensions{.pdf,.jpeg,.png}
+  \DeclareGraphicsExtensions{.pdf,.jpeg,.png}
 \else
   % or other class option (dvipsone, dvipdf, if not using dvips). graphicx
   % will default to the driver specified in the system graphics.cfg if no
@@ -171,7 +168,7 @@
 
 % *** MATH PACKAGES ***
 %
-%\usepackage[cmex10]{amsmath}
+\usepackage[cmex10]{amsmath}
 % A popular package from the American Mathematical Society that provides
 % many useful and powerful commands for dealing with mathematics. If using
 % it, be sure to load this package with the cmex10 option to ensure that
@@ -182,7 +179,7 @@
 %
 % Also, note that the amsmath package sets \interdisplaylinepenalty to 10000
 % thus preventing page breaks from occurring within multiline equations. Use:
-%\interdisplaylinepenalty=2500
+\interdisplaylinepenalty=2500
 % after loading amsmath to restore such page breaks as IEEEtran.cls normally
 % does. amsmath.sty is already installed on most LaTeX systems. The latest
 % version and documentation can be obtained at:
@@ -194,7 +191,7 @@
 
 % *** SPECIALIZED LIST PACKAGES ***
 %
-%\usepackage{algorithmic}
+\usepackage{algorithmic}
 % algorithmic.sty was written by Peter Williams and Rogerio Brito.
 % This package provides an algorithmic environment fo describing algorithms.
 % You can use the algorithmic environment in-text or within a figure
@@ -253,7 +250,8 @@
 
 
 % *** SUBFIGURE PACKAGES ***
-%\usepackage[tight,footnotesize]{subfigure}
+\usepackage[tight,footnotesize]{subfigure}
+
 % subfigure.sty was written by Steven Douglas Cochran. This package makes it
 % easy to put subfigures in your figures. e.g., "Figure 1a and 1b". For IEEE
 % work, it is a good idea to load it with the tight package option to reduce
@@ -263,10 +261,8 @@
 % http://www.ctan.org/tex-archive/obsolete/macros/latex/contrib/subfigure/
 % subfigure.sty has been superceeded by subfig.sty.
 
-
-
 %\usepackage[caption=false]{caption}
-%\usepackage[font=footnotesize]{subfig}
+\usepackage[font=footnotesize]{subfig}
 % subfig.sty, also written by Steven Douglas Cochran, is the modern
 % replacement for subfigure.sty. However, subfig.sty requires and
 % automatically loads Axel Sommerfeldt's caption.sty which will override
@@ -344,6 +340,10 @@
 % (Unless specifically asked to do so by the journal or conference you plan
 % to submit to, of course. )
 
+% passar como parâmetro caption=false no caso de subfigures para manter o padrão
+% do IEEE
+\usepackage{caption}
+\usepackage{todonotes}
 
 % correct bad hyphenation here
 \hyphenation{op-tical net-works semi-conduc-tor}
@@ -353,7 +353,7 @@
 %
 % paper title
 % can use linebreaks \\ within to get better formatting as desired
-\title{Bare Demo of IEEEtran.cls for IEEECS Conferences}
+\title{Reconhecimento automático de atividades humanas}
 
 
 % author names and affiliations
@@ -382,28 +382,21 @@
 % for over three affiliations, or if they all won't fit within the width
 % of the page, use this alternative format:
 % 
-\author{\IEEEauthorblockN{Michael Shell\IEEEauthorrefmark{1},
-Homer Simpson\IEEEauthorrefmark{2},
-James Kirk\IEEEauthorrefmark{3}, 
-Montgomery Scott\IEEEauthorrefmark{3} and
-Eldon Tyrell\IEEEauthorrefmark{4}}
-\IEEEauthorblockA{\IEEEauthorrefmark{1}School of Electrical and Computer Engineering\\
-Georgia Institute of Technology,
-Atlanta, Georgia 30332--0250\\ Email: see http://www.michaelshell.org/contact.html}
-\IEEEauthorblockA{\IEEEauthorrefmark{2}Twentieth Century Fox, Springfield, USA\\
-Email: homer@thesimpsons.com}
-\IEEEauthorblockA{\IEEEauthorrefmark{3}Starfleet Academy, San Francisco, California 96678-2391\\
-Telephone: (800) 555--1212, Fax: (888) 555--1212}
-\IEEEauthorblockA{\IEEEauthorrefmark{4}Tyrell Inc., 123 Replicant Street, Los Angeles, California 90210--4321}}
+\author{\IEEEauthorblockN{Caio Giacomelli\IEEEauthorrefmark{1},
+Giovana Morais\IEEEauthorrefmark{1},
+Giovanna Blasco\IEEEauthorrefmark{1} e
+Mateus Vasconcelos\IEEEauthorrefmark{1}}
+\IEEEauthorblockA{\IEEEauthorrefmark{1}Departamento de Computação\\
+Universidade Federal de São Carlos -- campus Sorocaba}}
 
-
-
+%\IEEEauthorblockA{\IEEEauthorrefmark{2}Twentieth Century Fox, Springfield, USA\\
+%Email: homer@thesimpsons.com}
+%\IEEEauthorblockA{\IEEEauthorrefmark{3}Starfleet Academy, San Francisco, California 96678-2391\\
+%Telephone: (800) 555--1212, Fax: (888) 555--1212}
+%\IEEEauthorblockA{\IEEEauthorrefmark{4}Tyrell Inc., 123 Replicant Street, Los Angeles, California 90210--4321}}
 
 % use for special paper notices
 %\IEEEspecialpapernotice{(Invited Paper)}
-
-
-
 
 % make the title area
 \maketitle
@@ -414,10 +407,10 @@ The abstract goes here. DO NOT USE SPECIAL CHARACTERS, SYMBOLS, OR MATH IN YOUR 
 
 \end{abstract}
 
-%\begin{IEEEkeywords}
-%component; formatting; style; styling;
-
-%\end{IEEEkeywords}
+\begin{IEEEkeywords}
+ reconhecimento de movimento; aprendizado de máquina; svm; redes neurais; knn;
+regressão;
+\end{IEEEkeywords}
 
 
 % For peer review papers, you can put extra information on the cover
@@ -433,33 +426,247 @@ The abstract goes here. DO NOT USE SPECIAL CHARACTERS, SYMBOLS, OR MATH IN YOUR 
 
 
 \section{Introdução}
-% no \IEEEPARstart
-This demo file is intended to serve as a ``starter file''
-for IEEE conference papers produced under \LaTeX\ using
-IEEEtran.cls version 1.7 and later.
+O Reconhecimento de Atividades Humanas é importante para diversas áreas que têm surgido com o avanço tecnológico. Apesar disto, o reconhecimento de atividades complexas se mantém como uma barreira a ser enfrentada pelas aplicações, que precisam de um desenvolvimento contínuo.
 
-All manuscripts must be in English. These guidelines include complete descriptions of the fonts, spacing, and related information for producing your proceedings manuscripts. Please follow them and if you have any questions, direct them to the production editor in charge of your proceedings at Conference Publishing Services (CPS): Phone +1 (714) 821-8380 or Fax +1 (714) 761-1784.
-% You must have at least 2 lines in the paragraph with the drop letter
-% (should never be an issue)
+Com a coleta de dados relevantes e a partir da aplicação de classificadores com
+grande acurácia, podem ser feitas predições a respeito de cuidados médicos
+preventivos, monitoramento médico e monitoramento atlético, por exemplo. Contudo, 
+ainda há presença de falhas e, com base nos resultados obtidos, os algoritmos
+utilizados para o reconhecimento devem ser analisados e tratados para que esse
+tipo de comportamento ocorra cada vez menos e a tecnologia possa ser uma 
+facilitadora confiável para atividades regulares do dia-a-dia.
 
-\section{Base de Dados}
-Descrição e atributos
+Neste trabalho, será apresentada uma base de dados pública [1] que exibe dados 
+sobre a movimentação de um corpo através de sensores de um smartphone posicionado 
+na cintura de participantes do experimento, enquanto estes realizavam atividades 
+diárias simples, como ficar de pé, andar, sentar, deitar, subir degraus e 
+descer degraus. 
 
-\subsection{Pré-processamento}
-Passos do pré-processamento para redução da base de dados inicial
+Para garantir que a classificação automática dessas atividades seja feita de
+forma precisa, hipóteses sobre os dados serão geradas através dos algoritmos
+K-vizinhos mais próximos (ou \textsl{KNN}), Regressão Logística, Redes Neurais 
+Artificiais e Máquinas de Vetores de Suporte (ou \textsl{SVM}). Tais algoritmos 
+passarão pelas fases de treinamento e de teste para que, de acordo com seus
+resultados, seja determinado o método mais capacitado de fazer predições para 
+os dados coletados.
 
-\section{Metodologia Experimental}
-\subsection{Sistema de Avaliação}
-Divisões entre treinamento e teste
+
+O presente trabalho tem como objetivo descrever como o grupo conseguiu atingir o
+que julgou ser o melhor resultado, justificando todo o processo detalhadamente
+para que possa ser reproduzido caso necessário. 
+
+
+\section{Base de dados e pré-processamento}\label{sec:base_dados}
+A base de dados que foi atribuída ao grupo é pública e apresenta dados coletados 
+a partir de um estudo com sensores de smartphone presos a cintura dos
+participantes, que permitiu a identificação de atividades humanas em ambientes 
+capazes de fazer o monitoramento de populações mais idosas. 
+Para tal finalidade, os dados coletados possuem informações fornecidas por um 
+giroscópio e um acelerômetro integrados ao smartphone dos participantes do estudo. 
+Como descrito em [1], os participantes tinham idade entre 22 e 79 anos e 
+realizaram cada atividade (levantar, sentar, deitar, andar, subir escadas e 
+descer escadas) por 60 segundos e todos os dados foram coletados em uma taxa 
+constante de 50Hz. As atividades, que foram convertidas para valores numéricos, 
+são os \textsl{labels} das amostras e cada tipo diferente de característica 
+dos movimentos são os atributos da base representadas por valores reais.\newline
+
+\begin{table}[h]
+\begin{center}
+    \begin{tabular}{| l | c |}
+        \hline
+        Atividade & Valor numérico associado\\
+        \hline
+        Andar & 1\\
+        Subir escadas & 2\\
+        Descer escadas & 3\\
+        Sentar & 4\\
+        Levantar & 5\\
+        Deitar & 6\\
+        \hline
+    \end{tabular}
+    \caption{Atividades realizadas pelos participantes e seus respectivos
+    \textsl{labels}}\label{tab:labels}
+\end{center}
+\end{table}
+
+Inicialmente, o dataset é fornecido separadamente em arquivos de 
+treinamento, com 70\% do total dos dados, e de teste, com 30\% total dos dados, 
+que foram utilizados pelos autores para validação própria, como foi descrito em 
+[2]. Como será explicado em mais detalhes posteriormente na subseção
+~\ref{sec:pre_processamento} e justificado na
+seção~\ref{subsec:sistema_avaliacao}, o grupo decidiu unir os arquivos de treinamento e teste. 
+
+
+\subsection{Pré-processamento}\label{sec:pre_processamento}
+O pré-processamento de dados é necessário uma vez que a qualidade 
+dos dados afeta diretamente o desempenho das metodologias que serão aplicadas 
+posteriormente. O grupo não possui o \textsl{know-how} necessário sobre o tema
+em geral e principalmente sobre os dados coletados, 
+o que fez com que utilizássemos métodos genéricos para a redução de atributos teoricamente irrelevantes.
+
+No total, são 561 atributos e 6 classes. Ao unirmos os dados do arquivo de
+treinamento com os de teste, foi verificado um total de 5744 amostras.
+O primeiro passo do pré-processamento foi a redução de amostras repetidas, ou 
+seja, amostras com atributos de valores e classificação idênticos. Nesses casos
+, apenas uma amostra fora mantida a fim de evitar pesos. Como foi averiguado 
+através de testes, a base de dados não apresenta amostras com atributos iguais e
+classificações diferentes, porém, para manter a generalidade do
+pré-processamento, foi adicionada uma lógica ao código que removeria todas as 
+ocorrências desse tipo, se houvessem. Nesta etapa foram removidas 406 amostras.
+
+\todo[inline]{acho que seria bom colocar alguma referência a essa técnica aqui}
+Em seguida, foi feita a redução de valores que representavam \textsl{outliers} 
+aos atributos. Para isso, foi utilizada a técnica de reduzir valores maiores 
+que o quartil superior para o valor deste quartil e aumentar valores menores 
+que o quartil inferior para o valor deste quartil. Desta forma, obtivemos uma 
+redução de ruídos e portanto, maior normalização dos dados.
+
+A partir disso, foi feita a verificação de células nulas na matriz de dados
+e, como não foi encontrada nenhuma ocorrência desse tipo de inconsistência, 
+não incluímos a verificação.
+
+O próximo passo foi realizar a normalização dos valores da base de dados. Escolhemos 
+a normalização por padronização, onde a média é 0 e o desvio padrão é 1, por 
+ser mais comumente utilizada como preparação para maioria dos classificadores
+que foram implementados e testados na próxima etapa e, além disso, para a redução 
+de dimensionalidade feita através da Análise de Componentes Principais.
+
+A fim de verificar o balanceamento dos dados, foi feita uma contabilização do número 
+de amostras pertencente à cada classe. Foi possível verificar que dentre 5338 
+amostras, a distância entre a menor e a maior quantidade de amostras para cada 
+classe foi de $334$, o que representa aproximadamente $6\%$ dos dados. Portanto, 
+concluímos que os dados estão minimamente desbalanceados, o que não afeta o
+treinamento dos modelos implementados.
+
+A necessidade do \textsl{shuffle} foi constatada após o grupo verificar que 
+não havia distribuição uniforme das classes em segmentos das amostras, onde 
+havia segmento que possuía muitas amostras de uma classe e quase nenhuma de 
+outra, o que causaria problemas na hora de gerar uma hipótese, uma vez que ela
+seria construída em cima de amostras com mesma classificação sempre, quase como
+um desbalanceamento. Após a 
+realização do shuffle nas amostras, obtivemos uma distribuição quase uniforme 
+das classes. 
+
+Portanto, com o \textsl{shuffle} na última fase do pré-processamento, os 
+\textsl{folds} passaram a representar todas as classes do dataset como um todo e
+não só algumas.
+ 
+Todos os passos desse processo de pré-processamento podem ser visualizadas no
+arquivo \texttt{preprocessing.m}. Todos esses passos resultam em uma matriz que é carregada para
+o arquivo \texttt{pre\_processed.mat} e será utilizada nas próximas etapas do experimento. 
+
+\missingfigure{inserir as imagens de antes e depois do shuffle}
+
+\section{Metodologia Experimental}\label{sec:metodologia}
+\subsection{Sistema de Avaliação}\label{subsec:sistema_avaliacao}
+%Divisões entre treinamento e teste
+A fim de conseguir avaliar o desempenho de predição dos diferentes modelos 
+de Aprendizado de Máquina sobre a base de dados fornecida, decidimos utilizar 
+a técnica de \textsl{10-Fold Cross Validation} que é ideal para adequar os 
+dados de treinamento e teste. Para isso, dividimos a quantidade total de 
+amostras por $10$ e portanto, teremos $10$ \textsl{folds} (fatias) dos dados 
+com tamanhos iguais. Para cada fatia N indo de $1$ a $10$, deixamos a atual 
+sendo utilizada para uma partição de teste e o restante é utilizado como partição 
+de treinamento, semelhante ao descrito em [3]\todo{ref}. Se uma partição de 
+teste não fosse utilizada para a definição dos parâmetros, possivelmente 
+teríamos um valor de F-medida máximo gerado por \textsl{overfitting} da própria 
+partição de treinamento. Analogamente, deixar mais \textsl{folds} para teste e
+menos para treinamento faria com que a capacidade de generalização dos modelos
+pudesse ser melhor avaliada, mas em contrapartida menos dados seriam usados para
+a hipótese, o que poderia diminuir sua F-medida consideravelmente.
+
+
+Além disso, para que conseguíssemos otimizar a validação cruzada juntamente 
+com a estimativa de parâmetros mais adequados para os algoritmos, utilizamos 
+o \textsl{Grid Search}. Basicamente o que fazemos em todo o processo é escolher 
+o valor do parâmetro que apresenta a maior F-medida para cada uma das partições 
+utilizadas para teste na validação cruzada. Assim, é possível analisar todos os
+resultados e escolher o \textsl{fold} que melhor otimiza todos os modelos 
+utilizados no projeto através de uma média das F-medidas. Desta forma, podemos
+então escolher o algoritmo que apresenta os melhores resultados para a base de
+dados descrita na seção~\ref{sec:base_dados}.
+
+Para o treinamento de algoritmos mais custosos como Redes Neurais Artificiais 
+e o SVM, consideramos necessária a redução da grande quantidade inicial de 
+atributos. Para isso, foi feita a matriz de correlação entre os atributos, onde
+colunas da matriz cuja correlação era maior que $0.9$, menor que $-0.9$ foram 
+removidas. Resultando em $170$ atributos aproximadamente de um total de $561$. 
+Apesar da redução ter sido significativa, esse número ainda resultaria em 
+execuções custosas para a geração de hipóteses. Posto isso, após algumas 
+pesquisas e conselhos, o grupo decidiu fazer a implementação do método de 
+Análise de Componentes Principais, disponível no arquivo \texttt{pca.mat}, optando por manter atributos que preservam 
+no mínimo $98\%$ da variância dos dados apresentados inicialmente, de maneira 
+que a fidelidade das informações se mantivesse. Após feito o processo em cima 
+da base de dados já normalizada, restaram $151$ atributos.
+
 
 \subsection{Parâmetros e Medidas de Desempenho}
-Descrever as decisões do grupo nos que foram utilizados
+%Descrever as decisões do grupo nos que foram utilizados
+Para o classificador KNN precisávamos definir uma maneira eficiente para 
+encontrar o número ideal k de vizinhos para assim determinar a distância entre 
+os pares. Para isso, capturamos o k, indo de 1 a 50, que atribui a melhor 
+F-medida de predição ao KNN utilizando as partições de treinamento e teste 
+definidos pelo \textsl{10-Fold Cross Validation}. Para a implementação do 
+K-vizinhos mais próximos utilizamos vetorização em vários passos, de forma a melhorar o desempenho da execução.
+
+A Regressão Logística contou com a variação apenas do parâmetro lambda, sendo
+esta de $0$ a $10$. Isso
+ocorreu principalmente pela grande quantidade de atributos usados, o que tornou
+inviável a geração de atributos polinomiais. 
+
+
+Para os algoritmos de Redes Neurais Artificiais existem vários parâmetros que
+influenciam diretamente no funcionamento do algoritmo. O grupo optou por testar
+as variações de lambda, número máximo de iterações e número de neurônios das
+camadas ocultas. 
+
+O parâmetro de maior dificuldade para definição foi o número de
+neurônios das camadas ocultas porque impactava diretamente o tempo de
+processamento e a qualidade de resultado. Para isso, o grupo buscou por
+materiais e conselhos que pudessem ajudar e, a partir disso, definimos três
+variações de neurônios: 
+    \begin{description}
+        \item[75]{Aproximadamente metade dos atributos. Esperava-se que a
+        acurácia para este parâmetro fosse mais baixa.}
+        \item[151]{Iguala o número de atributos depois da aplicação da Análise
+        de Componentes Principais.}
+        \item[300]{Esperava-se que este parâmetro, combinado com o lambda certo,
+        resultasse na melhor acurácia possível apesar do alto cuso
+        computacional}
+    \end{description}
+
+Para as RNA de apenas uma camada, o número máximo de iterações variou entre 200,
+500 e 700. Já para as de duas camadas, este parâmetro variou entre 500, 750 e
+1000.
+
+A variação do lambda foi também um ponto de dificuldade para o caso específico
+de lambda igual a 0. Isso ocorreu porque, entre os cálculos do método, o custo
+acabava se tornando um NaN (Not a Number) e fazia com que o método divergisse.
+Para corrigir este problema, implementou-se uma verificação que, sempre que o
+cálculo do custo resultasse em um NaN, era adicionado um número suficientemente
+próximo de zero ao valor, desssa forma tornando possível a computação sem
+maiores problemas.
+
+
+Devido a grande quantidade de funções de Kernel e diferentes parâmetros para a técnica de classificação de Máquinas de Vetores de Suporte, foram escolhidos parâmetros que mais sintetizam nosso conjunto de dados. Primeiramente, para montar o grid com os valores ótimos para cada fold da técnica de 10-Fold Cross Validation, iteramos os parâmetros C (responsável pela largura da margem) e Gamma (Parâmetro do kernel RBF, Radial Basis Function) exponencialmente.
+
+Também, além de utilizarmos o Kernel RBF para montar o grid, montamos um grid separado para visualizar como o SVM se comportaria com um Kernel linear, e após constatarmos que a nossa base dados não é linear, e analisarmos o grid resultante do Kernel linear, descartamos este método de classificação, por sua F-medida ser inferior a todos os outros métodos.
+
 
 \section{Resultados}
-Colocar muitas tabelas e gráficos de comparação para mostrar os resultados de predição de cada algoritmo
+%Colocar muitas tabelas e gráficos de comparação para mostrar os resultados de predição de cada algoritmo
+De acordo com a estrutura do nosso grid, primeiramente recuperamos os valores de parâmetros, descritos na seção 4, que apresentam melhor F-medida para cada fold da validação cruzada. As melhores F-medidas resultantes deste processo podem ser visualizadas na tabela X. Como pode ser conferido, a melhor F-medida média foi detectada para o fold <X> e portanto, estabelecemos que esse é o fold ideal para todos os modelos. A partir disso, podemos utilizar os melhores valores dos parâmetros de cada modelo em relação ao fold <X>. Os parâmetros definidos podem ser visualizados na tabela Y. É necessário salientar que para redes neurais, talvez a qualidade seja afetada positivamente ou negativamente, pois os pesos para o cálculo dos neurônios é totalmente aleatório em cada execução.
+
+Após feita a seleção dos melhores parâmetros para cada classificador como foi descrito anteriormente, fizemos uma análise do desempenho de cada um dos algoritmos através das seguintes métricas: F-medida, precisão, revocação, acurácia e por fim, tempo de execução. A precisão e a revocação que geraram os F-medidas, foi uma realizada através da média da precisão e revocação de todas as classes, já que temos seis. Nossos dados estão poucos desbalanceados, como vimos do pré-processamento, então a acurácia possivelmente também representa valores, que em sua maioria, são verídicos. O tempo de execução no Octave foi recuperado através dos comandos complementares tic() e toc(), que disparam um timer no início da execução do algoritmo e registram o tempo total no final [5]. Todos esses valores podem ser visualizados de forma mais representativa na tabela Z.
+
+Além disso, geramos as curvas de aprendizado para cada um dos métodos para <<<explicar pra que as curvas de aprendizado servem>>>>>>. 
+\todo[inline]{explicar curvas de aprendizado}
 
 \section{Conclusões}
 
+
+\todo[inline]{ajeitar o .bib de referências e colocar o apêndice sem ser como
+seção, mas como apêndice mesmo}
 \section{Referências}
 
 \section{Apêndice}
@@ -570,9 +777,10 @@ Passo-a-passo para obter os resultados no Octave que foram detalhados no relató
 % http://www.ctan.org/tex-archive/biblio/bibtex/contrib/doc/
 % The IEEEtran BibTeX style support page is at:
 % http://www.michaelshell.org/tex/ieeetran/bibtex/
-%\bibliographystyle{IEEEtran}
+\bibliographystyle{IEEEtran}
 % argument is your BibTeX string definitions and bibliography database(s)
 %\bibliography{IEEEabrv,../bib/paper}
+\bibliography{IEEEfull}
 %
 % <OR> manually copy in the resultant .bbl file
 % set second argument of \begin to the number of references
