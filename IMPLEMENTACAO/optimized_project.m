@@ -108,7 +108,7 @@ time_exec = toc;
 
 [frn1, precrn1, revrn1] = fmeasure(ypred_rn1_test, ktest_pca(:, end));
 acc_rn1 = mean(double(ypred_rn1_test == ktest_pca(:,end))) * 100;
-printf("\nF-medida da regressao para a base de teste: %.2f\n", frn1);
+printf("\nF-medida da rede neural com 1 camada oculta para a base de teste: %.2f\n", frn1);
 fflush(stdout);
 
 mat_res(1,1) = frn1;
@@ -132,7 +132,7 @@ time_exec = toc;
 
 [frn2, precrn2, revrn2] = fmeasure(ypred_rn2_test, ktest_pca(:, end));
 acc_rn2 = mean(double(ypred_rn2_test == ktest_pca(:,end))) * 100;
-printf("\nF-medida da regressao para a base de teste: %.2f\n", frn2);
+printf("\nF-medida da rede neural com 2 camadas ocultas para a base de teste: %.2f\n", frn2);
 fflush(stdout);
 
 mat_res(1,1) = frn2;
@@ -156,7 +156,7 @@ time_exec = toc;
 
 [fsvm, precsvm, revsvm] = fmeasure(ypred_svm_test, ktest_pca(:, end));
 acc_svm = mean(double(ypred_svm_test == ktest_pca(:,end))) * 100;
-printf("\nF-medida da regressao para a base de teste: %.2f\n", fsvm);
+printf("\nF-medida do SVM para a base de teste: %.2f\n", fsvm);
 fflush(stdout);
 
 mat_res(5,1) = fsvm;
