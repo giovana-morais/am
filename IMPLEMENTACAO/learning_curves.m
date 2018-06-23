@@ -48,6 +48,12 @@ ktrain_pca = [data_pca(1:(ksize*(iter-1)),:); data_pca(((iter-1)*ksize+ksize+1):
 
 k = 1;
 lambda_rl = 2;
+hidden_neurons_rn1 = 151;
+max_iter_rn1 = 750;
+lambda_rn1 = 1;
+hidden_neurons_rn2 = 300;
+max_iter_rn2 = 1000;
+lambda_rn2 = 2;
 c = 32;
 g = 0.0078125;
 
@@ -81,7 +87,17 @@ for tam = 1:20
 
     % redes neurais com o melhor lambda, max_iter encontrados com grid search -------------------------------------
     
+	ypred_rn1_test = neural_network_1l(hidden_neurons_rn1, max_iter_rn1, cur_ktrain_pca, ktest_pca, lambda_rn1);
+	ypred_rn1_train = neural_network_1l(hidden_neurons_rn1, max_iter_rn1, ktrain_pca, cur_ktrain_pca, lambda_rn1);
+	
+	rn1cost_test(tam) = immse(ypred_rn1_test, ktest_pca(:, end));
+    rn1cost_train(tam) = immse(ypred_rn1_train, cur_ktrain_pca(:,end));
 
+	ypred_rn2_test = neural_network_2l(hidden_neurons_rn2, max_iter_rn2, ktrain_pca, ktest_pca, lambda_rn2);
+	ypred_rn2_test = neural_network_2l(hidden_neurons_rn2, max_iter_rn2, ktrain_pca, ktest_pca, lambda_rn2);
+	
+	rn2cost_test(tam) = immse(ypred_rn2_test, ktest_pca(:, end));
+    rn2cost_train(tam) = immse(ypred_rn2_train, cur_ktrain_pca(:,end));
 
     % svm com melhor c e gamma encontrados com grid search -----------------------------------------
     
@@ -89,11 +105,12 @@ for tam = 1:20
 
     [ypred_svm_train, ~, ~] = svm(cur_ktrain_pca(:,1:end-1), cur_ktrain_pca(:,end), cur_ktrain_pca, c, g);
     
-    svmcost_test(tam) = immse(ypred_svm_test, ktest(:, end));
-    svmcost_train(tam) = immse(ypred_svm_train, cur_ktrain(:,end));
+    svmcost_test(tam) = immse(ypred_svm_test, ktest_pca(:, end));
+    svmcost_train(tam) = immse(ypred_svm_train, cur_ktrain_pca(:,end));
     
     plotCost(knncost_test, knncost_train, 'Curva de aprendizado para o KNN');
     plotCost(rlcost_test, rlcost_train, 'Curva de aprendizado para a Regressao Linear');
-    %plotCost(rncost_test, rncost_train, 'Curva de aprendizado para Redes Neurais Artificiais');
+    plotCost(rn1cost_test, rn1cost_train, 'Curva de aprendizado para Redes Neurais Artificiais com 1 camada oculta');
+	plotCost(rn2cost_test, rn2cost_train, 'Curva de aprendizado para Redes Neurais Artificiais com 2 camadas ocultas');
     plotCost(svmcost_test, svmcost_train, 'Curva de aprendizado para o SVM');
 endfor

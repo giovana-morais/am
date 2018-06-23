@@ -111,11 +111,11 @@ acc_rn1 = mean(double(ypred_rn1_test == ktest_pca(:,end))) * 100;
 printf("\nF-medida da rede neural com 1 camada oculta para a base de teste: %.2f\n", frn1);
 fflush(stdout);
 
-mat_res(1,1) = frn1;
-mat_res(1,2) = precrn1*100;
-mat_res(1,3) = revrn1*100;
-mat_res(1,4) = acc_rn1;
-mat_res(1,5) = time_exec;
+mat_res(3,1) = frn1;
+mat_res(3,2) = precrn1*100;
+mat_res(3,3) = revrn1*100;
+mat_res(3,4) = acc_rn1;
+mat_res(3,5) = time_exec;
 
 printf('\nO algoritmo redes neurais com 1 camada finalizou a execucao. Pressione enter para continuar...\n'); 
 pause;
@@ -135,11 +135,11 @@ acc_rn2 = mean(double(ypred_rn2_test == ktest_pca(:,end))) * 100;
 printf("\nF-medida da rede neural com 2 camadas ocultas para a base de teste: %.2f\n", frn2);
 fflush(stdout);
 
-mat_res(1,1) = frn2;
-mat_res(1,2) = precrn2*100;
-mat_res(1,3) = revrn2*100;
-mat_res(1,4) = acc_rn2;
-mat_res(1,5) = time_exec;
+mat_res(4,1) = frn2;
+mat_res(4,2) = precrn2*100;
+mat_res(4,3) = revrn2*100;
+mat_res(4,4) = acc_rn2;
+mat_res(4,5) = time_exec;
 
 printf('\nO algoritmo redes neurais com 2 camadas finalizou a execucao. Pressione enter para continuar...\n'); 
 pause;
