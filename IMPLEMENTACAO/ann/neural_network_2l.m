@@ -3,7 +3,7 @@ function [y_pred] = neural_network_2l(hidden_neurons, max_iter, ktrain, ktest, l
   % Implementacao de redes neurais artificiais para o problema de reconhecimento 
   % de atividades humanas
 
-  input_layer_size = size(ktrain,2) -1
+  input_layer_size = size(ktrain,2) -1;
   number_of_hidden_layers = 2;
   hidden_layer_size = hidden_neurons;
   num_labels = 6;
