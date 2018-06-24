@@ -356,9 +356,9 @@ endif
 
 if(rodar_svm)
   [valuesvm, bestsvm] = max(gridsvm(bestfold, :));
-  isvm = ceil(bestsvm/19);
+  isvm = ceil(bestsvm/19); 
   jsvm = mod(bestsvm, 19);
-  csvm = 2^(-5+isvm);
+  csvm = 2^(-6+isvm);
   gammasvm = 2^(-15+jsvm);
   printf("\n O melhor C e Gamma para SVM eh %d e %d com F-medida de %.2f\n", csvm, gammasvm, valuern);
 endif

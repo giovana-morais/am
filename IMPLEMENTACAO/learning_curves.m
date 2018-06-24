@@ -58,7 +58,7 @@ lambda_rn1 = 1;
 hidden_neurons_rn2 = 300;
 max_iter_rn2 = 1000;
 lambda_rn2 = 2;
-c = 32;
+c = 16;
 g = 0.0078125;
 
 ktam = floor((rows(all_data)-rows(ktest))/100);
@@ -66,6 +66,7 @@ ktam = floor((rows(all_data)-rows(ktest))/100);
 
 for tam = 1:100
     printf("\nIncremento %d\n", tam);
+    fflush(stdout);
     if(tam != 100)
       cur_ktrain = ktrain(1:ktam*tam, :);
       cur_ktrain_pca = ktrain_pca(1:ktam*tam, :);
@@ -86,7 +87,7 @@ for tam = 1:100
     knncost_test(tam) = immse(ypred_knn_test, ktest(:, end));
     knncost_train(tam) = immse(ypred_knn_train, cur_ktrain(:,end));
 
-%    % regressao logistica com melhor lambda encontrado com grid search ---------------------------------------------------
+    % regressao logistica com melhor lambda encontrado com grid search ---------------------------------------------------
  
     ypred_rl_test = regression(cur_ktrain(:,1:end-1), cur_ktrain(:,end), ktest(:,1:end-1), lambda_rl);
 
