@@ -6,7 +6,7 @@ LATEX = xelatex --shell-escape
 REPORT = bare_conf.pdf
 
 DEPS = bare_conf.tex \
-#	IEEfull.bib
+	#IEEEtranBST/IEEEfull.bib
 
 all: $(REPORT)
 	
