@@ -65,6 +65,7 @@ ktam = floor((rows(all_data)-rows(ktest))/100);
 
 
 for tam = 1:100
+    printf("\nIncremento %d\n", tam);
     if(tam != 100)
       cur_ktrain = ktrain(1:ktam*tam, :);
       cur_ktrain_pca = ktrain_pca(1:ktam*tam, :);
@@ -91,8 +92,6 @@ for tam = 1:100
 
     ypred_rl_train = regression(cur_ktrain(:,1:end-1), cur_ktrain(:,end), cur_ktrain(:,1:end-1), lambda_rl);
     
-    printf("\nRegressao executou\n");
-    fflush(stdout);
     rlcost_test(tam) = immse(ypred_rl_test, ktest(:, end));
     rlcost_train(tam) = immse(ypred_rl_train, cur_ktrain(:,end));
 
