@@ -1,7 +1,5 @@
 function [ypred, gridLin, gridRbf] = svm(train, train_labels, test, c, g) 
 
-    %TODO: Fazer de uma maneira menos burra os indices dos while;
-    %TODO: Documentar melhor o codigo;
     
     % se ja recebeu c e g, nao precisa incrementar parametros    
     if(exist("c", "var") && exist("g", "var"))
