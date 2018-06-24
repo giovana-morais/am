@@ -50,19 +50,6 @@
 % The testflow support page is at:
 % http://www.michaelshell.org/tex/testflow/
 
-
-
-% Note that the a4paper option is mainly intended so that authors in
-% countries using A4 can easily print to A4 and see how their papers will
-% look in print - the typesetting of the document will not typically be
-% affected with changes in paper size (but the bottom and side margins will).
-% Use the testflow package mentioned above to verify correct handling of
-% both paper sizes by the user's LaTeX system.
-%
-% Also note that the "draftcls" or "draftclsnofoot", not "draft", option
-% should be used if it is desired that the figures are to be displayed in
-% draft mode.
-%
 \documentclass[10pt, conference, compsocconf]{IEEEtran}
 \usepackage[utf8]{inputenc}
 \usepackage[brazil]{babel}
@@ -70,255 +57,18 @@
 %
 % If IEEEtran.cls has not been installed into the LaTeX system files,
 % manually specify the path to it like:
-% \documentclass[conference]{../sty/IEEEtran}
-
-
-% Some very useful LaTeX packages include:
-% (uncomment the ones you want to load)
-
-
-% *** MISC UTILITY PACKAGES ***
-%
-%\usepackage{ifpdf}
-% Heiko Oberdiek's ifpdf.sty is very useful if you need conditional
-% compilation based on whether the output is pdf or dvi.
-% usage:
-% \ifpdf
-%   % pdf code
-% \else
-%   % dvi code
-% \fi
-% The latest version of ifpdf.sty can be obtained from:
-% http://www.ctan.org/tex-archive/macros/latex/contrib/oberdiek/
-% Also, note that IEEEtran.cls V1.7 and later provides a builtin
-% \ifCLASSINFOpdf conditional that works the same way.
-% When switching from latex to pdflatex and vice-versa, the compiler may
-% have to be run twice to clear warning/error messages.
-
-
-% *** CITATION PACKAGES ***
-%
-\usepackage{cite}
-% cite.sty was written by Donald Arseneau
-% V1.6 and later of IEEEtran pre-defines the format of the cite.sty package
-% \cite{} output to follow that of IEEE. Loading the cite package will
-% result in citation numbers being automatically sorted and properly
-% "compressed/ranged". e.g., [1], [9], [2], [7], [5], [6] without using
-% cite.sty will become [1], [2], [5]--[7], [9] using cite.sty. cite.sty's
-% \cite will automatically add leading space, if needed. Use cite.sty's
-% noadjust option (cite.sty V3.8 and later) if you want to turn this off.
-% cite.sty is already installed on most LaTeX systems. Be sure and use
-% version 4.0 (2003-05-27) and later if using hyperref.sty. cite.sty does
-% not currently provide for hyperlinked citations.
-% The latest version can be obtained at:
-% http://www.ctan.org/tex-archive/macros/latex/contrib/cite/
-% The documentation is contained in the cite.sty file itself.
-
-
-
-
-
-
-% *** GRAPHICS RELATED PACKAGES ***
-%
+%\documentclass[conference]{../sty/IEEEtran}
+%\usepackage{cite}
 \ifCLASSINFOpdf
    \usepackage[pdftex]{graphicx}
-  % declare the path(s) where your graphic files are
-  % \graphicspath{{../pdf/}{../jpeg/}}
-  % and their extensions so you won't have to specify these with
-  % every instance of \includegraphics
   \DeclareGraphicsExtensions{.pdf,.jpeg,.png}
 \else
-  % or other class option (dvipsone, dvipdf, if not using dvips). graphicx
-  % will default to the driver specified in the system graphics.cfg if no
-  % driver is specified.
-  % \usepackage[dvips]{graphicx}
-  % declare the path(s) where your graphic files are
-  % \graphicspath{{../eps/}}
-  % and their extensions so you won't have to specify these with
-  % every instance of \includegraphics
-  % \DeclareGraphicsExtensions{.eps}
 \fi
-% graphicx was written by David Carlisle and Sebastian Rahtz. It is
-% required if you want graphics, photos, etc. graphicx.sty is already
-% installed on most LaTeX systems. The latest version and documentation can
-% be obtained at: 
-% http://www.ctan.org/tex-archive/macros/latex/required/graphics/
-% Another good source of documentation is "Using Imported Graphics in
-% LaTeX2e" by Keith Reckdahl which can be found as epslatex.ps or
-% epslatex.pdf at: http://www.ctan.org/tex-archive/info/
-%
-% latex, and pdflatex in dvi mode, support graphics in encapsulated
-% postscript (.eps) format. pdflatex in pdf mode supports graphics
-% in .pdf, .jpeg, .png and .mps (metapost) formats. Users should ensure
-% that all non-photo figures use a vector format (.eps, .pdf, .mps) and
-% not a bitmapped formats (.jpeg, .png). IEEE frowns on bitmapped formats
-% which can result in "jaggedy"/blurry rendering of lines and letters as
-% well as large increases in file sizes.
-%
-% You can find documentation about the pdfTeX application at:
-% http://www.tug.org/applications/pdftex
-
-
-
-
-
-% *** MATH PACKAGES ***
-%
 \usepackage[cmex10]{amsmath}
-% A popular package from the American Mathematical Society that provides
-% many useful and powerful commands for dealing with mathematics. If using
-% it, be sure to load this package with the cmex10 option to ensure that
-% only type 1 fonts will utilized at all point sizes. Without this option,
-% it is possible that some math symbols, particularly those within
-% footnotes, will be rendered in bitmap form which will result in a
-% document that can not be IEEE Xplore compliant!
-%
-% Also, note that the amsmath package sets \interdisplaylinepenalty to 10000
-% thus preventing page breaks from occurring within multiline equations. Use:
 \interdisplaylinepenalty=2500
-% after loading amsmath to restore such page breaks as IEEEtran.cls normally
-% does. amsmath.sty is already installed on most LaTeX systems. The latest
-% version and documentation can be obtained at:
-% http://www.ctan.org/tex-archive/macros/latex/required/amslatex/math/
-
-
-
-
-
-% *** SPECIALIZED LIST PACKAGES ***
-%
 \usepackage{algorithmic}
-% algorithmic.sty was written by Peter Williams and Rogerio Brito.
-% This package provides an algorithmic environment fo describing algorithms.
-% You can use the algorithmic environment in-text or within a figure
-% environment to provide for a floating algorithm. Do NOT use the algorithm
-% floating environment provided by algorithm.sty (by the same authors) or
-% algorithm2e.sty (by Christophe Fiorio) as IEEE does not use dedicated
-% algorithm float types and packages that provide these will not provide
-% correct IEEE style captions. The latest version and documentation of
-% algorithmic.sty can be obtained at:
-% http://www.ctan.org/tex-archive/macros/latex/contrib/algorithms/
-% There is also a support site at:
-% http://algorithms.berlios.de/index.html
-% Also of interest may be the (relatively newer and more customizable)
-% algorithmicx.sty package by Szasz Janos:
-% http://www.ctan.org/tex-archive/macros/latex/contrib/algorithmicx/
-
-
-
-
-% *** ALIGNMENT PACKAGES ***
-%
-%\usepackage{array}
-% Frank Mittelbach's and David Carlisle's array.sty patches and improves
-% the standard LaTeX2e array and tabular environments to provide better
-% appearance and additional user controls. As the default LaTeX2e table
-% generation code is lacking to the point of almost being broken with
-% respect to the quality of the end results, all users are strongly
-% advised to use an enhanced (at the very least that provided by array.sty)
-% set of table tools. array.sty is already installed on most systems. The
-% latest version and documentation can be obtained at:
-% http://www.ctan.org/tex-archive/macros/latex/required/tools/
-
-
-%\usepackage{mdwmath}
-%\usepackage{mdwtab}
-% Also highly recommended is Mark Wooding's extremely powerful MDW tools,
-% especially mdwmath.sty and mdwtab.sty which are used to format equations
-% and tables, respectively. The MDWtools set is already installed on most
-% LaTeX systems. The lastest version and documentation is available at:
-% http://www.ctan.org/tex-archive/macros/latex/contrib/mdwtools/
-
-
-% IEEEtran contains the IEEEeqnarray family of commands that can be used to
-% generate multiline equations as well as matrices, tables, etc., of high
-% quality.
-
-
-%\usepackage{eqparbox}
-% Also of notable interest is Scott Pakin's eqparbox package for creating
-% (automatically sized) equal width boxes - aka "natural width parboxes".
-% Available at:
-% http://www.ctan.org/tex-archive/macros/latex/contrib/eqparbox/
-
-
-
-
-
-% *** SUBFIGURE PACKAGES ***
 \usepackage[tight,footnotesize]{subfigure}
-
-% subfigure.sty was written by Steven Douglas Cochran. This package makes it
-% easy to put subfigures in your figures. e.g., "Figure 1a and 1b". For IEEE
-% work, it is a good idea to load it with the tight package option to reduce
-% the amount of white space around the subfigures. subfigure.sty is already
-% installed on most LaTeX systems. The latest version and documentation can
-% be obtained at:
-% http://www.ctan.org/tex-archive/obsolete/macros/latex/contrib/subfigure/
-% subfigure.sty has been superceeded by subfig.sty.
-
-%\usepackage[caption=false]{caption}
 \usepackage[font=footnotesize]{subfig}
-% subfig.sty, also written by Steven Douglas Cochran, is the modern
-% replacement for subfigure.sty. However, subfig.sty requires and
-% automatically loads Axel Sommerfeldt's caption.sty which will override
-% IEEEtran.cls handling of captions and this will result in nonIEEE style
-% figure/table captions. To prevent this problem, be sure and preload
-% caption.sty with its "caption=false" package option. This is will preserve
-% IEEEtran.cls handing of captions. Version 1.3 (2005/06/28) and later 
-% (recommended due to many improvements over 1.2) of subfig.sty supports
-% the caption=false option directly:
-%\usepackage[caption=false,font=footnotesize]{subfig}
-%
-% The latest version and documentation can be obtained at:
-% http://www.ctan.org/tex-archive/macros/latex/contrib/subfig/
-% The latest version and documentation of caption.sty can be obtained at:
-% http://www.ctan.org/tex-archive/macros/latex/contrib/caption/
-
-
-
-
-% *** FLOAT PACKAGES ***
-%
-%\usepackage{fixltx2e}
-% fixltx2e, the successor to the earlier fix2col.sty, was written by
-% Frank Mittelbach and David Carlisle. This package corrects a few problems
-% in the LaTeX2e kernel, the most notable of which is that in current
-% LaTeX2e releases, the ordering of single and double column floats is not
-% guaranteed to be preserved. Thus, an unpatched LaTeX2e can allow a
-% single column figure to be placed prior to an earlier double column
-% figure. The latest version and documentation can be found at:
-% http://www.ctan.org/tex-archive/macros/latex/base/
-
-
-
-%\usepackage{stfloats}
-% stfloats.sty was written by Sigitas Tolusis. This package gives LaTeX2e
-% the ability to do double column floats at the bottom of the page as well
-% as the top. (e.g., "\begin{figure*}[!b]" is not normally possible in
-% LaTeX2e). It also provides a command:
-%\fnbelowfloat
-% to enable the placement of footnotes below bottom floats (the standard
-% LaTeX2e kernel puts them above bottom floats). This is an invasive package
-% which rewrites many portions of the LaTeX2e float routines. It may not work
-% with other packages that modify the LaTeX2e float routines. The latest
-% version and documentation can be obtained at:
-% http://www.ctan.org/tex-archive/macros/latex/contrib/sttools/
-% Documentation is contained in the stfloats.sty comments as well as in the
-% presfull.pdf file. Do not use the stfloats baselinefloat ability as IEEE
-% does not allow \baselineskip to stretch. Authors submitting work to the
-% IEEE should note that IEEE rarely uses double column equations and
-% that authors should try to avoid such use. Do not be tempted to use the
-% cuted.sty or midfloat.sty packages (also by Sigitas Tolusis) as IEEE does
-% not format its papers in such ways.
-
-
-
-
-
-% *** PDF, URL AND HYPERLINK PACKAGES ***
-%
 %\usepackage{url}
 % url.sty was written by Donald Arseneau. It provides better support for
 % handling and breaking URLs. url.sty is already installed on most LaTeX
@@ -326,66 +76,21 @@
 % http://www.ctan.org/tex-archive/macros/latex/contrib/misc/
 % Read the url.sty source comments for usage information. Basically,
 % \url{my_url_here}.
-
-
-
-
-
-% *** Do not adjust lengths that control margins, column widths, etc. ***
-% *** Do not use packages that alter fonts (such as pslatex).         ***
-% There should be no need to do such things with IEEEtran.cls V1.6 and later.
-% (Unless specifically asked to do so by the journal or conference you plan
-% to submit to, of course. )
-
-
-% PACOTES A PARTE DO MODELO
-% passar como parâmetro caption=false no caso de subfigures para manter o padrão
-% do IEEE
 \usepackage{caption}
-% tabelinhas bonitas
 \usepackage{multirow}
-% só pra anotações
 \usepackage{todonotes}
-
+\usepackage[backend=biber]{biblatex}
+\addbibresource{bare_conf.bib}
 
 % correct bad hyphenation here
 \hyphenation{op-tical net-works semi-conduc-tor}
 
 
 \begin{document}
-%
-% paper title
-% can use linebreaks \\ within to get better formatting as desired
 \title{Aplicações de Aprendizado de Máquina no Reconhecimento de Atividades
 Humanas}
 
 
-% author names and affiliations
-% use a multiple column layout for up to two different
-% affiliations
-
-%\author{\IEEEauthorblockN{Authors Name/s per 1st Affiliation (Author)}
-%\IEEEauthorblockA{line 1 (of Affiliation): dept. name of organization\\
-%line 2: name of organization, acronyms acceptable\\
-%line 3: City, Country\\
-%line 4: Email: name@xyz.com}
-%\and
-%\IEEEauthorblockN{Authors Name/s per 2nd Affiliation (Author)}
-%\IEEEauthorblockA{line 1 (of Affiliation): dept. name of organization\\
-%line 2: name of organization, acronyms acceptable\\
-%line 3: City, Country\\
-%line 4: Email: name@xyz.com}
-%}
-
-
-% conference papers do not typically use \thanks and this command
-% is locked out in conference mode. If really needed, such as for
-% the acknowledgment of grants, issue a \IEEEoverridecommandlockouts
-% after \documentclass
-
-% for over three affiliations, or if they all won't fit within the width
-% of the page, use this alternative format:
-% 
 \author{\IEEEauthorblockN{Caio Giacomelli\IEEEauthorrefmark{1},
 Giovana Morais\IEEEauthorrefmark{1},
 Giovanna Blasco\IEEEauthorrefmark{1} e
@@ -393,21 +98,13 @@ Mateus Vasconcelos\IEEEauthorrefmark{1}}
 \IEEEauthorblockA{\IEEEauthorrefmark{1}Departamento de Computação\\
 Universidade Federal de São Carlos -- campus Sorocaba}}
 
-%\IEEEauthorblockA{\IEEEauthorrefmark{2}Twentieth Century Fox, Springfield, USA\\
-%Email: homer@thesimpsons.com}
-%\IEEEauthorblockA{\IEEEauthorrefmark{3}Starfleet Academy, San Francisco, California 96678-2391\\
-%Telephone: (800) 555--1212, Fax: (888) 555--1212}
-%\IEEEauthorblockA{\IEEEauthorrefmark{4}Tyrell Inc., 123 Replicant Street, Los Angeles, California 90210--4321}}
-
-% use for special paper notices
-%\IEEEspecialpapernotice{(Invited Paper)}
-
-% make the title area
 \maketitle
 
 
 \begin{abstract}
-The abstract goes here. DO NOT USE SPECIAL CHARACTERS, SYMBOLS, OR MATH IN YOUR TITLE OR ABSTRACT.
+Este artigo tem como objetivo apresentar quatro diferentes alternativas para reconhecer  atividades humanas, conforme uma base de dados pública coletada a partir de um estudo com sensores de smartphones. As alternativas que serão abordadas são: o algoritmo KNN (k-nearest neighbors), Regressão Logística, Redes Neurais e SVM (Máquina de Vetores de Suporte). Todas estas alternativas vão ser deliberadamente analisadas e explicadas, quanto sua implementação e metodologia de escolha de parâmetros.
+    Neste trabalho, a base de dados será pré-processada para melhorar a qualidade e performance dos algoritmos. Com isso, garantimos maior eficiência na execução destas técnicas e mantemos a comparação entre as técnicas justa. Mostraremos então seus resultados conforme algumas métricas de acurácia, como F-Medida, para sustentar os valores obtidos a partir da classificação da base.
+
 
 \end{abstract}
 
@@ -416,21 +113,11 @@ The abstract goes here. DO NOT USE SPECIAL CHARACTERS, SYMBOLS, OR MATH IN YOUR 
 regressão;
 \end{IEEEkeywords}
 
-
-% For peer review papers, you can put extra information on the cover
-% page as needed:
-% \ifCLASSOPTIONpeerreview
-% \begin{center} \bfseries EDICS Category: 3-BBND \end{center}
-% \fi
-%
-% For peerreview papers, this IEEEtran command inserts a page break and
-% creates the second title. It will be ignored for other modes.
 \IEEEpeerreviewmaketitle
 
 
 
 \section{Introdução}
-\cite{IEEexample:IEEwebsite}
 O Reconhecimento de Atividades Humanas é importante para diversas áreas que têm surgido com o avanço tecnológico. Apesar disto, o reconhecimento de atividades complexas se mantém como uma barreira a ser enfrentada pelas aplicações, que precisam de um desenvolvimento contínuo.
 
 Com a coleta de dados relevantes e a partir da aplicação de classificadores com
@@ -449,8 +136,8 @@ descer degraus.
 
 Para garantir que a classificação automática dessas atividades seja feita de
 forma precisa, hipóteses sobre os dados serão geradas através dos algoritmos
-K-vizinhos mais próximos (ou \textsl{KNN}), Regressão Logística, Redes Neurais 
-Artificiais e Máquinas de Vetores de Suporte (ou \textsl{SVM}). Tais algoritmos 
+K-vizinhos mais próximos (ou \textit{KNN}), Regressão Logística, Redes Neurais 
+Artificiais e Máquinas de Vetores de Suporte (ou \textit{SVM}). Tais algoritmos 
 passarão pelas fases de treinamento e de teste para que, de acordo com seus
 resultados, seja determinado o método mais capacitado de fazer predições para 
 os dados coletados.
@@ -468,17 +155,17 @@ participantes, que permitiu a identificação de atividades humanas em ambientes
 capazes de fazer o monitoramento de populações mais idosas. 
 Para tal finalidade, os dados coletados possuem informações fornecidas por um 
 giroscópio e um acelerômetro integrados ao smartphone dos participantes do estudo. 
-Como descrito em [1], os participantes tinham idade entre 22 e 79 anos e 
+Como descrito em \cite{uci_dataset}, os participantes tinham idade entre 22 e 79 anos e 
 realizaram cada atividade (levantar, sentar, deitar, andar, subir escadas e 
 descer escadas) por 60 segundos e todos os dados foram coletados em uma taxa 
 constante de 50Hz. As atividades, que foram convertidas para valores numéricos, 
-são os \textsl{labels} das amostras e cada tipo diferente de característica 
+são os \textit{labels} das amostras e cada tipo diferente de característica 
 dos movimentos são os atributos da base representadas por valores reais.\newline
 
 \begin{table}[h]
 \begin{center}
     \caption{Atividades realizadas pelos participantes e seus respectivos
-    \textsl{labels}}\label{tab:labels}
+    \textit{labels}}\label{tab:labels}
     \begin{tabular}{| l | c |}
         \hline
         Atividade & Valor numérico associado\\
@@ -505,7 +192,7 @@ seção~\ref{subsec:sistema_avaliacao}, o grupo decidiu unir os arquivos de trei
 \subsection{Pré-processamento}\label{sec:pre_processamento}
 O pré-processamento de dados é necessário uma vez que a qualidade 
 dos dados afeta diretamente o desempenho das metodologias que serão aplicadas 
-posteriormente. O grupo não possui o \textsl{know-how} necessário sobre o tema
+posteriormente. O grupo não possui o \textit{know-how} necessário sobre o tema
 em geral e principalmente sobre os dados coletados, 
 o que fez com que utilizássemos métodos genéricos para a redução de atributos teoricamente irrelevantes.
 
@@ -519,8 +206,7 @@ classificações diferentes, porém, para manter a generalidade do
 pré-processamento, foi adicionada uma lógica ao código que removeria todas as 
 ocorrências desse tipo, se houvessem. Nesta etapa foram removidas 406 amostras.
 
-\todo[inline]{acho que seria bom colocar alguma referência a essa técnica aqui}
-Em seguida, foi feita a redução de valores que representavam \textsl{outliers} 
+Em seguida, foi feita a redução de valores que representavam \textit{outliers} 
 aos atributos. Para isso, foi utilizada a técnica de reduzir valores maiores 
 que o quartil superior para o valor deste quartil e aumentar valores menores 
 que o quartil inferior para o valor deste quartil. Desta forma, obtivemos uma 
@@ -543,7 +229,7 @@ classe foi de $334$, o que representa aproximadamente $6\%$ dos dados. Portanto,
 concluímos que os dados estão minimamente desbalanceados, o que não afeta o
 treinamento dos modelos implementados.
 
-A necessidade do \textsl{shuffle} foi constatada após o grupo verificar que 
+A necessidade do \textit{shuffle} foi constatada após o grupo verificar que 
 não havia distribuição uniforme das classes em segmentos das amostras, onde 
 havia segmento que possuía muitas amostras de uma classe e quase nenhuma de 
 outra, o que causaria problemas na hora de gerar uma hipótese, uma vez que ela
@@ -553,8 +239,8 @@ realização do shuffle nas amostras, obtivemos uma distribuição quase uniform
 das classes, como é visto nas figuras \ref{fig:antes_shuffle} e
 \ref{fig:apos_shuffle}. 
 
-Portanto, com o \textsl{shuffle} na última fase do pré-processamento, os 
-\textsl{folds} passaram a representar todas as classes do dataset como um todo e
+Portanto, com o \textit{shuffle} na última fase do pré-processamento, os 
+\textit{folds} passaram a representar todas as classes do dataset como um todo e
 não só algumas.
  
 Todos os passos desse processo de pré-processamento podem ser visualizadas no
@@ -576,15 +262,15 @@ o arquivo \texttt{pre\_processed.mat} e será utilizada nas próximas etapas do 
 %Divisões entre treinamento e teste
 A fim de conseguir avaliar o desempenho de predição dos diferentes modelos 
 de Aprendizado de Máquina sobre a base de dados fornecida, decidimos utilizar 
-a técnica de \textsl{10-Fold Cross Validation} que é ideal para adequar os 
+a técnica de \textit{10-Fold Cross Validation} que é ideal para adequar os 
 dados de treinamento e teste. Para isso, dividimos a quantidade total de 
-amostras por $10$ e portanto, teremos $10$ \textsl{folds} (fatias) dos dados 
+amostras por $10$ e portanto, teremos $10$ \textit{folds} (fatias) dos dados 
 com tamanhos iguais. Para cada fatia N indo de $1$ a $10$, deixamos a atual 
 sendo utilizada para uma partição de teste e o restante é utilizado como partição 
-de treinamento, semelhante ao descrito em [3]\todo{ref}. Se uma partição de 
+de treinamento, semelhante ao descrito em \cite{cross_validation}. Se uma partição de 
 teste não fosse utilizada para a definição dos parâmetros, possivelmente 
-teríamos um valor de F-medida máximo gerado por \textsl{overfitting} da própria 
-partição de treinamento. Analogamente, deixar mais \textsl{folds} para teste e
+teríamos um valor de F-medida máximo gerado por \textit{overfitting} da própria 
+partição de treinamento. Analogamente, deixar mais \textit{folds} para teste e
 menos para treinamento faria com que a capacidade de generalização dos modelos
 pudesse ser melhor avaliada, mas em contrapartida menos dados seriam usados para
 a hipótese, o que poderia diminuir sua F-medida consideravelmente.
@@ -592,10 +278,10 @@ a hipótese, o que poderia diminuir sua F-medida consideravelmente.
 
 Além disso, para que conseguíssemos otimizar a validação cruzada juntamente 
 com a estimativa de parâmetros mais adequados para os algoritmos, utilizamos 
-o \textsl{Grid Search}. Basicamente o que fazemos em todo o processo é escolher 
+o \textit{Grid Search}. Basicamente o que fazemos em todo o processo é escolher 
 o valor do parâmetro que apresenta a maior F-medida para cada uma das partições 
 utilizadas para teste na validação cruzada. Assim, é possível analisar todos os
-resultados e escolher o \textsl{fold} que melhor otimiza todos os modelos 
+resultados e escolher o \textit{fold} que melhor otimiza todos os modelos 
 utilizados no projeto através de uma média das F-medidas. Desta forma, podemos
 então escolher o algoritmo que apresenta os melhores resultados para a base de
 dados descrita na seção~\ref{sec:base_dados}.
@@ -620,7 +306,7 @@ Para o classificador KNN precisávamos definir uma maneira eficiente para
 encontrar o número ideal k de vizinhos para assim determinar a distância entre 
 os pares. Para isso, capturamos o k, indo de 1 a 50, que atribui a melhor 
 F-medida de predição ao KNN utilizando as partições de treinamento e teste 
-definidos pelo \textsl{10-Fold Cross Validation}. Para a implementação do 
+definidos pelo \textit{10-Fold Cross Validation}. Para a implementação do 
 K-vizinhos mais próximos utilizamos vetorização em vários passos, de forma a melhorar o desempenho da execução.
 
 A Regressão Logística contou com a variação apenas do parâmetro lambda, sendo
@@ -661,23 +347,43 @@ cálculo do custo resultasse em um NaN, era adicionado um número suficientement
 próximo de zero ao valor, desssa forma tornando possível a computação sem
 maiores problemas.
 
-Devido a grande quantidade de funções de Kernel e diferentes parâmetros para a técnica de classificação de Máquinas de Vetores de Suporte, foram escolhidos parâmetros que mais sintetizam nosso conjunto de dados. Primeiramente, para montar o grid com os valores ótimos para cada fold da técnica de 10-Fold Cross Validation, iteramos os parâmetros C (responsável pela largura da margem) e Gamma (Parâmetro do kernel RBF, Radial Basis Function) exponencialmente.
-Esta interação ocorreu da seguinte forma: para o parâmetro C, a interação ocorreu dos valores: $2^(-3)$ até $2^4$. Valores maiores que isso ultrapassaram o número máximo de interações da função svmtrain. Para o parâmetro Gamma do kernel RBF, o alcance foi entre $2^{-15}$ até $2^3$.
-Também, além de utilizarmos o Kernel RBF para montar o grid, montamos um grid separado para visualizar como o SVM se comportaria com um Kernel linear, e após constatarmos que a nossa base dados não é linear, e analisarmos o grid resultante do Kernel linear, descartamos este método de classificação, por sua F-medida ser inferior a todos os outros métodos.
-Como foi descrito anteriormente, o grid com os valores ótimos para cada K da técnica de K-Fold precisavam de dois parâmetros, C e Gamma, tornando o grid de três dimensões. Para contornar esta dificuldade, na qual ia dificultar a visualização dos dados, montamos a matriz com dimensões de 10 x 152, onde 10 representa a técnica de 10-Fold Cross Validation, e 152 representa as 8 interações possíveis de C multiplicadas por 19 interações possíveis de Gamma. Com isso, cada coluna seria uma combinação possível de valores de C e Gamma, mantendo sua visualização em duas dimensões.
+Devido a grande quantidade de funções de Kernel e diferentes parâmetros para a
+técnica de classificação de Máquinas de Vetores de Suporte, foram escolhidos
+parâmetros que mais sintetizam nosso conjunto de dados. Primeiramente, para
+montar o \textit{grid} com os valores ótimos para cada \textit{fold} da técnica 
+de \textit{10-Fold Cross Validation}, iteramos os parâmetros C (responsável 
+pela largura da margem) e Gamma (Parâmetro do \textit{kernel} RBF,
+\textit{Radial Basis Function}) exponencialmente.
+
+Para o parâmetro C, a iteração ocorreu dos valores: $2^{-3}$ até $2^4$. Valores 
+maiores que isso ultrapassaram o número máximo de iterações da função svmtrain. 
+Para o parâmetro Gamma do kernel RBF, o alcance foi entre $2^{-15}$ até $2^3$.
+Também, além de utilizarmos o \textit{Kernel} RBF para montar o \textit{grid}, 
+montamos um \textit{grid} separado para visualizar como o SVM se comportaria 
+com um \textit{Kernel} linear, e após constatarmos que a nossa base dados não 
+é linear, e analisarmos o \textit{grid} resultante, descartamos este método 
+de classificação, por sua F-medida ser inferior a todos os outros métodos.
+
+Como foi descrito anteriormente, o \textit{grid} com os valores ótimos para cada K da
+técnica de \textit{K-Fold} precisavam de dois parâmetros, C e Gamma, tornando o \textit{grid} de
+três dimensões. Para contornar esta dificuldade que dificultaria a visualização 
+dos dados, montamos a matriz com dimensões de 10 x 190, onde 10 representa a 
+técnica de \textit{10-Fold Cross Validation}, e 190 representa as 10 iterações possíveis 
+de C multiplicadas por 19 iterações possíveis de Gamma. Com isso, cada coluna 
+seria uma combinação possível de valores de C e Gamma, mantendo sua visualização em duas dimensões.
 
 
 
 \section{Resultados}\label{sec:resultados}
 %Colocar muitas tabelas e gráficos de comparação para mostrar os resultados de predição de cada algoritmo
-De acordo com a estrutura do nosso grid, primeiramente recuperamos os valores 
+De acordo com a estrutura do nosso \textit{grid}, primeiramente recuperamos os valores 
 de parâmetros, descritos na seção \ref{sec:metodologia}, que apresentam melhor 
-F-medida para cada fold da validação cruzada. As melhores F-medidas resultantes 
+F-medida para cada \textit{fold} da validação cruzada. As melhores F-medidas resultantes 
 deste processo podem ser visualizadas na tabela \ref{fmedidas}. Como pode 
-ser conferido, a melhor F-medida média foi detectada para o fold <X> e 
-portanto, estabelecemos que esse é o fold ideal para todos os modelos. A partir 
+ser conferido, a melhor F-medida média foi detectada para o \textit{fold} 4 e 
+portanto, estabelecemos que esse é o \textit{fold} ideal para todos os modelos. A partir 
 disso, podemos utilizar os melhores valores dos parâmetros de cada modelo em 
-relação ao fold <X>. Os parâmetros definidos podem ser visualizados na tabela
+relação ao \textit{fold} 4. Os parâmetros definidos podem ser visualizados na tabela
 \ref{parametros}. É necessário salientar que para redes neurais, talvez a 
 qualidade seja afetada positivamente ou negativamente, pois os pesos para o 
 cálculo dos neurônios é totalmente aleatório em cada execução.
@@ -692,7 +398,7 @@ como vimos do pré-processamento, então a acurácia possivelmente também
 representa valores, que em sua maioria, são verídicos. O tempo de execução 
 no Octave foi recuperado através dos comandos complementares tic() e toc(), 
 que disparam um timer no início da execução do algoritmo e registram o tempo 
-total no final [5]\todo{ref}. Todos esses valores podem ser visualizados de forma mais 
+total no final \cite{octave:tictoc}. Todos esses valores podem ser visualizados de forma mais 
 representativa na tabela \ref{metrica_otimos}.
 
 Além disso, geramos as curvas de aprendizado para cada um dos métodos para
@@ -702,7 +408,7 @@ correção para aumentar o desempenho de cada método.
 \begin{table}[!t]
 % increase table row spacing, adjust to taste
 \renewcommand{\arraystretch}{1.3}
-\caption{Melhores F-medidas (em \%) dos modelos para cada \textsl{fold}}
+\caption{Melhores F-medidas (em \%) dos modelos para cada \textit{fold}}
 \label{fmedidas}
 \centering
 % Some packages, such as MDW tools, offer better commands for making tables
@@ -727,6 +433,28 @@ correção para aumentar o desempenho de cada método.
 \end{table}
 
 
+\begin{table}[]
+\centering
+\caption{Valores ótimos dos parâmetros definidos pelo \textit{grid} para cada modelo}
+\label{parametros}
+\begin{tabular}{|l|l|l|}
+\hline
+Modelo                                              & \multicolumn{1}{|l|}{Parâmetro} & Valor     \\ \hline
+KNN                                                 & K                              & 1         \\ \hline
+RL                                                  & Lambda                         & 2         \\ \hline
+\multicolumn{1}{|c|}{\multirow{3}{*}{RNA 1 Camada}} & Iter                           & 750       \\
+\multicolumn{1}{|c|}{}                              & Lambda                         & 1         \\
+\multicolumn{1}{|c|}{}                              & Neurônios                      & 151       \\ \hline
+\multirow{3}{*}{RNA 2 Camadas}                      & Iter                           & 1000      \\
+                                                    & Lambda                         & 2         \\
+                                                    & Neurônios                      & 300       \\ \hline
+\multirow{2}{*}{SVM}                                & C
+& 16        \\
+                                                    & Gamma                          & 0.0078125 \\ \hline
+\end{tabular}
+\end{table}
+
+
 \begin{table}[!t]
 % increase table row spacing, adjust to taste
 \renewcommand{\arraystretch}{1.3}
@@ -748,36 +476,70 @@ Tempo de Execução (em segundos) & 59.924 & 14.660 & 208.183 & 1025.951 & 10.02
 \end{table}
 
 
+
+
+
 \begin{figure}[!t]
 \centering
-\includegraphics[width=2.5in]{imgs/KNNcurve}
+\includegraphics[width=2.5in]{imgs/KNNcurve.jpg}
 \caption{Curva de Aprendizado para o método KNN}
 \label{fig:knn_curve}
 \end{figure}
 
 \begin{figure}[!t]
 \centering
-\includegraphics[width=2.5in]{imgs/RLcurve}
+\includegraphics[width=2.5in]{imgs/RLcurve.jpg}
 \caption{Curva de Aprendizado para o método de Regressão Logística}
 \label{fig:rl_curve}
 \end{figure}
 
 \begin{figure}[!t]
 \centering
-\includegraphics[width=2.5in]{imgs/SVMcurve}
+\includegraphics[width=2.5in]{imgs/SVMcurve.jpg}
 \caption{Curva de Aprendizado para o método SVM}
 \label{fig:svm_curve}
 \end{figure}
 
 \section{Conclusões}\label{sec:conclusao}
 Antes de mais nada, gostaríamos de frisar a importância do pré-processamento no aprendizado de máquina, pois sem ele, ou com sua aplicação de forma errônea, a porcentagem de acerto do modelo final vem a ser bem baixa.
-    Em seguida, o processo de tuning dos algoritmos através da formação do grid search é computacionalmente exaustivo, porém completamente necessário para que se encontre os parâmetros ótimos para a geração de um bom modelo. Infelizmente, mesmo com todos os processos realizados, presenciamos a geração de overfitting em vários modelos quando comparados com a base de treinamento, ou seja, com amostras já conhecidas. Acreditamos que um dataset com mais amostras pudesse reduzir a variância dos erros e otimizar de maneira mais precisa a classificação, porém este passo não estava ao nosso alcance neste projeto.
-    Por fim, após o grupo gerar as hipóteses com diferentes algoritmos de aprendizado, pode-se observar que especificamente para essa base de dados, o modelo criado pela Máquina de Vetores de Suporte conseguiu gerar o melhor modelo de predição, resultando em uma F-medida média de 95.5\% na classificação das amostras de teste. De maneira geral, nosso resultado foi satisfatório. Como citado por [2]\todo{ref}, que apresenta a aplicação do SVM em uma base muito próxima à utilizada neste projeto e que utilizou um pré-processamento mais simples, a performance do SVM na base de teste ficou entre 90\% e 96\%.
+    Em seguida, o processo de tuning dos algoritmos através da formação do \textit{grid} search é computacionalmente exaustivo, porém completamente necessário para que se encontre os parâmetros ótimos para a geração de um bom modelo. Infelizmente, mesmo com todos os processos realizados, presenciamos a geração de overfitting em vários modelos quando comparados com a base de treinamento, ou seja, com amostras já conhecidas. Acreditamos que um dataset com mais amostras pudesse reduzir a variância dos erros e otimizar de maneira mais precisa a classificação, porém este passo não estava ao nosso alcance neste projeto.
+    Por fim, após o grupo gerar as hipóteses com diferentes algoritmos de
+aprendizado, pode-se observar que especificamente para essa base de dados, o
+modelo criado pela Máquina de Vetores de Suporte conseguiu gerar o melhor modelo
+de predição, resultando em uma F-medida média de 95.5\% na classificação das
+amostras de teste. De maneira geral, nosso resultado foi satisfatório. Como
+citado por \cite{guia_svm}, que apresenta a aplicação do SVM em uma base muito próxima à utilizada neste projeto e que utilizou um pré-processamento mais simples, a performance do SVM na base de teste ficou entre 90\% e 96\%.
 
 \section{Referências}
-\todo[inline]{ajeitar o .bib de referências}
+\printbibliography
+% references section
+% can use a bibliography generated by BibTeX as a .bbl file
+% BibTeX documentation can be easily obtained at:
+% http://www.ctan.org/tex-archive/biblio/bibtex/contrib/doc/
+% The IEEEtran BibTeX style support page is at:
+% http://www.michaelshell.org/tex/ieeetran/bibtex/
 
-\clearpage
+%\bibliographystyle{IEEEtran}
+%\bibliography{IEEEfull, bare_conf}
+%\bibliography{./bare_conf, bare_conf}
+
+%%\bibliography{IEEEabrv,../bib/paper}
+%\bibliography{IEEEfull, }
+%\end{thebibliography}
+%
+% <OR> manually copy in the resultant .bbl file
+% set second argument of \begin to the number of references
+% (used to reserve space for the reference number labels box)
+%\begin{thebibliography}{1}
+
+%\bibitem{IEEEhowto:kopka}
+%H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em plus
+%  0.5em minus 0.4em\relax Harlow, England: Addison-Wesley, 1999.
+%
+%\end{thebibliography}
+
+
+
 \appendix
 \section{Execução do projeto}\label{apendice_execucao}
 %Passo-a-passo para obter os resultados no Octave que foram detalhados no relatório
@@ -790,13 +552,15 @@ de máquina de vetores de suporte, o projeto já fornece a biblioteca compilada
 para o sistema operacional Windows (32/64bits) e para o Linux (64bits). 
 Caso pretenda executar em um sistema operacional diferente, será necessário 
 compilar e adicionar a biblioteca ao path do Octave/Matlab antes de executar o 
-projeto, para mais informações, o link do repositório se encontra aqui: https://github.com/cjlin1/libsvm.\todo{ref}
+projeto, para mais informações, o link do repositório se encontra em
+\cite{libsvm}
 
 Além da biblioteca para o algoritmo SVM, ainda em trechos de código de Redes 
 Neurais Artificiais, utilizamos dos pacotes io e statistics do próprio Octave. 
 Para o cálculo dos erros quadráticos e o plot dos gráficos de curvas de 
 aprendizado também fazemos uso do pacote image do Octave. É necessário que 
-seja feita a instalação dos mesmos da maneira que é descrito em https://octave.org/doc/v4.2.1/Installing-and-Removing-Packages.html. 
+seja feita a instalação dos mesmos da maneira que é descrito em
+\cite{octave:install_remove}. 
 
 Inicialmente, fornecemos os dados com um pré-processamento já aplicado que 
 foram gerados e gravados no arquivo de nome pre\_processed.mat. Porém, se por 
@@ -807,7 +571,7 @@ ressaltar que toda vez que o pré-processamento é executado, ocorre um novo
 shuffle nos dados, tal qual pode alterar razoavelmente os resultados aqui apresentados.
 
 Para visualizar e/ou executar os testes feitos pelo grupo com a formação do 
-grid search e 10-fold cross validation, é necessário que seja feita a execução 
+\textit{grid} search e \textit{10-fold cross validation}, é necessário que seja feita a execução 
 do arquivo exec\_project.m. É importante alertar que a execução deste arquivo 
 completo pode vir a demorar mais de 24h por se tratar de um código que passa 
 por muitas iterações.
@@ -818,132 +582,6 @@ um através da F-medida, é necessário que seja feita a execução do arquivo
 optimized\_project.m.
 A geração das curvas de aprendizado como descritas na seção
 \ref{sec:resultados} estão contidas no arquivo learning\_curves.m.
-
-
-
-
-% An example of a floating figure using the graphicx package.
-% Note that \label must occur AFTER (or within) \caption.
-% For figures, \caption should occur after the \includegraphics.
-% Note that IEEEtran v1.7 and later has special internal code that
-% is designed to preserve the operation of \label within \caption
-% even when the captionsoff option is in effect. However, because
-% of issues like this, it may be the safest practice to put all your
-% \label just after \caption rather than within \caption{}.
-%
-% Reminder: the "draftcls" or "draftclsnofoot", not "draft", class
-% option should be used if it is desired that the figures are to be
-% displayed while in draft mode.
-%
-%\begin{figure}[!t]
-%\centering
-%\includegraphics[width=2.5in]{myfigure}
-% where an .eps filename suffix will be assumed under latex, 
-% and a .pdf suffix will be assumed for pdflatex; or what has been declared
-% via \DeclareGraphicsExtensions.
-%\caption{Simulation Results}
-%\label{fig_sim}
-%\end{figure}
-
-% Note that IEEE typically puts floats only at the top, even when this
-% results in a large percentage of a column being occupied by floats.
-
-
-% An example of a double column floating figure using two subfigures.
-% (The subfig.sty package must be loaded for this to work.)
-% The subfigure \label commands are set within each subfloat command, the
-% \label for the overall figure must come after \caption.
-% \hfil must be used as a separator to get equal spacing.
-% The subfigure.sty package works much the same way, except \subfigure is
-% used instead of \subfloat.
-%
-%\begin{figure*}[!t]
-%\centerline{\subfloat[Case I]\includegraphics[width=2.5in]{subfigcase1}%
-%\label{fig_first_case}}
-%\hfil
-%\subfloat[Case II]{\includegraphics[width=2.5in]{subfigcase2}%
-%\label{fig_second_case}}}
-%\caption{Simulation results}
-%\label{fig_sim}
-%\end{figure*}
-%
-% Note that often IEEE papers with subfigures do not employ subfigure
-% captions (using the optional argument to \subfloat), but instead will
-% reference/describe all of them (a), (b), etc., within the main caption.
-
-
-% An example of a floating table. Note that, for IEEE style tables, the 
-% \caption command should come BEFORE the table. Table text will default to
-% \footnotesize as IEEE normally uses this smaller font for tables.
-% The \label must come after \caption as always.
-%
-%\begin{table}[!t]
-%% increase table row spacing, adjust to taste
-%\renewcommand{\arraystretch}{1.3}
-% if using array.sty, it might be a good idea to tweak the value of
-% \extrarowheight as needed to properly center the text within the cells
-%\caption{An Example of a Table}
-%\label{table_example}
-%\centering
-%% Some packages, such as MDW tools, offer better commands for making tables
-%% than the plain LaTeX2e tabular which is used here.
-%\begin{tabular}{|c||c|}
-%\hline
-%One & Two\\
-%\hline
-%Three & Four\\
-%\hline
-%\end{tabular}
-%\end{table}
-
-
-% Note that IEEE does not put floats in the very first column - or typically
-% anywhere on the first page for that matter. Also, in-text middle ("here")
-% positioning is not used. Most IEEE journals/conferences use top floats
-% exclusively. Note that, LaTeX2e, unlike IEEE journals/conferences, places
-% footnotes above bottom floats. This can be corrected via the \fnbelowfloat
-% command of the stfloats package.
-
-
-
-%\section{Conclusion}
-%The conclusion goes here. this is more of the conclusion
-
-% conference papers do not normally have an appendix
-
-
-% trigger a \newpage just before the given reference
-% number - used to balance the columns on the last page
-% adjust value as needed - may need to be readjusted if
-% the document is modified later
-%\IEEEtriggeratref{8}
-% The "triggered" command can be changed if desired:
-%\IEEEtriggercmd{\enlargethispage{-5in}}
-
-% references section
-
-% can use a bibliography generated by BibTeX as a .bbl file
-% BibTeX documentation can be easily obtained at:
-% http://www.ctan.org/tex-archive/biblio/bibtex/contrib/doc/
-% The IEEEtran BibTeX style support page is at:
-% http://www.michaelshell.org/tex/ieeetran/bibtex/
-\bibliographystyle{IEEEtran}
-% argument is your BibTeX string definitions and bibliography database(s)
-%\bibliography{IEEEabrv,../bib/paper}
-\bibliography{IEEEfull}
-%
-% <OR> manually copy in the resultant .bbl file
-% set second argument of \begin to the number of references
-% (used to reserve space for the reference number labels box)
-%\begin{thebibliography}{1}
-
-%\bibitem{IEEEhowto:kopka}
-%H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em plus
-%  0.5em minus 0.4em\relax Harlow, England: Addison-Wesley, 1999.
-
-%\end{thebibliography}
-
-
 
 
 % that's all folks
