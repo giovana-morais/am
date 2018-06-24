@@ -1,4 +1,5 @@
 % Grupo 7 - Reconhecimento de Atividades Humanas
+% este arquivo contem a implementacao dos classificadores com seus parametros otimos
 pkg load statistics
 
 if(strcmp(computer(), "x86_64-pc-linux-gnu") )

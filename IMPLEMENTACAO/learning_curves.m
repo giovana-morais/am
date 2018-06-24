@@ -1,4 +1,5 @@
 % Grupo 7 - Reconhecimento de Atividades Humanas
+% este arquivo gera as curvas de aprendizado para cada classificador
 pkg load statistics
 pkg load image
 if(strcmp(computer(), "x86_64-pc-linux-gnu") )

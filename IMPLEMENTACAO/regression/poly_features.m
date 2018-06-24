@@ -1,5 +1,5 @@
 function out = poly_features(X)
- % generate new features with different polynomial degree
+ % nao estamos usando graus polinomiais dada a quantidade de features
 	grau = 3;
 	out = ones(size(X(:,1)));  
   
