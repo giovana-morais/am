@@ -1,4 +1,5 @@
 function [J, grad] = regression_cost_func(theta, X, y, lambda)
+  % funcao de custo
 	m = length(y); % numero de exemplos de treinamento
 
 	sum_theta = 0;

@@ -1,7 +1,4 @@
 function [ypred, gridLin, gridRbf] = svm(train, train_labels, test, c, g) 
-
-    %TODO: Fazer de uma maneira menos burra os indices dos while;
-    %TODO: Documentar melhor o codigo;
     
     % se ja recebeu c e g, nao precisa incrementar parametros    
     if(exist("c", "var") && exist("g", "var"))
@@ -29,7 +26,7 @@ function [ypred, gridLin, gridRbf] = svm(train, train_labels, test, c, g)
       gridLin = zeros(1, 8);
       gridRbf = zeros(1, 152);
       
-      % Laço para iterar o C
+      % Laco para iterar o C
       % O C default eh 1, com seu range indo de 0 a infinito.
       % Irei iterar o C de 2^-3 ate 2^4
       % Posso realizar o grid dessa maneira pois C e gamma sao independentes
@@ -39,7 +36,7 @@ function [ypred, gridLin, gridRbf] = svm(train, train_labels, test, c, g)
         
         j = 2^(-15);
         iterC = iterC + 1;
-        % Laço para iterar gamma (parametro do kernel).
+        % Laco para iterar gamma (parametro do kernel).
         % O default eh 1/71 (numero de features)
         % vou iterar o gamma de 2^-15 ate 2^3
         while (j <= (2^3))
@@ -53,7 +50,7 @@ function [ypred, gridLin, gridRbf] = svm(train, train_labels, test, c, g)
           modelrbf = svmtrain(train_labels, train, ...
                          parametersRBF);
 
-          % Predições do RBF       
+          % Predicoes do RBF       
           [y_predforRBF, acuraciaRBF, dec_values_R] = svmpredict(test(:, end), test(:,1:end-1), modelrbf);
           
           fsvm = fmeasure(y_predforRBF, test(:,end));

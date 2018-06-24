@@ -1,4 +1,4 @@
-%%% PREDIÇÃO %%%
+%%% PREDICAO %%%
 function [y_pred] = neural_network_2l(hidden_neurons, max_iter, ktrain, ktest, lambda) 
   % Implementacao de redes neurais artificiais para o problema de reconhecimento 
   % de atividades humanas
@@ -8,17 +8,16 @@ function [y_pred] = neural_network_2l(hidden_neurons, max_iter, ktrain, ktest, l
   hidden_layer_size = hidden_neurons;
   num_labels = 6;
 
+  % regularizacao dos pesos
+  
   initial_Theta1 = random_init(input_layer_size, hidden_layer_size);
   initial_Theta2 = random_init(hidden_layer_size, hidden_layer_size);
   initial_Theta3 = random_init(hidden_layer_size, num_labels);
 
-  
- 
+  % concatena pesos
   initial_rna_params = [initial_Theta1(:) ; initial_Theta2(:) ; initial_Theta3(:)]; 
   
-  
   % treinamento
-  % TODO: mudar o maxiter  e o lambda pra ver como influencia no treinamento
   options = optimset('MaxIter', max_iter);
   
 
