@@ -58,7 +58,7 @@ lambda_rn1 = 1;
 hidden_neurons_rn2 = 300;
 max_iter_rn2 = 1000;
 lambda_rn2 = 2;
-c = 32;
+c = 16;
 g = 0.0078125;
 
 ktam = floor((rows(all_data)-rows(ktest))/100);

@@ -147,7 +147,7 @@ pause;
 
 
 % svm com melhor c e gamma encontrados com grid search -----------------------------------------
-c = 32;
+c = 16;
 g = 0.0078125;
 printf('\nIniciando execucao de SVM com c = %.2f e g = %f\n', c, g);
 fflush(stdout);
