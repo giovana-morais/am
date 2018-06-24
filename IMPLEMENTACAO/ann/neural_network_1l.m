@@ -1,4 +1,4 @@
-
+%%% PREDICAO %%%
 function y_pred = neural_network_1l(hidden_neurons, max_iter, ktrain, ktest,lambda) 
   % Implementacao de redes neurais artificiais para o problema de reconhecimento 
   % de atividades humanas
@@ -8,11 +8,12 @@ function y_pred = neural_network_1l(hidden_neurons, max_iter, ktrain, ktest,lamb
   hidden_layer_size = hidden_neurons;
   num_labels = 6;
 
-  % regularização dos pesos
+  % regularizacao dos pesos
  
   initial_Theta1 = random_init(input_layer_size, hidden_layer_size);
   initial_Theta2 = random_init(hidden_layer_size, num_labels);
 
+  % concatena pesos
   initial_rna_params = [initial_Theta1(:) ; initial_Theta2(:)];
   initial_cost = nn_cost_1l( initial_rna_params, input_layer_size, hidden_layer_size, num_labels, ktrain(:, 1:end-1),  ktrain(:, end), lambda);
 

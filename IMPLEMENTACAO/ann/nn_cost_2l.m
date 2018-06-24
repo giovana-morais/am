@@ -5,6 +5,8 @@ function [J grad] = nn_cost_2l(nn_params, ...
                              num_labels, ...
                              X, y, lambda)
 
+  % Funcao de custo para rede neural artificial de 2 camadas ocultas
+  
   % Extrai os parametros de nn_params e alimenta as variaveis Theta1 e Theta2.
   
   comeco_camada_1 = 1;
@@ -35,6 +37,7 @@ function [J grad] = nn_cost_2l(nn_params, ...
   % ref: https://octave.org/doc/v4.0.1/Special-Utility-Matrices.html 
   y_matrix = eye(num_labels)(y,:);
 
+  %feedforward
   a1 = [ones(m,1) X];
   z2 = a1 * Theta1';
   a2 = [ones(m,1) sigmoid(z2)]; 
@@ -49,6 +52,7 @@ function [J grad] = nn_cost_2l(nn_params, ...
   J_reg = J + (lambda*(sum(sum(Theta1(:, 2:end).^2, 2))+sum(sum(Theta2(:, 2:end).^2, 2)) + sum(sum(Theta3(:,2:end).^2,2)) ) /(2*m));
   J = J_reg;
 
+  %backpropagation
   % calcula os sigmas e os deltas
   d4 = h_x .- y_matrix;
   d3 = (d4 * Theta3(:,2:end)) .* sigmoidal_grad(z3);
