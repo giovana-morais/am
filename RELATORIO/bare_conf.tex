@@ -1,4 +1,3 @@
-
 %% bare_conf.tex
 %% V1.3
 %% 2007/01/11
@@ -53,12 +52,6 @@
 \documentclass[10pt, conference, compsocconf]{IEEEtran}
 \usepackage[utf8]{inputenc}
 \usepackage[brazil]{babel}
-% Add the compsocconf option for Computer Society conferences.
-%
-% If IEEEtran.cls has not been installed into the LaTeX system files,
-% manually specify the path to it like:
-%\documentclass[conference]{../sty/IEEEtran}
-%\usepackage{cite}
 \ifCLASSINFOpdf
    \usepackage[pdftex]{graphicx}
   \DeclareGraphicsExtensions{.pdf,.jpeg,.png}
@@ -77,10 +70,12 @@
 % Read the url.sty source comments for usage information. Basically,
 % \url{my_url_here}.
 \usepackage{caption}
+%\usepackage{cite}
 \usepackage{multirow}
 \usepackage{todonotes}
 \usepackage[backend=biber]{biblatex}
 \addbibresource{bare_conf.bib}
+%\usepackage[sorting=none]{biblatex}
 
 % correct bad hyphenation here
 \hyphenation{op-tical net-works semi-conduc-tor}
@@ -388,23 +383,6 @@ relação ao \textit{fold} 4. Os parâmetros definidos podem ser visualizados na
 qualidade seja afetada positivamente ou negativamente, pois os pesos para o 
 cálculo dos neurônios é totalmente aleatório em cada execução.
 
-Após feita a seleção dos melhores parâmetros para cada classificador como foi 
-descrito anteriormente, fizemos uma análise do desempenho de cada um dos 
-algoritmos através das seguintes métricas: F-medida, precisão, revocação, 
-acurácia e por fim, tempo de execução. A precisão e a revocação que geraram 
-os F-medidas, foi uma realizada através da média da precisão e revocação de 
-todas as classes, já que temos seis. Nossos dados estão poucos desbalanceados, 
-como vimos do pré-processamento, então a acurácia possivelmente também 
-representa valores, que em sua maioria, são verídicos. O tempo de execução 
-no Octave foi recuperado através dos comandos complementares tic() e toc(), 
-que disparam um timer no início da execução do algoritmo e registram o tempo 
-total no final \cite{octave:tictoc}. Todos esses valores podem ser visualizados de forma mais 
-representativa na tabela \ref{metrica_otimos}.
-
-Além disso, geramos as curvas de aprendizado para cada um dos métodos para
-mensurar o que há ou não de errado e poder refletir a respeito de medidas de
-correção para aumentar o desempenho de cada método. 
-
 \begin{table}[!t]
 % increase table row spacing, adjust to taste
 \renewcommand{\arraystretch}{1.3}
@@ -433,6 +411,21 @@ correção para aumentar o desempenho de cada método.
 \end{table}
 
 
+Após feita a seleção dos melhores parâmetros para cada classificador como foi 
+descrito anteriormente, fizemos uma análise do desempenho de cada um dos 
+algoritmos através das seguintes métricas: F-medida, precisão, revocação, 
+acurácia e por fim, tempo de execução. A precisão e a revocação que geraram 
+os F-medidas, foi uma realizada através da média da precisão e revocação de 
+todas as classes, já que temos seis. Nossos dados estão poucos desbalanceados, 
+como vimos do pré-processamento, então a acurácia possivelmente também 
+representa valores, que em sua maioria, são verídicos. O tempo de execução 
+no Octave foi recuperado através dos comandos complementares tic() e toc(), 
+que disparam um timer no início da execução do algoritmo e registram o tempo 
+
+total no final \cite{octave:tictoc}. O tempo de execução é sensível à infraestrutura onde os algoritmos serão executados. No nosso caso, utilizamos um computador equipado com 16GB de Ram DDR3 e um processador Intel i7 para realizar o \textit{grid search} e para a execução dos parâmetros já otimizados, utilizamos um notebook equipado com 8GB de Ram DDR4 e processador Intel i7.
+Todos esses valores podem ser visualizados de forma mais 
+representativa na tabela \ref{metrica_otimos}.
+
 \begin{table}[]
 \centering
 \caption{Valores ótimos dos parâmetros definidos pelo \textit{grid} para cada modelo}
@@ -454,7 +447,6 @@ RL                                                  & Lambda                    
 \end{tabular}
 \end{table}
 
-
 \begin{table}[!t]
 % increase table row spacing, adjust to taste
 \renewcommand{\arraystretch}{1.3}
@@ -475,34 +467,72 @@ Tempo de Execução (em segundos) & 59.924 & 14.660 & 208.183 & 1025.951 & 10.02
 \end{tabular}
 \end{table}
 
+Além disso, geramos as curvas de aprendizado para cada um dos métodos para
+mensurar o que há ou não de errado e poder refletir a respeito de medidas de
+correção para aumentar o desempenho de cada método. 
 
-
-
+Para o KNN, não faria sentido gerar uma curva conforme o erro de predição do conjunto de treinamento com k = 1, uma vez que todas as amostras seriam conhecidas. Desta forma, utilizamos o k = 2 que é o segundo parâmetro que demonstrou uma melhor F-medida (aproximadamente 93\%) para o fold selecionado. O gráfico gerado para k = 2 pode ser visto na figura \ref{fig:knn_curve}.
+O gráfico de todos os outros algoritmos foi gerado com os parâmetros ótimos encontrados anteriormente. Apesar disso podemos analisar através das imagens que, todos com exceção da Regressão Logística (figura \ref{fig:rl_curve}), demonstraram um super-ajustamento pertinente. O super-ajustamento pode ser explicado por vários fatores como, por exemplo, modelos muito complexos para uma base dados pequena, amostras com baixas variâncias e etc.
 
 \begin{figure}[!t]
 \centering
-\includegraphics[width=2.5in]{imgs/KNNcurve.jpg}
-\caption{Curva de Aprendizado para o método KNN}
+\includegraphics[width=3.5in]{imgs/KNNk2Curve.jpg}
+\caption{Curva de Aprendizado para o método KNN com k = 2}
 \label{fig:knn_curve}
 \end{figure}
 
 \begin{figure}[!t]
 \centering
-\includegraphics[width=2.5in]{imgs/RLcurve.jpg}
+\includegraphics[width=3.5in]{imgs/RLcurve.jpg}
 \caption{Curva de Aprendizado para o método de Regressão Logística}
 \label{fig:rl_curve}
 \end{figure}
 
 \begin{figure}[!t]
 \centering
-\includegraphics[width=2.5in]{imgs/SVMcurve.jpg}
+\includegraphics[width=3.5in]{imgs/RN1Curve.jpg}
+\caption{Curva de Aprendizado para o método de Redes Neurais Artificial com 1 camada oculta}
+\label{fig:rn1_curve}
+\end{figure}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=3.5in]{imgs/RN2Curve.jpg}
+\caption{Curva de Aprendizado para o método de Redes Neurais Artificial com 2 camadas ocultas}
+\label{fig:rn2_curve}
+\end{figure}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=3.5in]{imgs/SVMcurve.jpg}
 \caption{Curva de Aprendizado para o método SVM}
 \label{fig:svm_curve}
 \end{figure}
 
+Para o KNN, uma possível solução para contornar o super-ajustamento seria testar
+outras medidas de dissimilaridade em combinação com K maiores. Já para a
+Regressão Logística, a literatura recomenda como uma solução para reduzir o
+super-ajustamento reduzir a complexidade do modelo, deixando o classificador
+mais linear, porém no nosso caso, não acrescentamos nenhum polinômio derivado,
+sendo necessário recorrer à modificações e/ou reduções nos atributos da base de
+dados. Se tratando de Redes Neurais Artificiais, por outro lado, uma maneira de
+evitar o super-ajustamento seria empregar a técnica de \textit{Dropout}, onde
+nela, podemos iterar um certo número de vezes a rede neural, desativando alguns
+pesos randomicamente e observando a eficácia de predição. Após isso, basta
+eleger o modelo ``magro''  de desempenho satisfatório. 
+Por fim, para o SVM, temos que o \textit{overfitting} pode ser amenizado através 
+da utilização do \textit{kernel} linear ao invés de um \textit{kernel} Gaussiano, 
+por exemplo, uma vez que o número de amostras não é grande e a utilização do 
+\textit{kernel} Gaussiano tende a tornar o modelo muito complexo \cite{svm_user_guide}. 
+Neste caso em específico, como estamos utilizando o \textit{kernel} RBF, a melhor 
+decisão seria tentar reduzir o tamanho do parâmetro C e aumentar o valor do 
+parâmetro Gamma \cite{svm_quora}.
+
 \section{Conclusões}\label{sec:conclusao}
 Antes de mais nada, gostaríamos de frisar a importância do pré-processamento no aprendizado de máquina, pois sem ele, ou com sua aplicação de forma errônea, a porcentagem de acerto do modelo final vem a ser bem baixa.
-    Em seguida, o processo de tuning dos algoritmos através da formação do \textit{grid} search é computacionalmente exaustivo, porém completamente necessário para que se encontre os parâmetros ótimos para a geração de um bom modelo. Infelizmente, mesmo com todos os processos realizados, presenciamos a geração de overfitting em vários modelos quando comparados com a base de treinamento, ou seja, com amostras já conhecidas. Acreditamos que um dataset com mais amostras pudesse reduzir a variância dos erros e otimizar de maneira mais precisa a classificação, porém este passo não estava ao nosso alcance neste projeto.
+
+    Em seguida, o processo de tuning dos algoritmos através da formação do \textit{grid search} é computacionalmente exaustivo, porém completamente necessário para que se encontre os parâmetros ótimos para a geração de um bom modelo. Infelizmente, mesmo com todos os processos realizados, presenciamos a geração de overfitting em vários modelos quando comparados com a base de treinamento, ou seja, com amostras já conhecidas. Acreditamos que um dataset com mais amostras pudesse reduzir a variância dos erros e otimizar de maneira mais precisa a classificação, porém este passo não estava ao nosso alcance neste projeto.
+    
     Por fim, após o grupo gerar as hipóteses com diferentes algoritmos de
 aprendizado, pode-se observar que especificamente para essa base de dados, o
 modelo criado pela Máquina de Vetores de Suporte conseguiu gerar o melhor modelo
@@ -510,41 +540,16 @@ de predição, resultando em uma F-medida média de 95.5\% na classificação da
 amostras de teste. De maneira geral, nosso resultado foi satisfatório. Como
 citado por \cite{guia_svm}, que apresenta a aplicação do SVM em uma base muito próxima à utilizada neste projeto e que utilizou um pré-processamento mais simples, a performance do SVM na base de teste ficou entre 90\% e 96\%.
 
-\section{Referências}
+
+% referências
 \printbibliography
-% references section
-% can use a bibliography generated by BibTeX as a .bbl file
-% BibTeX documentation can be easily obtained at:
-% http://www.ctan.org/tex-archive/biblio/bibtex/contrib/doc/
-% The IEEEtran BibTeX style support page is at:
-% http://www.michaelshell.org/tex/ieeetran/bibtex/
-
-%\bibliographystyle{IEEEtran}
-%\bibliography{IEEEfull, bare_conf}
-%\bibliography{./bare_conf, bare_conf}
-
-%%\bibliography{IEEEabrv,../bib/paper}
-%\bibliography{IEEEfull, }
-%\end{thebibliography}
-%
-% <OR> manually copy in the resultant .bbl file
-% set second argument of \begin to the number of references
-% (used to reserve space for the reference number labels box)
-%\begin{thebibliography}{1}
-
-%\bibitem{IEEEhowto:kopka}
-%H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em plus
-%  0.5em minus 0.4em\relax Harlow, England: Addison-Wesley, 1999.
-%
-%\end{thebibliography}
-
 
 
 \appendix
 \section{Execução do projeto}\label{apendice_execucao}
 %Passo-a-passo para obter os resultados no Octave que foram detalhados no relatório
 Para que a execução do projeto ocorra de forma ideal, é necessário que a 
-hierarquia de pasta de todos os arquivos seja mantida da maneira em que fora 
+hierarquia de pasta de todos os arquivos anexados seja mantida da maneira em que fora 
 entregue, sem mudanças de diretório.
 
 É necessário também que haja a biblioteca libsvm para a execução do algoritmo 
@@ -563,7 +568,7 @@ seja feita a instalação dos mesmos da maneira que é descrito em
 \cite{octave:install_remove}. 
 
 Inicialmente, fornecemos os dados com um pré-processamento já aplicado que 
-foram gerados e gravados no arquivo de nome pre\_processed.mat. Porém, se por 
+foram gerados e gravados no arquivo de nome \texttt{pre\_processed.mat}. Porém, se por 
 algum motivo for necessário fazer o pré-processamento novamente, é necessário 
 executar no Octave/Matlab o arquivo preprocessing.m que utiliza os arquivos da 
 base de dados inicial fornecidos no diretório dataset\_uci. Vale a pena 
@@ -572,19 +577,17 @@ shuffle nos dados, tal qual pode alterar razoavelmente os resultados aqui aprese
 
 Para visualizar e/ou executar os testes feitos pelo grupo com a formação do 
 \textit{grid} search e \textit{10-fold cross validation}, é necessário que seja feita a execução 
-do arquivo exec\_project.m. É importante alertar que a execução deste arquivo 
+do arquivo \texttt{exec\_project.m}. É importante alertar que a execução deste arquivo 
 completo pode vir a demorar mais de 24h por se tratar de um código que passa 
 por muitas iterações.
 
 Para visualizar e/ou executar o resultado dos classificadores com os parâmetros
 ótimos já selecionados, de maneira a entender a qualidade apresentada por cada 
 um através da F-medida, é necessário que seja feita a execução do arquivo 
-optimized\_project.m.
+\texttt{optimized\_project.m}.
 A geração das curvas de aprendizado como descritas na seção
-\ref{sec:resultados} estão contidas no arquivo learning\_curves.m.
+\ref{sec:resultados} estão contidas no arquivo \texttt{learning\_curves.m}.
 
 
 % that's all folks
 \end{document}
-
-
