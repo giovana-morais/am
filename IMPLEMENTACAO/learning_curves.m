@@ -50,7 +50,7 @@ ktest_pca = data_pca((((iter-1)*ksize)+1):(((iter-1)*ksize)+ksize), :);
 ktrain_pca = [data_pca(1:(ksize*(iter-1)),:); data_pca(((iter-1)*ksize+ksize+1):end, :)];
 
 
-k = 1;
+k = 2;
 lambda_rl = 2;
 hidden_neurons_rn1 = 151;
 max_iter_rn1 = 750;
@@ -64,7 +64,7 @@ g = 0.0078125;
 ktam = floor((rows(all_data)-rows(ktest))/100);
 
 
-for tam = 1:100
+for tam = 65:100
     printf("\nIncremento %d\n", tam);
     fflush(stdout);
     if(tam != 100)
@@ -89,40 +89,40 @@ for tam = 1:100
 
     % regressao logistica com melhor lambda encontrado com grid search ---------------------------------------------------
  
-    ypred_rl_test = regression(cur_ktrain(:,1:end-1), cur_ktrain(:,end), ktest(:,1:end-1), lambda_rl);
-
-    ypred_rl_train = regression(cur_ktrain(:,1:end-1), cur_ktrain(:,end), cur_ktrain(:,1:end-1), lambda_rl);
-    
-    rlcost_test(tam) = immse(ypred_rl_test, ktest(:, end));
-    rlcost_train(tam) = immse(ypred_rl_train, cur_ktrain(:,end));
-
-    % redes neurais com o melhor lambda, max_iter encontrados com grid search -------------------------------------
-    
-	  ypred_rn1_test = neural_network_1l(hidden_neurons_rn1, max_iter_rn1, cur_ktrain_pca, ktest_pca, lambda_rn1);
-	  ypred_rn1_train = neural_network_1l(hidden_neurons_rn1, max_iter_rn1, cur_ktrain_pca, cur_ktrain_pca, lambda_rn1);
-	
-	  rn1cost_test(tam) = immse(ypred_rn1_test, ktest_pca(:, end));
-    rn1cost_train(tam) = immse(ypred_rn1_train, cur_ktrain_pca(:,end));
-
-	  ypred_rn2_test = neural_network_2l(hidden_neurons_rn2, max_iter_rn2, cur_ktrain_pca, ktest_pca, lambda_rn2);
-	  ypred_rn2_train = neural_network_2l(hidden_neurons_rn2, max_iter_rn2, cur_ktrain_pca, cur_ktrain_pca, lambda_rn2);
-	
-	  rn2cost_test(tam) = immse(ypred_rn2_test, ktest_pca(:, end));
-    rn2cost_train(tam) = immse(ypred_rn2_train, cur_ktrain_pca(:,end));
-
-    % svm com melhor c e gamma encontrados com grid search -----------------------------------------
-    
-    [ypred_svm_test, ~, ~] = svm(cur_ktrain_pca(:,1:end-1), cur_ktrain_pca(:,end), ktest_pca, c, g);
-
-    [ypred_svm_train, ~, ~] = svm(cur_ktrain_pca(:,1:end-1), cur_ktrain_pca(:,end), cur_ktrain_pca, c, g);
-    
-    svmcost_test(tam) = immse(ypred_svm_test, ktest_pca(:, end));
-    svmcost_train(tam) = immse(ypred_svm_train, cur_ktrain_pca(:,end));
- 
+%    ypred_rl_test = regression(cur_ktrain(:,1:end-1), cur_ktrain(:,end), ktest(:,1:end-1), lambda_rl);
+%
+%    ypred_rl_train = regression(cur_ktrain(:,1:end-1), cur_ktrain(:,end), cur_ktrain(:,1:end-1), lambda_rl);
+%    
+%    rlcost_test(tam) = immse(ypred_rl_test, ktest(:, end));
+%    rlcost_train(tam) = immse(ypred_rl_train, cur_ktrain(:,end));
+%
+%    % redes neurais com o melhor lambda, max_iter encontrados com grid search -------------------------------------
+%    
+%	  ypred_rn1_test = neural_network_1l(hidden_neurons_rn1, max_iter_rn1, cur_ktrain_pca, ktest_pca, lambda_rn1);
+%	  ypred_rn1_train = neural_network_1l(hidden_neurons_rn1, max_iter_rn1, cur_ktrain_pca, cur_ktrain_pca, lambda_rn1);
+%	
+%	  rn1cost_test(tam) = immse(ypred_rn1_test, ktest_pca(:, end));
+%    rn1cost_train(tam) = immse(ypred_rn1_train, cur_ktrain_pca(:,end));
+%
+%	  ypred_rn2_test = neural_network_2l(hidden_neurons_rn2, max_iter_rn2, cur_ktrain_pca, ktest_pca, lambda_rn2);
+%	  ypred_rn2_train = neural_network_2l(hidden_neurons_rn2, max_iter_rn2, cur_ktrain_pca, cur_ktrain_pca, lambda_rn2);
+%	
+%	  rn2cost_test(tam) = immse(ypred_rn2_test, ktest_pca(:, end));
+%    rn2cost_train(tam) = immse(ypred_rn2_train, cur_ktrain_pca(:,end));
+%
+%    % svm com melhor c e gamma encontrados com grid search -----------------------------------------
+%    
+%    [ypred_svm_test, ~, ~] = svm(cur_ktrain_pca(:,1:end-1), cur_ktrain_pca(:,end), ktest_pca, c, g);
+%
+%    [ypred_svm_train, ~, ~] = svm(cur_ktrain_pca(:,1:end-1), cur_ktrain_pca(:,end), cur_ktrain_pca, c, g);
+%    
+%    svmcost_test(tam) = immse(ypred_svm_test, ktest_pca(:, end));
+%    svmcost_train(tam) = immse(ypred_svm_train, cur_ktrain_pca(:,end));
+% 
 endfor
  
     plot_cost(knncost_test', knncost_train', 'Curva de aprendizado para o KNN');
-    plot_cost(rlcost_test', rlcost_train', 'Curva de aprendizado para a Regressao Linear');
-    plot_cost(rn1cost_test', rn1cost_train', 'Curva de aprendizado para Rede Neural Artificial com 1 camada oculta');
-	  plot_cost(rn2cost_test', rn2cost_train', 'Curva de aprendizado para Rede Neural Artificial com 2 camadas ocultas');
-    plot_cost(svmcost_test', svmcost_train', 'Curva de aprendizado para o SVM');
+%    plot_cost(rlcost_test', rlcost_train', 'Curva de aprendizado para a Regressao Linear');
+%    plot_cost(rn1cost_test', rn1cost_train', 'Curva de aprendizado para Rede Neural Artificial com 1 camada oculta');
+%	  plot_cost(rn2cost_test', rn2cost_train', 'Curva de aprendizado para Rede Neural Artificial com 2 camadas ocultas');
+%    plot_cost(svmcost_test', svmcost_train', 'Curva de aprendizado para o SVM');
