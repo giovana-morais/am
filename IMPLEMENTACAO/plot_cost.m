@@ -1,4 +1,4 @@
-function plotCost(costtest, costtrain, title_plot)
+function plot_cost(costtest, costtrain, title_plot)
   
   figure, plot(1:rows(costtest), costtest, 'r');
   hold on;
